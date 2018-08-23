@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="14.0">
+
+  <PropertyGroup Label="Globals">
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFrameworks>net46;net47;</TargetFrameworks>
+	<AssemblyVersion>0.0.1.143</AssemblyVersion>
+	<FileVersion>0.0.1.143</FileVersion>
+	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	<Version>0.0.1</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Oracle.ManagedDataAccess" Version="12.2.1100" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Dahl.Data.Common\Dahl.Data.Common.csproj" />
+  </ItemGroup>
+
+</Project>

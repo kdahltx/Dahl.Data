@@ -1,0 +1,91 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2036
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dahl.Data.SqlServer", "Dahl.Data.SqlServer\Dahl.Data.SqlServer.csproj", "{703F040E-966B-48EB-9D3A-50652E1DCC80}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dahl.Data.Oracle", "Dahl.Data.Oracle\Dahl.Data.Oracle.csproj", "{DD1FA220-C6DC-46D6-8D58-A060DF250FAB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dahl.Data.Common", "Dahl.Data.Common\Dahl.Data.Common.csproj", "{CD1BCB61-4035-4364-923D-054EC1A3C987}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dahl.Data.Sybase", "Dahl.Data.Sybase\Dahl.Data.Sybase.csproj", "{986C075D-22B8-4B62-8257-AEDAC1009F27}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dahl.Data.Dapper", "Dahl.Data.Dapper\Dahl.Data.Dapper.csproj", "{3FAA5518-0D82-4DBF-AAF2-1103D8584FD5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dahl.Data.Tests.Core20", "Dahl.Data.Tests.Core20\Dahl.Data.Tests.Core20.csproj", "{74E0760F-8C96-415E-AFDF-32745B3B0288}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dahl.Data.Tests", "Dahl.Data.Tests\Dahl.Data.Tests.csproj", "{C810C85C-9C9E-4ED7-A901-77A997B179BD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{703F040E-966B-48EB-9D3A-50652E1DCC80} = {703F040E-966B-48EB-9D3A-50652E1DCC80}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{703F040E-966B-48EB-9D3A-50652E1DCC80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{703F040E-966B-48EB-9D3A-50652E1DCC80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{703F040E-966B-48EB-9D3A-50652E1DCC80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{703F040E-966B-48EB-9D3A-50652E1DCC80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD1FA220-C6DC-46D6-8D58-A060DF250FAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD1FA220-C6DC-46D6-8D58-A060DF250FAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD1FA220-C6DC-46D6-8D58-A060DF250FAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD1FA220-C6DC-46D6-8D58-A060DF250FAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD1BCB61-4035-4364-923D-054EC1A3C987}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD1BCB61-4035-4364-923D-054EC1A3C987}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD1BCB61-4035-4364-923D-054EC1A3C987}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD1BCB61-4035-4364-923D-054EC1A3C987}.Release|Any CPU.Build.0 = Release|Any CPU
+		{986C075D-22B8-4B62-8257-AEDAC1009F27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{986C075D-22B8-4B62-8257-AEDAC1009F27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{986C075D-22B8-4B62-8257-AEDAC1009F27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{986C075D-22B8-4B62-8257-AEDAC1009F27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FAA5518-0D82-4DBF-AAF2-1103D8584FD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FAA5518-0D82-4DBF-AAF2-1103D8584FD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FAA5518-0D82-4DBF-AAF2-1103D8584FD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FAA5518-0D82-4DBF-AAF2-1103D8584FD5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74E0760F-8C96-415E-AFDF-32745B3B0288}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74E0760F-8C96-415E-AFDF-32745B3B0288}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74E0760F-8C96-415E-AFDF-32745B3B0288}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74E0760F-8C96-415E-AFDF-32745B3B0288}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C810C85C-9C9E-4ED7-A901-77A997B179BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C810C85C-9C9E-4ED7-A901-77A997B179BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C810C85C-9C9E-4ED7-A901-77A997B179BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C810C85C-9C9E-4ED7-A901-77A997B179BD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6A0A49E3-C89F-477C-9FBB-C659008C0461}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 8
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://kevindahltx.visualstudio.com/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Dahl.Data.SqlServer\\Dahl.Data.SqlServer.csproj
+		SccProjectName1 = Dahl.Data.SqlServer
+		SccLocalPath1 = Dahl.Data.SqlServer
+		SccProjectUniqueName2 = Dahl.Data.Oracle\\Dahl.Data.Oracle.csproj
+		SccProjectName2 = Dahl.Data.Oracle
+		SccLocalPath2 = Dahl.Data.Oracle
+		SccProjectUniqueName3 = Dahl.Data.Common\\Dahl.Data.Common.csproj
+		SccProjectName3 = Dahl.Data.Common
+		SccLocalPath3 = Dahl.Data.Common
+		SccProjectUniqueName4 = Dahl.Data.Sybase\\Dahl.Data.Sybase.csproj
+		SccProjectName4 = Dahl.Data.Sybase
+		SccLocalPath4 = Dahl.Data.Sybase
+		SccProjectUniqueName5 = Dahl.Data.Dapper\\Dahl.Data.Dapper.csproj
+		SccProjectName5 = Dahl.Data.Dapper
+		SccLocalPath5 = Dahl.Data.Dapper
+		SccProjectUniqueName6 = Dahl.Data.Tests.Core20\\Dahl.Data.Tests.Core20.csproj
+		SccProjectName6 = Dahl.Data.Tests.Core20
+		SccLocalPath6 = Dahl.Data.Tests.Core20
+		SccProjectUniqueName7 = Dahl.Data.Tests\\Dahl.Data.Tests.csproj
+		SccProjectName7 = Dahl.Data.Tests
+		SccLocalPath7 = Dahl.Data.Tests
+	EndGlobalSection
+EndGlobal
