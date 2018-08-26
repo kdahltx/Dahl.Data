@@ -1,13 +1,7 @@
-﻿using System;
-using System.Diagnostics;
-using System.Collections;
+﻿using System.Diagnostics;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Dahl.Data.Common;
 using Dahl.Extensions;
-using System.Reflection;
-using System.Collections.Concurrent;
 
 namespace Dahl.Data.Tests.Core20
 {

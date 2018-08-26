@@ -1,67 +1,63 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.Common;
 using System.Diagnostics;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
 using Dahl.Extensions;
 
 namespace Dahl.Data.Common
 {
-    // DbDataReader, 
+    // DbDataReader,
     public class EntityReader<TEntity> : DbDataReader, IEntityReader
     {
-        private IEnumerator<TEntity> entityEnumerator;
+        private IEnumerator<TEntity> _entityEnumerator;
 
-        public override int RecordsAffected { get { return -1; } }
-        public override int Depth { get { return 1; } }
-        public override int FieldCount { get { return accessorsList.Length; } }
-        public override bool IsClosed { get { return entityEnumerator == null; } }
-        public override bool HasRows { get { return true; } }
+        public override int  RecordsAffected { get { return -1; } }
+        public override int  Depth           { get { return 1; } }
+        public override int  FieldCount      { get { return _accessorsList.Length; } }
+        public override bool IsClosed        { get { return _entityEnumerator == null; } }
+        public override bool HasRows         { get { return true; } }
 
         // 2 dictionaries to lookup by either property ordinal or property name
         // ordinal is the index into accessorsList array for property.
-        private Dictionary<int, string> ordinalLookup = new Dictionary<int, string>();
-        private Dictionary<string, int> nameLookup = new Dictionary<string, int>();
-
-        private readonly IPropertyAccessor[] accessorsList = typeof( TEntity ).GetAccessorList();
+        private readonly Dictionary<int, string> _ordinalLookup = new Dictionary<int, string>();
+        private readonly Dictionary<string, int> _nameLookup    = new Dictionary<string, int>();
+        private readonly IPropertyAccessor[]     _accessorsList = typeof( TEntity ).GetAccessorList();
 
         //-----------------------------------------------------------------------------------------
-        public EntityReader(IEnumerable<TEntity> list)
+        public EntityReader( IEnumerable<TEntity> list )
         {
             if ( list == null )
                 throw new Exception( "public EntityReader(IEnumerable<TEntity> list), list is null." );
 
-            if ( accessorsList == null || accessorsList.Length == 0 )
+            if ( _accessorsList == null || _accessorsList.Length == 0 )
                 throw new Exception( "public EntityReader(IEnumerable<TEntity> list), no properties in TEntity." );
 
-            nameLookup    = accessorsList.ToDictionary( x => x.Name, x => x.Ordinal );
-            ordinalLookup = accessorsList.ToDictionary( x => x.Ordinal, x => x.Name );
-            entityEnumerator = list.GetEnumerator();
+            _nameLookup       = _accessorsList.ToDictionary( x => x.Name,    x => x.Ordinal );
+            _ordinalLookup    = _accessorsList.ToDictionary( x => x.Ordinal, x => x.Name );
+            _entityEnumerator = list.GetEnumerator();
         }
 
         //-----------------------------------------------------------------------------------------
-        public override object this[string name]
+        public override object this[ string name ]
         {
             get
             {
-                if ( nameLookup.TryGetValue( name, out int ordinal ) )
-                    return accessorsList[ordinal].GetValue( entityEnumerator.Current );
+                if ( _nameLookup.TryGetValue( name, out int ordinal ) )
+                    return _accessorsList[ordinal].GetValue( _entityEnumerator.Current );
 
                 return null;
             }
         }
 
         //-----------------------------------------------------------------------------------------
-        public override object this[int ordinal]
+        public override object this[ int ordinal ]
         {
             get
             {
-                if ( ordinalLookup.TryGetValue( ordinal, out string name ) )
-                    return accessorsList[ordinal].GetValue( entityEnumerator.Current );
+                if ( _ordinalLookup.TryGetValue( ordinal, out string name ) )
+                    return _accessorsList[ordinal].GetValue( _entityEnumerator.Current );
 
                 return null;
             }
@@ -69,10 +65,10 @@ namespace Dahl.Data.Common
 
         public override bool Read()
         {
-            if ( entityEnumerator == null )
+            if ( _entityEnumerator == null )
                 throw new ObjectDisposedException( "EntityReader" );
 
-            return entityEnumerator.MoveNext();
+            return _entityEnumerator.MoveNext();
         }
 
         public override bool NextResult()
@@ -82,130 +78,131 @@ namespace Dahl.Data.Common
 
         public override void Close()
         {
-            Trace.WriteLine($"{GetType().FullName}.Close()");
+            Trace.WriteLine( $"{GetType().FullName}.Close()" );
             Dispose();
         }
 
-        protected override void Dispose(bool disposing)
+        protected override void Dispose( bool disposing )
         {
-            if ( disposing)
+            if ( disposing )
             {
-                if (entityEnumerator != null)
+                if ( _entityEnumerator != null )
                 {
-                    entityEnumerator.Dispose();
-                    entityEnumerator = null;
+                    _entityEnumerator.Dispose();
+                    _entityEnumerator = null;
                 }
             }
         }
 
-        public override string GetName(int i)
+        public override string GetName( int i )
         {
-            return accessorsList[i].Name;
+            return _accessorsList[i].Name;
         }
 
-        public override string GetDataTypeName(int i)
+        public override string GetDataTypeName( int i )
         {
-            return accessorsList[i].PropertyInfo.PropertyType.Name;
+            return _accessorsList[i].PropertyInfo.PropertyType.Name;
         }
 
-        public override Type GetFieldType(int i)
+        public override Type GetFieldType( int i )
         {
-            return accessorsList[i].PropertyInfo.PropertyType;
+            return _accessorsList[i].PropertyInfo.PropertyType;
         }
 
-        public override object GetValue(int i)
+        public override object GetValue( int i )
         {
-            if (entityEnumerator == null)
-                throw new ObjectDisposedException("EntityReader");
+            if ( _entityEnumerator == null )
+                throw new ObjectDisposedException( "EntityReader" );
 
-            return accessorsList[i].GetValue( entityEnumerator.Current );
+            return _accessorsList[i].GetValue( _entityEnumerator.Current );
         }
 
-        public override int GetValues(object[] values)
+        public override int GetValues( object[] values )
         {
             throw new NotImplementedException();
         }
 
-        public override int GetOrdinal(string name)
+        public override int GetOrdinal( string name )
         {
             int ordinal;
-            if (nameLookup.TryGetValue(name, out ordinal))
+
+            if ( _nameLookup.TryGetValue( name, out ordinal ) )
                 return ordinal;
 
-            throw new InvalidOperationException("Unknown parameter name " + name);
+            throw new InvalidOperationException( "Unknown parameter name " + name );
         }
 
-        public override bool GetBoolean(int i)
+        public override bool GetBoolean( int i )
         {
-            return (bool)accessorsList[i].GetValue( entityEnumerator.Current );
+            return (bool)_accessorsList[i].GetValue( _entityEnumerator.Current );
         }
 
-        public override byte GetByte(int i)
+        public override byte GetByte( int i )
         {
-            return (byte)accessorsList[i].GetValue( entityEnumerator.Current );
+            return (byte)_accessorsList[i].GetValue( _entityEnumerator.Current );
         }
 
-        public override long GetBytes(int i, long fieldOffset, byte[] buffer, int bufferoffset, int length)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override char GetChar(int i)
-        {
-            return (char)accessorsList[i].GetValue( entityEnumerator.Current );
-        }
-
-        public override long GetChars(int i, long fieldoffset, char[] buffer, int bufferoffset, int length)
+        public override long GetBytes( int i, long fieldOffset, byte[] buffer, int bufferoffset, int length )
         {
             throw new NotImplementedException();
         }
 
-        public override Guid GetGuid(int i)
+        public override char GetChar( int i )
         {
-            return (Guid)accessorsList[i].GetValue( entityEnumerator.Current );
+            return (char)_accessorsList[i].GetValue( _entityEnumerator.Current );
         }
 
-        public override short GetInt16(int i)
+        public override long GetChars( int i, long fieldoffset, char[] buffer, int bufferoffset, int length )
         {
-            return (short)accessorsList[i].GetValue( entityEnumerator.Current );
+            throw new NotImplementedException();
         }
 
-        public override int GetInt32(int i)
+        public override Guid GetGuid( int i )
         {
-            return (Int32)accessorsList[i].GetValue( entityEnumerator.Current );
+            return (Guid)_accessorsList[i].GetValue( _entityEnumerator.Current );
         }
 
-        public override long GetInt64(int i)
+        public override short GetInt16( int i )
         {
-            return (Int64)accessorsList[i].GetValue( entityEnumerator.Current );
+            return (short)_accessorsList[i].GetValue( _entityEnumerator.Current );
         }
 
-        public override float GetFloat(int i)
+        public override int GetInt32( int i )
         {
-            return (float)accessorsList[i].GetValue( entityEnumerator.Current );
+            return (Int32)_accessorsList[i].GetValue( _entityEnumerator.Current );
         }
 
-        public override double GetDouble(int i)
+        public override long GetInt64( int i )
         {
-            return (double)accessorsList[i].GetValue( entityEnumerator.Current );
+            return (Int64)_accessorsList[i].GetValue( _entityEnumerator.Current );
         }
 
-        public override string GetString(int i)
+        public override float GetFloat( int i )
         {
-            return (string)accessorsList[i].GetValue( entityEnumerator.Current );
+            return (float)_accessorsList[i].GetValue( _entityEnumerator.Current );
         }
 
-        public override decimal GetDecimal(int i)
+        public override double GetDouble( int i )
         {
-            return (decimal)accessorsList[i].GetValue( entityEnumerator.Current );
+            return (double)_accessorsList[i].GetValue( _entityEnumerator.Current );
         }
 
-        public override DateTime GetDateTime(int i)
+        public override string GetString( int i )
         {
-            return (DateTime)accessorsList[i].GetValue( entityEnumerator.Current );
+            return (string)_accessorsList[i].GetValue( _entityEnumerator.Current );
         }
 
-        public override bool IsDBNull(int i)
+        public override decimal GetDecimal( int i )
+        {
+            return (decimal)_accessorsList[i].GetValue( _entityEnumerator.Current );
+        }
+
+        public override DateTime GetDateTime( int i )
+        {
+            return (DateTime)_accessorsList[i].GetValue( _entityEnumerator.Current );
+        }
+
+        public override bool IsDBNull( int i )
         {
             throw new NotImplementedException();
         }

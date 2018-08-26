@@ -7,17 +7,17 @@ namespace Dahl.Data.Common
     {
         private static readonly List<Stopwatch> _swList = new List<Stopwatch>();
 
-        public void Init(int numStopwatches)
+        public void Init( int numStopwatches )
         {
-            for (int i = 0; i < numStopwatches; i++)
+            for ( int i = 0; i < numStopwatches; i++ )
             {
                 var sw = new Stopwatch();
                 sw.Reset();
-                _swList.Add(sw);
+                _swList.Add( sw );
             }
         }
 
-        public Stopwatch Get(int i)
+        public Stopwatch Get( int i )
         {
             return _swList[i];
         }

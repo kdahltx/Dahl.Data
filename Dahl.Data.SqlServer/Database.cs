@@ -8,7 +8,6 @@ using System.Reflection;
 using System.Text;
 using Dahl.Extensions;
 using Dahl.Data.Common;
-using System.Data.Common;
 
 namespace Dahl.Data.SqlServer
 {
@@ -234,7 +233,7 @@ namespace Dahl.Data.SqlServer
         }
 
         //-----------------------------------------------------------------------------------------
-        // get schema information to get property types so we can build insert 
+        // get schema information to get property types so we can build insert
         // and update statements
         public string CreateMergeSqlStatement( PropertyInfo[] properties, string tableName )
         {
@@ -253,7 +252,13 @@ namespace Dahl.Data.SqlServer
             return string.Empty;
         }
 
-        //-----------------------------------------------------------------------------------------
+#if false
+        ///----------------------------------------------------------------------------------------
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="properties"></param>
+        /// <returns></returns>
         private string[] GetColumnNames( PropertyInfo[] properties )
         {
             string[] objectCols = new string[properties.Length];
@@ -261,12 +266,13 @@ namespace Dahl.Data.SqlServer
 
             foreach ( PropertyInfo prop in properties )
             {
-                if ( prop.PropertyType.FullName.StartsWith( "System." ) )
+                if ( prop.PropertyType.FullName != null && prop.PropertyType.FullName.StartsWith( "System." ) )
                     objectCols[i++] = prop.Name;
             }
 
             return objectCols;
         }
+#endif
 
         //-----------------------------------------------------------------------------------------
         public bool BulkUpsert<TEntity>( IEnumerable<TEntity> list, IBulkMapper bulkMapper )
@@ -346,9 +352,9 @@ namespace Dahl.Data.SqlServer
 
             return true;
         }
-        #endregion
+#endregion
 
-#if NETCOREAPP2_0
+#if NETCOREAPP2_0 || NETCOREAPP2_1
         protected override DbProviderFactory CreateProviderFactory()
         {
             return SqlClientFactory.Instance;

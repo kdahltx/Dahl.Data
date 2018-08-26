@@ -149,11 +149,11 @@ namespace Dahl.Data.Tests.Core20
             /// This test method is different than other test methods above because it uses
             /// the golf database where the above methods use the Users database.
             /// 
-            /// Requires connection string for: 
+            /// Requires connection string for:
             ///     database: Golf
             ///     server  : Server-db01\sql16
             /// </summary>
-            //[TestMethod] 
+            //[TestMethod]
             public void SqlServer_QueryCourse()
             {
                 var list = Repository.GetCourse( "Balcones" );

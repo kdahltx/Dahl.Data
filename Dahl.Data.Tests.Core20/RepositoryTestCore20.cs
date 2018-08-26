@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Dahl.Data.Common;
 using Dahl.Data.Tests.Core20.Models;
@@ -47,11 +44,11 @@ namespace Dahl.Data.Tests.Core20
                 CreateParameter( "@name", name )
             };
 
-            var result = Database.ExecuteQuery<Course>( sqlCmd, parms );
+            var result = Database.ExecuteQuery<Course>( sqlCmd, parms )?.ToList();
             if ( result != null && !result.Any() )
                 return null;
 
-            return result.ToList()[0];
+            return result?.ToList()[0];
         }
 
 
@@ -141,7 +138,6 @@ namespace Dahl.Data.Tests.Core20
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="database"></param>
         /// <returns></returns>
         public int DeleteUsers()
         {
@@ -155,7 +151,6 @@ namespace Dahl.Data.Tests.Core20
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="database"></param>
         /// <returns></returns>
         public List<Core20.Models.Users> LoadUsers()
         {
@@ -221,12 +216,14 @@ namespace Dahl.Data.Tests.Core20
             return users;
         }
 
-
-        ///----------------------------------------------------------------------------------------
-        /// <summary>
-        /// Creates a list of users with new ssn
-        /// </summary>
-        /// <param name="count"></param>
+        /// ----------------------------------------------------------------------------------------
+        ///  <summary>
+        ///  Creates a list of users with new ssn
+        ///  </summary>
+        ///  <param name="count"></param>
+        /// <param name="ssn1"></param>
+        /// <param name="ssn2"></param>
+        /// <param name="ssn3"></param>
         /// <returns></returns>
         public List<Core20.Models.Users> CreateUserList( int count, short ssn1, short ssn2, short ssn3 )
         {

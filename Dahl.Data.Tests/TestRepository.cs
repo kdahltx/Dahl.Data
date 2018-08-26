@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Dahl.Data.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -113,7 +111,6 @@ namespace Dahl.Data.Tests
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="database"></param>
         /// <returns></returns>
         public int DeleteUsers()
         {
@@ -127,7 +124,6 @@ namespace Dahl.Data.Tests
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="database"></param>
         /// <returns></returns>
         public List<Models.Users> LoadUsers()
         {
@@ -145,11 +141,14 @@ namespace Dahl.Data.Tests
             return users;
         }
 
-        ///----------------------------------------------------------------------------------------
-        /// <summary>
-        /// Creates a list of users with new ssn
-        /// </summary>
-        /// <param name="count"></param>
+        /// ----------------------------------------------------------------------------------------
+        ///  <summary>
+        ///  Creates a list of users with new ssn
+        ///  </summary>
+        ///  <param name="count"></param>
+        /// <param name="ssn1"></param>
+        /// <param name="ssn2"></param>
+        /// <param name="ssn3"></param>
         /// <returns></returns>
         public List<Models.Users> CreateUserList( int count, short ssn1, short ssn2, short ssn3 )
         {

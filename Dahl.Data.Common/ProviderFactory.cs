@@ -7,22 +7,17 @@ namespace Dahl.Data.Common
     {
         public static readonly ProviderFactory Instance = new ProviderFactory();
 
-        public override DbCommand CreateCommand()
-        {
-            return base.CreateCommand();
-        }
-
-        public DbProviderFactory Create(string providerName)
+        public DbProviderFactory Create( string providerName )
         {
             try
             {
-#if NETCOREAPP2_0
+                #if NETCOREAPP2_0 || NECOREAPP2_1
                 return null;
-#else
-                return DbProviderFactories.GetFactory(providerName);
-#endif
+                #else
+                return DbProviderFactories.GetFactory( providerName );
+                #endif
             }
-            catch (Exception)
+            catch ( Exception )
             {
                 //LastError.Code = e.HResult;
                 //LastError.Message = e.Message;

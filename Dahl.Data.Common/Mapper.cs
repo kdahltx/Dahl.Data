@@ -11,17 +11,18 @@ namespace Dahl.Data.Common
     public class Mapper<TEntity> : IMapper<TEntity> where TEntity : class, new()
     {
         //-----------------------------------------------------------------------------------------
-        protected StopwatchCollection swList;
-        public void InitStopWatches(int numStopWatches)
+        internal StopwatchCollection swList;
+
+        public void InitStopWatches( int numStopWatches )
         {
             swList = new StopwatchCollection();
-            swList.Init(numStopWatches);
+            swList.Init( numStopWatches );
         }
 
         //-----------------------------------------------------------------------------------------
         protected void SetFieldOrdinalsInitialized()
         {
-            fieldOrdinalsInitialized = true;
+            FieldOrdinalsInitialized = true;
         }
 
         //-----------------------------------------------------------------------------------------
@@ -30,33 +31,33 @@ namespace Dahl.Data.Common
         /// the ordinal value for the columns.
         /// </summary>
         public virtual void SetFieldOrdinals( ConcurrentDictionary<string, IFieldInfo> columns )
-        {
-        }
+        {}
 
         ///----------------------------------------------------------------------------------------
         /// <summary>
         /// Initialized data column information into a dictionary collection.
         /// </summary>
         /// <param name="dataRecord">DataRecord with column information to be mapped.</param>
-        public virtual void InitFieldOrdinals(IDataRecord dataRecord)
+        public virtual void InitFieldOrdinals( IDataRecord dataRecord )
         {
-            if (fieldOrdinalsInitialized)
+            if ( FieldOrdinalsInitialized )
                 return;
 
-            for (int i = 0; i < dataRecord.FieldCount; i++)
+            for ( int i = 0; i < dataRecord.FieldCount; i++ )
             {
                 FieldInfo ci = new FieldInfo
                 {
-                    Ordinal = i,
-                    Name = dataRecord.GetName(i),
-                    DataTypeName = dataRecord.GetDataTypeName(i),
-                    FieldType = dataRecord.GetFieldType(i)
+                    Ordinal      = i,
+                    Name         = dataRecord.GetName( i ),
+                    DataTypeName = dataRecord.GetDataTypeName( i ),
+                    FieldType    = dataRecord.GetFieldType( i )
                 };
 
-                columns.TryAdd( ci.Name, ci );
+                Columns.TryAdd( ci.Name, ci );
             }
-            SetFieldOrdinals( columns );
-            fieldOrdinalsInitialized = true;
+
+            SetFieldOrdinals( Columns );
+            FieldOrdinalsInitialized = true;
         }
 
         ///----------------------------------------------------------------------------------------
@@ -64,26 +65,26 @@ namespace Dahl.Data.Common
         /// Initialized data column information into a dictionary collection.
         /// </summary>
         /// <param name="cols">DataColumnCollection of row columns to be mapped.</param>
-        public virtual void InitFieldOrdinals(DataColumnCollection cols)
+        public virtual void InitFieldOrdinals( DataColumnCollection cols )
         {
-            if (fieldOrdinalsInitialized)
+            if ( FieldOrdinalsInitialized )
                 return;
 
-            for (int i = 0; i < cols.Count; i++)
+            for ( int i = 0; i < cols.Count; i++ )
             {
                 FieldInfo ci = new FieldInfo
                 {
-                    Ordinal = i,
-                    Name = cols[i].ColumnName,
+                    Ordinal      = i,
+                    Name         = cols[i].ColumnName,
                     DataTypeName = cols[i].DataType.Name,
-                    FieldType = cols[i].DataType
+                    FieldType    = cols[i].DataType
                 };
 
-                columns.TryAdd(ci.Name, ci);
+                Columns.TryAdd( ci.Name, ci );
             }
 
-            SetFieldOrdinals( columns );
-            fieldOrdinalsInitialized = true;
+            SetFieldOrdinals( Columns );
+            FieldOrdinalsInitialized = true;
         }
 
         //-----------------------------------------------------------------------------------------
@@ -95,53 +96,55 @@ namespace Dahl.Data.Common
         /// </summary>
         /// <param name="dataRecord"></param>
         /// <returns></returns>
-        public virtual TEntity Map(IDataRecord dataRecord)
+        public virtual TEntity Map( IDataRecord dataRecord )
         {
-            if (!fieldOrdinalsInitialized)
-                InitFieldOrdinals(dataRecord);
+            if ( !FieldOrdinalsInitialized )
+                InitFieldOrdinals( dataRecord );
 
             object[] values = new object[dataRecord.FieldCount];
-            dataRecord.GetValues(values);
-            return Map(values);
+            dataRecord.GetValues( values );
+
+            return Map( values );
         }
 
         //-----------------------------------------------------------------------------------------
-        public virtual TEntity Map(DataRow dataRecord)
+        public virtual TEntity Map( DataRow dataRecord )
         {
-            if (!fieldOrdinalsInitialized)
-                InitFieldOrdinals(dataRecord.Table.Columns);
+            if ( !FieldOrdinalsInitialized )
+                InitFieldOrdinals( dataRecord.Table.Columns );
 
-            return Map(dataRecord.ItemArray);
+            return Map( dataRecord.ItemArray );
         }
 
         //-----------------------------------------------------------------------------------------
-        public virtual List<TEntity> Map(DataSet ds)
+        public virtual List<TEntity> Map( DataSet ds )
         {
-            throw new NotImplementedException("List<TEntity> Mapper.Map( DataSet ds )");
+            throw new NotImplementedException( "List<TEntity> Mapper.Map( DataSet ds )" );
         }
 
         //-----------------------------------------------------------------------------------------
         // this is the default method for mapping column values into properties of an object.
         // for better performance override this method and use integer variables to hold the
         // the ordinal value of the field.
-        private readonly List<IPropertyAccessor> accessorsList = typeof( TEntity ).GetAccessorList()
-                                                                                  .ToList();
-        public virtual TEntity Map(object[] values)
+        private readonly List<IPropertyAccessor> _accessorsList = typeof( TEntity ).GetAccessorList()
+                                                                                   .ToList();
+
+        public virtual TEntity Map( object[] values )
         {
             TEntity entity = new TEntity();
-            Type t = entity.GetType();
+            Type    t      = entity.GetType();
 
-            foreach (FieldInfo ci in columns.Values)
+            foreach ( var ci in Columns.Values )
             {
                 object o = values[ci.Ordinal];
-                if (o != DBNull.Value)
+                if ( o != DBNull.Value )
                 {
-                    PropertyInfo p = t.GetProperty(ci.Name);
-                    if (p != null && p.CanWrite)
-                        p.SetValue(entity, o);
+                    PropertyInfo p = t.GetProperty( ci.Name );
+                    if ( p != null && p.CanWrite )
+                        p.SetValue( entity, o );
 
-                    var accessor = accessorsList.Find( x => x.Ordinal == ci.Ordinal );
-                    accessor.SetValue( entity, o );                               
+                    var accessor = _accessorsList.Find( x => x.Ordinal == ci.Ordinal );
+                    accessor.SetValue( entity, o );
                 }
             }
 
@@ -149,16 +152,16 @@ namespace Dahl.Data.Common
         }
 
         //-----------------------------------------------------------------------------------------
-        protected bool fieldOrdinalsInitialized;
-        protected ConcurrentDictionary<string, IFieldInfo> columns = new ConcurrentDictionary<string, IFieldInfo>();
+        protected bool                                     FieldOrdinalsInitialized;
+        protected ConcurrentDictionary<string, IFieldInfo> Columns = new ConcurrentDictionary<string, IFieldInfo>();
 
         //-----------------------------------------------------------------------------------------
         public class FieldInfo : IFieldInfo
         {
-            public string Name { get; set; }
-            public Type FieldType { get; set; }
+            public string Name         { get; set; }
+            public Type   FieldType    { get; set; }
             public string DataTypeName { get; set; }
-            public int Ordinal { get; set; }
+            public int    Ordinal      { get; set; }
         }
     }
 }

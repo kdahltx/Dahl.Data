@@ -16,7 +16,7 @@ namespace Dahl.Data.Common
 
         #region Facade for CreateParameter Methods ------------------------------------------------
         /// <summary>
-        /// CreateParameter overload 
+        /// CreateParameter overload
         /// </summary>
         /// <param name="name"></param>
         /// <param name="value"></param>

@@ -12,26 +12,26 @@ namespace Dahl.Data.Common
         /// 
         /// </summary>
         /// <param name="command"></param>
-        public virtual void AddParameters(IDbCommand command)
+        public virtual void AddParameters( IDbCommand command )
         {
-            if (command == null)
+            if ( command == null )
                 return;
 
             StringBuilder sb = new StringBuilder();
-            sb.AppendFormat($"parameter count: {Count}{Environment.NewLine}");
-            foreach (var parm in this)
+            sb.AppendFormat( $"parameter count: {Count}{Environment.NewLine}" );
+            foreach ( var parm in this )
             {
                 try
                 {
-                    if (parm.Value == null)
+                    if ( parm.Value == null )
                         parm.Value = DBNull.Value;
 
-                    command.Parameters.Add(parm);
-                    sb.AppendFormat($"   {parm.ParameterName} = {parm.Value}{Environment.NewLine}");
+                    command.Parameters.Add( parm );
+                    sb.AppendFormat( $"   {parm.ParameterName} = {parm.Value}{Environment.NewLine}" );
                 }
-                catch (Exception)
+                catch ( Exception e)
                 {
-                    throw;
+                    throw new Exception( $"Dahl.Data.Common.CommandParameters.AddParameters, {e.Message}" );
                 }
             }
         }

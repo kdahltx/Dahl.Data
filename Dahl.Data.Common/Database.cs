@@ -11,24 +11,21 @@ namespace Dahl.Data.Common
     public abstract class Database : IDisposable, IDatabase
     {
         protected const string CreateConnectionError = "Unable to create IConnection object";
-        protected const string UnableToOpenDbError = "Unable to open database connection";
+        protected const string UnableToOpenDbError   = "Unable to open database connection";
 
-        public IDbConnection Connection { get; set; }
-        public int CommandTimeOut { get; set; } = 300;
-        public IDbTransaction Transaction { get; set; }
-        public LastError LastError { get; set; } = new LastError();
+        public IDbConnection  Connection     { get; set; }
+        public int            CommandTimeOut { get; set; } = 300;
+        public IDbTransaction Transaction    { get; set; }
+        public LastError      LastError      { get; set; } = new LastError();
 
         public string ConnectionStringName { get; set; }
-        public string ConnectionString { get; set; }
-        public string ProviderName { get; set; }
+        public string ConnectionString     { get; set; }
+        public string ProviderName         { get; set; }
 
         #region Database Providers ----------------------------------------------------------------
-#if !NETCOREAPP2_0
+        #if !NETCOREAPP2_0
         private List<DataProvider> _providerList;
-        public List<DataProvider> ProviderList
-        {
-            get { return _providerList ?? ( _providerList = GetProviderFactoryClasses() ); }
-        }
+        public  List<DataProvider> ProviderList { get { return _providerList ?? ( _providerList = GetProviderFactoryClasses() ); } }
 
         ///----------------------------------------------------------------------------------------
         /// <summary>
@@ -38,16 +35,16 @@ namespace Dahl.Data.Common
         private static List<DataProvider> GetProviderFactoryClasses()
         {
             List<DataProvider> list = new List<DataProvider>();
-            DataTable dt = DbProviderFactories.GetFactoryClasses();
+            DataTable          dt   = DbProviderFactories.GetFactoryClasses();
 
             foreach ( DataRow dr in dt.Rows )
             {
                 Trace.WriteLine( dr.ItemArray[0].AsString() );
                 DataProvider dp = new DataProvider()
                 {
-                    Name = dr.ItemArray[0].As<string>(),
-                    Description = dr.ItemArray[1].As<string>(),
-                    InvariantName = dr.ItemArray[2].As<string>(),
+                    Name                  = dr.ItemArray[0].As<string>(),
+                    Description           = dr.ItemArray[1].As<string>(),
+                    InvariantName         = dr.ItemArray[2].As<string>(),
                     AssemblyQualifiedName = dr.ItemArray[3].As<string>()
                 };
                 list.Add( dp );
@@ -55,7 +52,7 @@ namespace Dahl.Data.Common
 
             return list;
         }
-#else
+        #else
         private List<DataProvider> _providerList;
         public List<DataProvider> ProviderList
         {
@@ -98,7 +95,7 @@ namespace Dahl.Data.Common
         {
             if ( ConnectionStringName.IsNullOrEmpty() )
                 throw new NullReferenceException( "ConnectionStringName is undefined. Either set ConnectionStringName " +
-                                                 "or override medthod GetConnectionStringName()" );
+                                                  "or override medthod GetConnectionStringName()" );
 
             return ConnectionStringName;
         }
@@ -132,15 +129,15 @@ namespace Dahl.Data.Common
         {
             try
             {
-#if !NETCOREAPP2_0
+                #if !NETCOREAPP2_0
                 _providerFactory = DbProviderFactories.GetFactory( ProviderName );
-#else
+                #else
                 throw new NotImplementedException("This method must be overridden in a .NET Core Applications");
 #endif
             }
             catch ( Exception e )
             {
-                LastError.Code = e.HResult;
+                LastError.Code    = e.HResult;
                 LastError.Message = e.Message;
             }
 
@@ -170,6 +167,7 @@ namespace Dahl.Data.Common
 
                     Connection.ConnectionString = ConnectionString;
                     Connection.Open();
+
                     if ( Connection.State == ConnectionState.Open )
                         return true;
 
@@ -240,6 +238,7 @@ namespace Dahl.Data.Common
                 LastError.Message = GetExceptionAsString( e );
                 Trace.WriteLine( $"Logging Exception: {LastError.Message}" );
             }
+
             Trace.WriteLine( $"0:End   {GetType().FullName}.Dispose({disposing})" );
         }
 
@@ -257,7 +256,7 @@ namespace Dahl.Data.Common
                     Trace.WriteLine( $"0: {GetType().FullName}.Close() - Connection.State = {Connection.State}." );
                     if ( Connection.State != ConnectionState.Closed )
                     {
-                        Connection.Close();  // TODO: looks like this statement is thowing an exception for 4.6x,4.7x
+                        Connection.Close(); // TODO: looks like this statement is thowing an exception for 4.6x,4.7x
                         Trace.WriteLine( $"0: {GetType().FullName}.Close() - Post Connection.Close() call" );
                         Connection = null;
                     }
@@ -265,7 +264,7 @@ namespace Dahl.Data.Common
             }
             catch ( Exception e )
             {
-                LastError.Code = 1000;
+                LastError.Code    = 1000;
                 LastError.Message = GetExceptionAsString( e );
                 Trace.WriteLine( $"Logging Exception: {LastError.Message} " );
             }
@@ -282,7 +281,7 @@ namespace Dahl.Data.Common
         protected string GetExceptionAsString( Exception e )
         {
             StringBuilder sb = new StringBuilder();
-            Exception ex = e;
+            Exception     ex = e;
             while ( ex != null )
             {
                 sb.AppendLine( e.Message );
@@ -303,19 +302,19 @@ namespace Dahl.Data.Common
         {
             switch ( dataType.ToString() )
             {
-                case "System.Char"    : return DbType.AnsiStringFixedLength;
-                case "System.Boolean" : return DbType.Boolean;
-                case "System.Int16"   : return DbType.Int16;
-                case "System.Int32"   : return DbType.Int32;
-                case "System.String"  : return DbType.String;
-                case "System.Single"  : return DbType.Single;
-                case "System.double"  : return DbType.Double;
-                case "System.Decimal" : return DbType.Decimal;
-                case "System.Int64"   : return DbType.Decimal;
-                case "System.DateTime": return DbType.DateTime;
-                case "System.Guid"    : return DbType.Guid;
-                case "System.Byte[]"  : return DbType.Binary;
-                default               : return DbType.String;
+                case "System.Char" :     return DbType.AnsiStringFixedLength;
+                case "System.Boolean" :  return DbType.Boolean;
+                case "System.Int16" :    return DbType.Int16;
+                case "System.Int32" :    return DbType.Int32;
+                case "System.String" :   return DbType.String;
+                case "System.Single" :   return DbType.Single;
+                case "System.double" :   return DbType.Double;
+                case "System.Decimal" :  return DbType.Decimal;
+                case "System.Int64" :    return DbType.Decimal;
+                case "System.DateTime" : return DbType.DateTime;
+                case "System.Guid" :     return DbType.Guid;
+                case "System.Byte[]" :   return DbType.Binary;
+                default :                return DbType.String;
             }
         }
 
@@ -332,19 +331,19 @@ namespace Dahl.Data.Common
 
             switch ( val.GetType().ToString() )
             {
-                case "System.String"  : return ((string)val).Length;
-                case "System.Char"    : return sizeof(char);
-                case "System.Boolean" : return sizeof(bool);
-                case "System.Int16"   : return sizeof(short);
-                case "System.Int32"   : return sizeof(int);
-                case "System.Single"  : return sizeof(float);
-                case "System.double"  : return sizeof(double);
-                case "System.Decimal" : return sizeof(decimal);
-                case "System.Int64"   : return sizeof(long);
+                case "System.String" :  return ( (string)val ).Length;
+                case "System.Char" :    return sizeof( char );
+                case "System.Boolean" : return sizeof( bool );
+                case "System.Int16" :   return sizeof( short );
+                case "System.Int32" :   return sizeof( int );
+                case "System.Single" :  return sizeof( float );
+                case "System.double" :  return sizeof( double );
+                case "System.Decimal" : return sizeof( decimal );
+                case "System.Int64" :   return sizeof( long );
 
-                case "System.Guid"    :
-                case "System.DateTime":
-                case "System.Byte[]"  : return 0;
+                case "System.Guid" :
+                case "System.DateTime" :
+                case "System.Byte[]" : return 0;
             }
 
             return 0;
@@ -377,12 +376,12 @@ namespace Dahl.Data.Common
         }
 
         #region CreateParameter short -------------------------------------------------------------
-        public IDbDataParameter CreateParameter(string name, short value)
+        public IDbDataParameter CreateParameter( string name, short value )
         {
             return CreateParameter( name, value, typeof( short ), true );
         }
 
-        public IDbDataParameter CreateParameter(string name, short? value)
+        public IDbDataParameter CreateParameter( string name, short? value )
         {
             return CreateParameter( name, value, typeof( short? ), true );
         }
@@ -501,11 +500,12 @@ namespace Dahl.Data.Common
             {
                 if ( CreateConnection() )
                 {
-                    _cmd = Connection.CreateCommand();
+                    _cmd                = Connection.CreateCommand();
                     _cmd.CommandTimeout = CommandTimeOut;
-                    _cmd.CommandText = sqlCmd;
-                    _cmd.CommandType = commandType;
+                    _cmd.CommandText    = sqlCmd;
+                    _cmd.CommandType    = commandType;
                     _cmd.Parameters.Clear();
+
                     return true;
                 }
             }
@@ -526,7 +526,7 @@ namespace Dahl.Data.Common
         /// <returns></returns>
         public virtual bool CreateQuery( string sqlCmd, CommandParameter parameters = null )
         {
-            bool result = CreateCommand( sqlCmd, CommandType.Text );
+            bool result = CreateCommand( sqlCmd );
             if ( result )
                 AddParameters( parameters );
 
@@ -540,9 +540,9 @@ namespace Dahl.Data.Common
         /// <param name="storedProcName"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        public virtual bool CreateNamedQuery(string storedProcName, CommandParameter parameters = null)
+        public virtual bool CreateNamedQuery( string storedProcName, CommandParameter parameters = null )
         {
-            bool result = CreateCommand(storedProcName, CommandType.StoredProcedure);
+            bool result = CreateCommand( storedProcName, CommandType.StoredProcedure );
             if ( result )
                 AddParameters( parameters );
 
@@ -611,13 +611,14 @@ namespace Dahl.Data.Common
         /// <param name="mapper"></param>
         /// <returns></returns>
         public virtual IEnumerable<TEntity> ExecuteQuery<TEntity>( string sqlCmd, IMapper<TEntity> mapper = null )
-                                                where TEntity : class, new()
+            where TEntity : class, new()
         {
             try
             {
                 if ( CreateQuery( sqlCmd ) )
                 {
                     _reader = _cmd.ExecuteReader();
+
                     if ( _reader != null )
                         return Read( mapper );
                 }
@@ -639,14 +640,16 @@ namespace Dahl.Data.Common
         /// <param name="parameters"></param>
         /// <param name="mapper"></param>
         /// <returns></returns>
-        public virtual IEnumerable<TEntity> ExecuteQuery<TEntity>( string sqlCmd, CommandParameter parameters, IMapper<TEntity> mapper = null )
-                                                where TEntity : class, new()
+        public virtual IEnumerable<TEntity> ExecuteQuery<TEntity>( string           sqlCmd, CommandParameter parameters,
+                                                                   IMapper<TEntity> mapper = null )
+            where TEntity : class, new()
         {
             try
             {
                 if ( CreateQuery( sqlCmd, parameters ) )
                 {
                     _reader = _cmd.ExecuteReader();
+
                     if ( _reader != null )
                         return Read( mapper );
                 }
@@ -670,7 +673,7 @@ namespace Dahl.Data.Common
         /// <param name="mapper"></param>
         /// <returns></returns>
         public virtual IEnumerable<TEntity> ExecuteNamedQuery<TEntity>( string sqlCmd, IMapper<TEntity> mapper = null )
-                                                where TEntity : class, new()
+            where TEntity : class, new()
         {
             try
             {
@@ -681,6 +684,7 @@ namespace Dahl.Data.Common
                     {
                         var result = Read( mapper );
                         _reader.NextResult();
+
                         return result;
                     }
                 }
@@ -702,8 +706,9 @@ namespace Dahl.Data.Common
         /// <param name="parameters"></param>
         /// <param name="mapper"></param>
         /// <returns></returns>
-        public virtual IEnumerable<TEntity> ExecuteNamedQuery<TEntity>( string sqlCmd, CommandParameter parameters, IMapper<TEntity> mapper = null )
-                                                where TEntity : class, new()
+        public virtual IEnumerable<TEntity> ExecuteNamedQuery<TEntity>( string           sqlCmd, CommandParameter parameters,
+                                                                        IMapper<TEntity> mapper = null )
+            where TEntity : class, new()
         {
             try
             {
@@ -714,6 +719,7 @@ namespace Dahl.Data.Common
                     {
                         var result = Read( mapper );
                         _reader.NextResult();
+
                         return result;
                     }
                 }
@@ -735,7 +741,7 @@ namespace Dahl.Data.Common
         /// <param name="mapper"></param>
         /// <returns></returns>
         public virtual IEnumerable<TEntity> Read<TEntity>( IMapper<TEntity> mapper = null )
-                                                where TEntity : class, new()
+            where TEntity : class, new()
         {
             if ( mapper == null )
                 mapper = new Mapper<TEntity>();
@@ -745,11 +751,12 @@ namespace Dahl.Data.Common
                 list.Add( mapper.Map( _reader ) );
 
             _reader.NextResult();
+
             return list;
         }
 
         #region BulkCopy Methods ------------------------------------------------------------------
-        public virtual bool BulkInsert<TEntity>(IEnumerable<TEntity> list, IBulkMapper bulkMapper) where TEntity : class, new()
+        public virtual bool BulkInsert<TEntity>( IEnumerable<TEntity> list, IBulkMapper bulkMapper ) where TEntity : class, new()
         {
             throw new NotImplementedException();
         }
@@ -759,45 +766,47 @@ namespace Dahl.Data.Common
             throw new NotImplementedException();
         }
 
-        public virtual bool BulkUpdate<TEntity>(IEnumerable<TEntity> list, IBulkMapper bulkMapper) where TEntity : class, new()
+        public virtual bool BulkUpdate<TEntity>( IEnumerable<TEntity> list, IBulkMapper bulkMapper ) where TEntity : class, new()
         {
             throw new NotImplementedException();
         }
         #endregion
 
         #region Misc Methods ----------------------------------------------------------------------
-        protected string FormatExceptionMessage(string functionName, string msg, Exception ex)
+        protected string FormatExceptionMessage( string functionName, string msg, Exception ex )
         {
-            StringBuilder sb = new StringBuilder(256);
-            sb.Append($"Error in Database Server.{functionName}()\n");
-            sb.Append($"Timestamp: {DateTime.Now.ToShortTimeString()} {DateTime.Now.ToShortDateString()}\n");
+            StringBuilder sb = new StringBuilder( 256 );
+            sb.Append( $"Error in Database Server.{functionName}()\n" );
+            sb.Append( $"Timestamp: {DateTime.Now.ToShortTimeString()} {DateTime.Now.ToShortDateString()}\n" );
 
-            if (ex != null)
-                sb.Append($"Exception Type: {ex.GetType()}\nException Message: {ex.Message}\n");
+            if ( ex != null )
+                sb.Append( $"Exception Type: {ex.GetType()}\nException Message: {ex.Message}\n" );
 
-            sb.Append($"Error Message: {msg}\n");
+            sb.Append( $"Error Message: {msg}\n" );
+
             return sb.ToString();
         }
 
         protected static string GetMethodName()
         {
-            StackTrace stackTrace = new StackTrace();
-            System.Reflection.MethodBase method = stackTrace.GetFrame(1).GetMethod();
-            if (method == null || method.DeclaringType == null)
+            StackTrace                   stackTrace = new StackTrace();
+            System.Reflection.MethodBase method     = stackTrace.GetFrame( 1 ).GetMethod();
+
+            if ( method == null || method.DeclaringType == null )
                 return null;
 
             return method.DeclaringType.FullName;
         }
 
-        protected void SetLastError(int code, string message)
+        protected void SetLastError( int code, string message )
         {
-            LastError.Code = code;
+            LastError.Code    = code;
             LastError.Message = message;
         }
 
         protected void ClearLastError()
         {
-            LastError.Code = 0;
+            LastError.Code    = 0;
             LastError.Message = string.Empty;
         }
         #endregion
