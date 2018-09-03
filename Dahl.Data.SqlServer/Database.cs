@@ -1,4 +1,7 @@
-﻿using System;
+﻿#if NETCOREAPP2_0 || NETCOREAPP2_1
+using System.Data.Common;
+#endif
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -74,7 +77,7 @@ namespace Dahl.Data.SqlServer
             return parameter;
         }
 
-        #region BulkCopy Methods ------------------------------------------------------------------
+#region BulkCopy Methods ------------------------------------------------------------------
         public override bool BulkInsert<TEntity>( IEnumerable<TEntity> list, IBulkMapper bulkMapper )
         {
             try

@@ -10,8 +10,8 @@
   <PropertyGroup>
     <TargetFrameworks>netcoreapp2.0;netcoreapp2.1;</TargetFrameworks>
     <IsPackable>false</IsPackable>
-    <AssemblyVersion>1.0.0.173</AssemblyVersion>
-    <FileVersion>1.0.0.173</FileVersion>
+    <AssemblyVersion>1.0.0.177</AssemblyVersion>
+    <FileVersion>1.0.0.177</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>

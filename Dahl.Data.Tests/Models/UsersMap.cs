@@ -1,17 +1,12 @@
-﻿using Dahl.Data.Common;
-using System.Collections.Concurrent;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Concurrent;
+using Dahl.Extensions;
+using Dahl.Data.Common;
 
 namespace Dahl.Data.Tests.Models
 {
     public class UsersMap : Dahl.Data.Common.Mapper<Users>
     {
-        private SsnMap _ssnMap = new SsnMap();
+        private readonly SsnMap _ssnMap = new SsnMap();
 
         #region Ordinal Variables -----------------------------------------------------------------
         private int _ordUserId;
@@ -33,6 +28,7 @@ namespace Dahl.Data.Tests.Models
         public override Users Map( object[] values )
         {
             Users users = new Users();
+            users.SsnId     = values[_ordSsnId].ToString().ToGuid();
             users.UserId    = (int)values[_ordUserId];
             users.FirstName = (string)values[_ordFirstName];
             users.LastName  = (string)values[_ordLastName];

@@ -35,7 +35,6 @@ namespace Dahl.Data.Dapper
             return base.CreateProviderFactory();
         }
 #endif
-
         public bool CreateNamedQuery(string storedProcName, CommandParameter parameters = null)
         {
             CommandParameter parms = parameters;
