@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Dahl.Data.Tests.Models
+namespace Dahl.Data.Tests.Core.Models
 {
     public class Ssn
     {

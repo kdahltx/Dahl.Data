@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Dahl.Data.Common
 {
-    interface ICommandParameter : IEnumerable<IDataParameter>
+    public interface ICommandParameter : IEnumerable<IDataParameter>
     {
         void AddParameters( IDbCommand command );
     }

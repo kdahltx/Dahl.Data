@@ -3,7 +3,7 @@ using System.Data;
 
 namespace Dahl.Data.Common
 {
-    public abstract class BaseRepository
+    public abstract class RepositoryBase : IRepositoryBase
     {
         private IDatabase _database;
         public IDatabase Database
@@ -14,7 +14,7 @@ namespace Dahl.Data.Common
 
         protected abstract IDatabase CreateDatabase();
 
-        #region Facade for CreateParameter Methods ------------------------------------------------
+        #region CreateParameter Methods -----------------------------------------------------------
         /// <summary>
         /// CreateParameter overload
         /// </summary>

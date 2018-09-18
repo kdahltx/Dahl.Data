@@ -1,25 +1,29 @@
+﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Dahl.Data.Common;
 
-namespace Dahl.Data.Tests.Core20
+namespace Dahl.Data.Tests.Net472
 {
-    public class DatabaseTestsCore20
+    [TestClass]
+    public class DatabaseTests
     {
-        public class BaseTest
+        [TestClass]
+        public class Common_Methods
         {
-            private RepositoryTestCore20 _repository;
-            protected RepositoryTestCore20 Repository
+            private Test _repository;
+            protected Test Repository
             {
-                get { return _repository ?? ( _repository = new RepositoryTestCore20() ); }
+                get
+                {
+                    if ( _repository == null )
+                        _repository = new Test();
+
+                    return _repository;
+                }
                 set { _repository = value; }
             }
-        }
 
-        [TestClass]
-        public class CommonMethods : BaseTest
-        {
             [TestMethod]
             public void StringToInt()
             {
@@ -49,8 +53,21 @@ namespace Dahl.Data.Tests.Core20
         }
 
         [TestClass]
-        public class SqlServerMethods : BaseTest
+        public class SqlServer_Methods
         {
+            private Test _repository;
+            protected Test Repository
+            {
+                get
+                {
+                    if ( _repository == null )
+                        _repository = new Test();
+
+                    return _repository;
+                }
+                set { _repository = value; }
+            }
+
             [TestMethod]
             public void SqlServer_Connect()
             {
@@ -95,26 +112,11 @@ namespace Dahl.Data.Tests.Core20
             //}
 
             [TestMethod]
-            public void SqlServer_ExecuteQuery_LoadUser()
-            {
-                var list = Repository.LoadOneUser();
-                Assert.IsNotNull( list );
-            }
-
-            [TestMethod]
-            public void SqlServer_ExecuteQuery_LoadAllUsers()
+            public void SqlServer_ExecuteQueryLoadUsers()
             {
                 var list = Repository.LoadUsers();
                 Assert.IsNotNull( list );
             }
-
-            [TestMethod]
-            public void SqlServer_ExecuteQuery_LoadUsers2()
-            {
-                var list = Repository.LoadUsers2();
-                Assert.IsNotNull( list );
-            }
-
 
             //[TestMethod]
             //public void SqlServer_ExecuteQueryWithParameters()
@@ -143,22 +145,7 @@ namespace Dahl.Data.Tests.Core20
                 var list = Repository.BulkInsertUsers();
                 Assert.IsNotNull( list );
             }
-
-            ///------------------------------------------------------------------------------------
-            /// <summary>
-            /// This test method is different than other test methods above because it uses
-            /// the golf database where the above methods use the Users database.
-            /// 
-            /// Requires connection string for:
-            ///     database: Golf
-            ///     server  : Server-db01\sql16
-            /// </summary>
-            //[TestMethod]
-            public void SqlServer_QueryCourse()
-            {
-                var list = Repository.GetCourse( "Balcones" );
-                Assert.IsNotNull( list );
-            }
         }
     }
 }
+

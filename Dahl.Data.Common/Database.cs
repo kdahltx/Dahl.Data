@@ -23,7 +23,7 @@ namespace Dahl.Data.Common
         public string ProviderName         { get; set; }
 
         #region Database Providers ----------------------------------------------------------------
-#if !NETCOREAPP2_0
+#if !NETCOREAPP2_0 && !NETCOREAPP2_1
         private List<DataProvider> _providerList;
         public  List<DataProvider> ProviderList { get { return _providerList ?? ( _providerList = GetProviderFactoryClasses() ); } }
 
@@ -129,7 +129,7 @@ namespace Dahl.Data.Common
         {
             try
             {
-#if !NETCOREAPP2_0
+#if !NETCOREAPP2_0 && !NETCOREAPP2_1
                 _providerFactory = DbProviderFactories.GetFactory( ProviderName );
 #else
                 throw new NotImplementedException("This method must be overridden in a .NET Core Applications");

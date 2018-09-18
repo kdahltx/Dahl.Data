@@ -8,7 +8,7 @@ using System.Collections.Concurrent;
 using Dahl.Data.Common;
 using Dahl.Extensions;
 
-namespace Dahl.Data.Tests.Core20.Models
+namespace Dahl.Data.Tests.Common.Models
 {
     public class UsersMap : Dahl.Data.Common.Mapper<Users>
     {

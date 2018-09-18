@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dahl.Data.Tests.Core20.Models
+namespace Dahl.Data.Tests.Common.Models
 {
     public class BulkMapperSsn : Dahl.Data.Common.BulkMapper
     {

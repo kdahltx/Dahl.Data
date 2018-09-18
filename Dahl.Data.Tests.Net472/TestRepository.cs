@@ -6,7 +6,7 @@ using System.Linq;
 using Dahl.Data.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Dahl.Data.Tests
+namespace Dahl.Data.Tests.Net472
 {
     public class Test : Dahl.Data.Common.RepositoryBase
     {
@@ -90,7 +90,7 @@ namespace Dahl.Data.Tests
         public int BulkInsertUsers()
         {
             Stopwatch sw = new Stopwatch();
-            Models.UsersBulkMapper bulkMapper = new Models.UsersBulkMapper();
+            Common.Models.UsersBulkMapper bulkMapper = new Common.Models.UsersBulkMapper();
 
             sw.Restart();
             var userList = CreateUserList( 500000, 1, 1, 1 );
@@ -98,7 +98,7 @@ namespace Dahl.Data.Tests
             Trace.WriteLine( $"BulkInsertUsers --- CreateUserList(500000,1,1,1) executed in {sw.ElapsedMilliseconds} ms" );
 
             sw.Restart();
-            Database.BulkUpdate( userList, new Models.UsersBulkMapper() );
+            Database.BulkUpdate( userList, new Common.Models.UsersBulkMapper() );
             sw.Stop();
             Trace.WriteLine( $"BulkInsertUsers --- Database.BulkUpdate(userList) executed in {sw.ElapsedMilliseconds} ms" );
 
@@ -125,14 +125,14 @@ namespace Dahl.Data.Tests
         /// 
         /// </summary>
         /// <returns></returns>
-        public List<Models.Users> LoadUsers()
+        public List<Common.Models.Users> LoadUsers()
         {
             string sqlCmd = "select * from Users u " +
                             "inner join Ssn s on s.SsnId = u.SsnId";
 
             Stopwatch sw = new Stopwatch();
             sw.Start();
-            var list = Database.ExecuteQuery<Models.Users>( sqlCmd, new Models.UsersMap() );
+            var list = Database.ExecuteQuery<Common.Models.Users>( sqlCmd, new Common.Models.UsersMap() );
             sw.Stop();
             Assert.IsNotNull( list );
 
@@ -150,16 +150,16 @@ namespace Dahl.Data.Tests
         /// <param name="ssn2"></param>
         /// <param name="ssn3"></param>
         /// <returns></returns>
-        public List<Models.Users> CreateUserList( int count, short ssn1, short ssn2, short ssn3 )
+        public List<Common.Models.Users> CreateUserList( int count, short ssn1, short ssn2, short ssn3 )
         {
-            List<Models.Users> userList = new List<Models.Users>( count );
+            List<Common.Models.Users> userList = new List<Common.Models.Users>( count );
             for ( int i = 0; i < count; i++ )
             {
-                Models.Users user = new Models.Users
+                Common.Models.Users user = new Common.Models.Users
                 {
                     FirstName = $"First{ssn1:D3}-{ssn2:d2}-{ssn3:D4}",
                     LastName = $"Last{ssn1:D3}-{ssn2:d2}-{ssn3:D4}",
-                    fk_Ssn = new Models.Ssn
+                    fk_Ssn = new Common.Models.Ssn
                     {
                         SsnId = Guid.NewGuid(),
                         Ssn1  = ssn1,

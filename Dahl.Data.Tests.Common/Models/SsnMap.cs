@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Dahl.Data.Common;
 
-namespace Dahl.Data.Tests.Core20.Models
+namespace Dahl.Data.Tests.Common.Models
 {
     public class SsnMap : Dahl.Data.Common.Mapper<Ssn>
     {

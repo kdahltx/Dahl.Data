@@ -11,12 +11,12 @@ namespace Dahl.Data.Common
     public class Mapper<TEntity> : IMapper<TEntity> where TEntity : class, new()
     {
         //-----------------------------------------------------------------------------------------
-        internal StopwatchCollection swList;
+        internal StopwatchCollection _swList;
 
         public void InitStopWatches( int numStopWatches )
         {
-            swList = new StopwatchCollection();
-            swList.Init( numStopWatches );
+            _swList = new StopwatchCollection();
+            _swList.Init( numStopWatches );
         }
 
         //-----------------------------------------------------------------------------------------
@@ -88,7 +88,7 @@ namespace Dahl.Data.Common
         }
 
         //-----------------------------------------------------------------------------------------
-        protected IDataRecord dr;
+        protected IDataRecord _dr;
 
         //-----------------------------------------------------------------------------------------
         /// <summary>

@@ -124,9 +124,7 @@ namespace Dahl.Data.Common
 
         public override int GetOrdinal( string name )
         {
-            int ordinal;
-
-            if ( _nameLookup.TryGetValue( name, out ordinal ) )
+            if ( _nameLookup.TryGetValue( name, out var ordinal ) )
                 return ordinal;
 
             throw new InvalidOperationException( "Unknown parameter name " + name );

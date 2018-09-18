@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Dahl.Extensions;
 
-namespace Dahl.Data.Tests.Core20
+namespace Dahl.Data.Tests.Core
 {
     [TestClass]
-    public class EntityReaderTestsCore20
+    public class EntityReaderTestsCore
     {
 
         [TestMethod]

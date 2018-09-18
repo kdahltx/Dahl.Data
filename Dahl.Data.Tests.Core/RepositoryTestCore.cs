@@ -4,11 +4,11 @@ using System.Diagnostics;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Dahl.Data.Common;
-using Dahl.Data.Tests.Core20.Models;
+using Dahl.Data.Tests.Common.Models;
 
-namespace Dahl.Data.Tests.Core20
+namespace Dahl.Data.Tests.Core
 {
-    public class RepositoryTestCore20 : Dahl.Data.Common.BaseRepository
+    public class TestCore : Dahl.Data.Common.RepositoryBase
     {
         protected override IDatabase CreateDatabase()
         {
@@ -117,7 +117,7 @@ namespace Dahl.Data.Tests.Core20
         {
             int listSize = 100000;
             Stopwatch sw = new Stopwatch();
-            Core20.Models.UsersBulkMapper bulkMapper = new Core20.Models.UsersBulkMapper();
+            Common.Models.UsersBulkMapper bulkMapper = new Common.Models.UsersBulkMapper();
 
             sw.Restart();
             var userList = CreateUserList( listSize, 1, 1, 1 );
@@ -125,7 +125,7 @@ namespace Dahl.Data.Tests.Core20
             Trace.WriteLine( $"BulkInsertUsers --- CreateUserList({listSize},1,1,1) executed in {sw.ElapsedMilliseconds} ms" );
 
             sw.Restart();
-            Database.BulkUpdate( userList, new Core20.Models.UsersBulkMapper() );
+            Database.BulkUpdate( userList, new Common.Models.UsersBulkMapper() );
             sw.Stop();
             Trace.WriteLine( $"BulkInsertUsers --- Database.BulkUpdate(userList) executed in {sw.ElapsedMilliseconds} ms" );
 
@@ -152,14 +152,14 @@ namespace Dahl.Data.Tests.Core20
         /// 
         /// </summary>
         /// <returns></returns>
-        public List<Core20.Models.Users> LoadUsers()
+        public List<Common.Models.Users> LoadUsers()
         {
             string sqlCmd = "select * from Users u " +
                             "inner join Ssn s on s.SsnId = u.SsnId";
 
             Stopwatch sw = new Stopwatch();
             sw.Start();
-            var list = Database.ExecuteQuery<Core20.Models.Users>( sqlCmd, new Core20.Models.UsersMap() );
+            var list = Database.ExecuteQuery<Common.Models.Users>( sqlCmd, new Common.Models.UsersMap() );
             sw.Stop();
             Assert.IsNotNull( list );
 
@@ -168,7 +168,7 @@ namespace Dahl.Data.Tests.Core20
             return users;
         }
 
-        public List<Core20.Models.Users> LoadUsers2()
+        public List<Common.Models.Users> LoadUsers2()
         {
             string sqlCmd = "select * from Users " +
                             "select * from Ssn ";
@@ -176,18 +176,18 @@ namespace Dahl.Data.Tests.Core20
             Stopwatch sw = new Stopwatch();
 
             sw.Restart();
-            var users = Database.ExecuteQuery( sqlCmd, new Core20.Models.UsersMap() ).ToList();
+            var users = Database.ExecuteQuery( sqlCmd, new Common.Models.UsersMap() ).ToList();
             sw.Stop();
             Trace.WriteLine( $"LoadUsers(IDatabase database) ExecuteQuery returned {users.Count} user taking {sw.ElapsedMilliseconds:N0} ms." );
 
             sw.Restart();
-            var list2 = Database.Read( new Core20.Models.SsnMap() ).ToDictionary(x => x.SsnId, x => x );
+            var list2 = Database.Read( new Common.Models.SsnMap() ).ToDictionary(x => x.SsnId, x => x );
             Trace.WriteLine( $"LoadUsers(IDatabase database) Read returned {list2.Count} ssn's taking {sw.ElapsedMilliseconds:N0} ms." );
 
             sw.Restart();
             foreach ( var item in users )
             {
-                if ( list2.TryGetValue( item.SsnId, out Models.Ssn fk ) )
+                if ( list2.TryGetValue( item.SsnId, out Common.Models.Ssn fk ) )
                     item.fk_Ssn = fk;
             }
             sw.Stop();
@@ -197,7 +197,7 @@ namespace Dahl.Data.Tests.Core20
             return users;
         }
 
-        public List<Core20.Models.Users> LoadOneUser()
+        public List<Common.Models.Users> LoadOneUser()
         {
             string sqlCmd = "select * from Users where LastName like @lastName ";
             var parms = new Dahl.Data.SqlServer.CommandParameter
@@ -208,7 +208,7 @@ namespace Dahl.Data.Tests.Core20
             Stopwatch sw = new Stopwatch();
 
             sw.Restart();
-            var users = Database.ExecuteQuery( sqlCmd, parms, new Core20.Models.UsersMap() ).ToList();
+            var users = Database.ExecuteQuery( sqlCmd, parms, new Common.Models.UsersMap() ).ToList();
             sw.Stop();
             Trace.WriteLine( $"LoadUsers(IDatabase database) ExecuteQuery returned {users.Count} user taking {sw.ElapsedMilliseconds:N0} ms." );
 
@@ -225,16 +225,16 @@ namespace Dahl.Data.Tests.Core20
         /// <param name="ssn2"></param>
         /// <param name="ssn3"></param>
         /// <returns></returns>
-        public List<Core20.Models.Users> CreateUserList( int count, short ssn1, short ssn2, short ssn3 )
+        public List<Common.Models.Users> CreateUserList( int count, short ssn1, short ssn2, short ssn3 )
         {
-            List<Core20.Models.Users> userList = new List<Core20.Models.Users>( count );
+            List<Common.Models.Users> userList = new List<Common.Models.Users>( count );
             for ( int i = 0; i < count; i++ )
             {
-                Core20.Models.Users user = new Core20.Models.Users
+                Common.Models.Users user = new Common.Models.Users
                 {
                     FirstName = $"First{ssn1:D3}-{ssn2:d2}-{ssn3:D4}",
                     LastName = $"Last{ssn1:D3}-{ssn2:d2}-{ssn3:D4}",
-                    fk_Ssn = new Core20.Models.Ssn
+                    fk_Ssn = new Common.Models.Ssn
                     {
                         SsnId = Guid.NewGuid(),
                         Ssn1  = ssn1,

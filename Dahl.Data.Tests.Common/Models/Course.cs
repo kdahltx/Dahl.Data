@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Dahl.Data.Tests.Core20.Models
+namespace Dahl.Data.Tests.Common.Models
 {
     public partial class Course
     {
