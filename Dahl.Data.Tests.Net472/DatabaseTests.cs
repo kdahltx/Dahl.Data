@@ -11,19 +11,6 @@ namespace Dahl.Data.Tests.Net472
         [TestClass]
         public class Common_Methods
         {
-            private Test _repository;
-            protected Test Repository
-            {
-                get
-                {
-                    if ( _repository == null )
-                        _repository = new Test();
-
-                    return _repository;
-                }
-                set { _repository = value; }
-            }
-
             [TestMethod]
             public void StringToInt()
             {
@@ -39,48 +26,30 @@ namespace Dahl.Data.Tests.Net472
             [TestMethod]
             public void Common_DatabaseProviders()
             {
-
-                List<DataProvider> providers = Repository.ProviderList;
-                Assert.IsNotNull( providers, "Provider List returned null" );
-
-                Trace.WriteLine( "------------------------------------------------------------------------" );
-                foreach ( DataProvider provider in providers )
-                {
-                    Trace.WriteLine( $"Name: {provider.Name}, InvariantName: {provider.InvariantName}" );
-                }
-                Trace.WriteLine( "------------------------------------------------------------------------" );
             }
         }
 
         [TestClass]
         public class SqlServer_Methods
         {
-            private Test _repository;
-            protected Test Repository
-            {
-                get
-                {
-                    if ( _repository == null )
-                        _repository = new Test();
-
-                    return _repository;
-                }
-                set { _repository = value; }
-            }
+            public Dahl.Data.Tests.Common.DatabaseTests DbTests { get; set; }
 
             [TestMethod]
             public void SqlServer_Connect()
             {
-                Assert.IsNotNull( Repository, "_repository is null" );
-                Trace.WriteLine( "Database connection to SqlServer successful!" );
+                Trace.Write( "SqlServer_Connect: " );
+                var result = DbTests.SqlServer_Connect();
+                Trace.WriteLine( result ? "PASSED" : "FAILED" );
+                Assert.IsTrue( result );
             }
 
             [TestMethod]
             public void SqlServer_Open()
             {
-                Assert.IsNotNull( Repository, "_repository is null" );
-                var list = Repository.LoadUsers();
-                Assert.IsNotNull( list );
+                Trace.Write( "SqlServer_Open: " );
+                var result = DbTests.SqlServer_Open();
+                Trace.WriteLine( result ? "PASSED" : "FAILED" );
+                Assert.IsTrue( result );
             }
 
             //[TestMethod]
@@ -93,8 +62,13 @@ namespace Dahl.Data.Tests.Net472
             [TestMethod]
             public void SqlServer_ExecuteCommandInsertUsers()
             {
-                var list = Repository.InsertUsers();
-                Assert.IsNotNull( list );
+                Trace.Write( "SqlServer_Open: " );
+                var result = DbTests.SqlServer_Open();
+                Trace.WriteLine( result ? "PASSED" : "FAILED" );
+                Assert.IsTrue( result );
+
+                //var list = Repository.InsertUsers();
+                //Assert.IsNotNull( list );
             }
 
             //[TestMethod]
@@ -114,7 +88,9 @@ namespace Dahl.Data.Tests.Net472
             [TestMethod]
             public void SqlServer_ExecuteQueryLoadUsers()
             {
-                var list = Repository.LoadUsers();
+                Trace.Write( "SqlServer_ExecuteQueryLoadUsers: " );
+                var list = DbTests.SqlServer_ExecuteQueryLoadUsers();
+                Trace.WriteLine( list != null ? "PASSED" : "FAILED" );
                 Assert.IsNotNull( list );
             }
 
@@ -142,8 +118,8 @@ namespace Dahl.Data.Tests.Net472
             [TestMethod]
             public void SqlServer_BulkInsertUsers()
             {
-                var list = Repository.BulkInsertUsers();
-                Assert.IsNotNull( list );
+                //var list = Repository.BulkInsertUsers();
+                //Assert.IsNotNull( list );
             }
         }
     }

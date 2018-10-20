@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Dahl.Data.Common;
 using Dahl.Extensions;
 
 namespace Dahl.Data.Tests.Core
@@ -30,6 +31,23 @@ namespace Dahl.Data.Tests.Core
                 Trace.WriteLine( "" );
             }
         }
+
+        [TestMethod]
+        public void EntityListToDataTable()
+        {
+            var x = testClassList.ToDataTable();
+        }
+
+        [TestMethod]
+        public void DataTableToEntityList()
+        {
+            var dt = testClassList.ToDataTable();
+            var el = dt.ToList<TestClass>();
+
+            foreach ( var item in el )
+                Trace.WriteLine( $"{item.Id},{item.FirstName},{item.LastName},{item.Age}"  );
+        }
+
         public static List<TestClass> testClassList = new List<TestClass>
         {
             { new TestClass { Id=1,  FirstName="FirstName01", LastName="LastName01", Age = 50} },
@@ -44,6 +62,7 @@ namespace Dahl.Data.Tests.Core
             { new TestClass { Id=10, FirstName="FirstName10", LastName="LastName10", Age = 60} },
         };
     }
+
 
     public class TestClass
     {

@@ -14,11 +14,10 @@ namespace Dahl.Data.Tests.Common
     {
         protected override IDatabase CreateDatabase()
         {
-            ConnectionStringSettings css = new ConnectionStringSettings
-            {
-                Name = "App.SqlServer"
-            };
-            //css.ConnectionString();
+
+            ConnectionStringSettings css = new ConnectionStringSettings();
+            css.Name = "App.SqlServer";
+            css.ConnectionString = ConfigurationManager.ConnectionStrings["App.SqlServer"].ConnectionString;
 
             Database = new Dahl.Data.SqlServer.Database
             {
@@ -143,8 +142,8 @@ namespace Dahl.Data.Tests.Common
         /// <returns></returns>
         public int DeleteUsers()
         {
-            string sqlCmd = "delete DbDemo.Dbo.Users " +
-                            "delete DbDemo.Dbo.Ssn ";
+            const string sqlCmd = "delete DbDemo.Dbo.Users " +
+                                  "delete DbDemo.Dbo.Ssn ";
 
             return Database.ExecuteCommand( sqlCmd );
         }
@@ -156,8 +155,8 @@ namespace Dahl.Data.Tests.Common
         /// <returns></returns>
         public List<Models.Users> LoadUsers()
         {
-            string sqlCmd = "select * from Users u " +
-                            "inner join Ssn s on s.SsnId = u.SsnId";
+            const string sqlCmd = "select * from Users u " +
+                                  "inner join Ssn s on s.SsnId = u.SsnId";
 
             Stopwatch sw = new Stopwatch();
             sw.Start();
@@ -201,7 +200,7 @@ namespace Dahl.Data.Tests.Common
 
         public List<Models.Users> LoadOneUser()
         {
-            string sqlCmd = "select * from Users where LastName like @lastName ";
+            const string sqlCmd = "select * from Users where LastName like @lastName ";
             var parms = new Dahl.Data.SqlServer.CommandParameter
             {
                 CreateParameter( "@lastName", "Last001-01-0002" )

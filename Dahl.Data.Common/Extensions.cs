@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Linq;
+using Dahl.Extensions;
 
 namespace Dahl.Data.Common
 {
@@ -488,6 +491,70 @@ namespace Dahl.Data.Common
         public static DateTime? AsDateTimeNullable( this object obj, DateTime? defaultValue = default( DateTime? ) )
         {
             return obj != DBNull.Value ? (DateTime?)obj : null;
+        }
+        #endregion
+
+        #region DataTable -------------------------------------------------------------------------
+        public static List<TEntity> ToList<TEntity>( this DataTable dt ) where TEntity : class, new()
+        {
+            var list = new List<TEntity>();
+            var accessorsList = typeof( TEntity ).GetAccessorList().ToDictionary( x => x.Ordinal, x => x );
+            foreach ( DataRow row in dt.Rows )
+            {
+                var entity = new TEntity();
+                for ( int i = 0; i < accessorsList.Count; i++ )
+                {
+                    if ( accessorsList.TryGetValue( i, out var p ) )
+                        p.SetValue( entity, row[p.Name] );
+                }
+                list.Add( entity );
+            }
+
+            return list;
+        }
+
+        /// <summary>
+        /// Convert entity list to a DataTable object.
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        public static DataTable ToDataTable<TEntity>( this List<TEntity> list ) where TEntity : class, new()
+        {
+            DataTable dt = new DataTable( typeof( TEntity).Name );
+
+            var accessorsList = typeof( TEntity ).GetAccessorList().ToDictionary( x => x.Ordinal, x => x );
+            for ( int i = 0; i < accessorsList.Count; i++ )
+            {
+                if ( accessorsList.TryGetValue( i, out var p ) )
+                {
+                    int  ordinal    = p.Ordinal;
+                    Type type       = p.PropertyInfo.GetType();
+                    bool isNullable = Nullable.GetUnderlyingType( type ) != null;
+
+                    var dc = new DataColumn
+                    {
+                        ColumnName  = p.Name,
+                        DataType    = p.PropertyInfo.PropertyType,
+                        AllowDBNull = isNullable
+                    };
+                    dt.Columns.Add( dc );
+                }
+            }
+
+            foreach ( TEntity entity in list )
+            {
+                var dr = dt.NewRow();
+                for ( int i = 0; i < accessorsList.Count; i++ )
+                {
+                    if ( accessorsList.TryGetValue( i, out var p ) )
+                        dr[p.Name] = p.GetValue( entity );
+                }
+
+                dt.Rows.Add( dr );
+            }
+
+            return dt;
         }
         #endregion
     }

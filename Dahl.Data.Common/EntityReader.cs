@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Common;
 using System.Diagnostics;
 using System.Linq;
@@ -52,6 +53,38 @@ namespace Dahl.Data.Common
         }
 
         //-----------------------------------------------------------------------------------------
+        public override DataTable GetSchemaTable()
+        {
+            DataTable table = new DataTable
+            {
+                Columns =
+                {
+                    { "ColumnOrdinal", typeof( int ) },
+                    { "ColumnName", typeof( string ) },
+                    { "DataType", typeof( Type ) },
+                    { "ColumnSize", typeof( int ) },
+                    { "AllowDBNull", typeof( bool ) }
+                }
+            };
+            object[] rowData  = new object[5];
+            int      rowCount = 0;
+            foreach ( var kvp in _ordinalLookup )
+            {
+                var p = _accessorsList[kvp.Key];
+                rowData[0] = rowCount++;
+                rowData[1] = p.Name;
+                rowData[2] = p.PropertyInfo.PropertyType;
+                rowData[3] = -1;
+
+                Type type       = p.PropertyInfo.GetType();
+                bool isNullable = Nullable.GetUnderlyingType( type ) != null;
+                rowData[4] = isNullable;
+                table.Rows.Add( rowData );
+            }
+
+            return table;
+        }
+
         public override object this[ int ordinal ]
         {
             get

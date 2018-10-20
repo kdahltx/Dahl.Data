@@ -1,22 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Dahl.Data.Common;
-using Dahl.Data.Tests.Common.Models;
 
 namespace Dahl.Data.Tests.Core
 {
-    public class TestCore : Dahl.Data.Common.RepositoryBase
+    public class RepositoryTestCore : Dahl.Data.Common.RepositoryBase
     {
         protected override IDatabase CreateDatabase()
         {
-            ConnectionStringSettings css = new ConnectionStringSettings
+            var css = new ConnectionStringSettings
             {
-                ConnectionStringName = "App.SqlServer"
+                Name = "App.SqlServer"
             };
-            css.LoadConnectionString();
 
             Database = new Dahl.Data.SqlServer.Database
             {
@@ -36,21 +35,20 @@ namespace Dahl.Data.Tests.Core
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public Course GetCourse( string name )
+        public Dahl.Data.Tests.Common.Models.Course GetCourse( string name )
         {
-            string sqlCmd = "select * from Courses where [Name] like @name";
+            const string sqlCmd = "select * from Courses where [Name] like @name";
             var parms = new Dahl.Data.SqlServer.CommandParameter
             {
                 CreateParameter( "@name", name )
             };
 
-            var result = Database.ExecuteQuery<Course>( sqlCmd, parms )?.ToList();
+            var result = Database.ExecuteQuery<Tests.Common.Models.Course>( sqlCmd, parms )?.ToList();
             if ( result != null && !result.Any() )
                 return null;
 
             return result?.ToList()[0];
         }
-
 
         ///-----------------------------------------------------------------------------------------
         /// <summary>
@@ -60,11 +58,11 @@ namespace Dahl.Data.Tests.Core
         public int InsertUsers()
         {
             Stopwatch sw = new Stopwatch();
-            string sqlCmd = "Insert DbDemo.Dbo.Ssn ( SsnId, Ssn1, Ssn2, Ssn3 ) " +
-                            "values( @ssnId, @ssn1, @ssn2, @ssn3 ) " +
+            const string sqlCmd = "Insert DbDemo.Dbo.Ssn ( SsnId, Ssn1, Ssn2, Ssn3 ) " +
+                                  "values( @ssnId, @ssn1, @ssn2, @ssn3 ) "             +
 
-                            "Insert DbDemo.Dbo.Users ( FirstName, LastName, SsnId ) " +
-                            "values (@firstName, @lastName, @ssnId )";
+                                  "Insert DbDemo.Dbo.Users ( FirstName, LastName, SsnId ) " +
+                                  "values (@firstName, @lastName, @ssnId )";
 
             var userList = CreateUserList( 9999, 1, 1, 1 );
 
@@ -115,7 +113,7 @@ namespace Dahl.Data.Tests.Core
         /// <returns></returns>
         public int BulkInsertUsers()
         {
-            int listSize = 100000;
+            const int listSize = 100000;
             Stopwatch sw = new Stopwatch();
             Common.Models.UsersBulkMapper bulkMapper = new Common.Models.UsersBulkMapper();
 
@@ -125,7 +123,7 @@ namespace Dahl.Data.Tests.Core
             Trace.WriteLine( $"BulkInsertUsers --- CreateUserList({listSize},1,1,1) executed in {sw.ElapsedMilliseconds} ms" );
 
             sw.Restart();
-            Database.BulkUpdate( userList, new Common.Models.UsersBulkMapper() );
+            Database.BulkUpdate( userList, new Dahl.Data.Tests.Common.Models.UsersBulkMapper() );
             sw.Stop();
             Trace.WriteLine( $"BulkInsertUsers --- Database.BulkUpdate(userList) executed in {sw.ElapsedMilliseconds} ms" );
 
@@ -141,8 +139,8 @@ namespace Dahl.Data.Tests.Core
         /// <returns></returns>
         public int DeleteUsers()
         {
-            string sqlCmd = "delete DbDemo.Dbo.Users " +
-                            "delete DbDemo.Dbo.Ssn ";
+            const string sqlCmd = "delete DbDemo.Dbo.Users " +
+                                  "delete DbDemo.Dbo.Ssn ";
 
             return Database.ExecuteCommand( sqlCmd );
         }
@@ -152,14 +150,14 @@ namespace Dahl.Data.Tests.Core
         /// 
         /// </summary>
         /// <returns></returns>
-        public List<Common.Models.Users> LoadUsers()
+        public List<Dahl.Data.Tests.Common.Models.Users> LoadUsers()
         {
-            string sqlCmd = "select * from Users u " +
-                            "inner join Ssn s on s.SsnId = u.SsnId";
+            const string sqlCmd = "select * from Users u " +
+                                  "inner join Ssn s on s.SsnId = u.SsnId";
 
             Stopwatch sw = new Stopwatch();
             sw.Start();
-            var list = Database.ExecuteQuery<Common.Models.Users>( sqlCmd, new Common.Models.UsersMap() );
+            var list = Database.ExecuteQuery<Tests.Common.Models.Users>( sqlCmd, new Common.Models.UsersMap() );
             sw.Stop();
             Assert.IsNotNull( list );
 
@@ -170,8 +168,8 @@ namespace Dahl.Data.Tests.Core
 
         public List<Common.Models.Users> LoadUsers2()
         {
-            string sqlCmd = "select * from Users " +
-                            "select * from Ssn ";
+            const string sqlCmd = "select * from Users " +
+                                  "select * from Ssn ";
 
             Stopwatch sw = new Stopwatch();
 
@@ -181,7 +179,8 @@ namespace Dahl.Data.Tests.Core
             Trace.WriteLine( $"LoadUsers(IDatabase database) ExecuteQuery returned {users.Count} user taking {sw.ElapsedMilliseconds:N0} ms." );
 
             sw.Restart();
-            var list2 = Database.Read( new Common.Models.SsnMap() ).ToDictionary(x => x.SsnId, x => x );
+            var list2 = Database.Read( new Common.Models.SsnMap() )
+                                .ToDictionary(x => x.SsnId, x => x );
             Trace.WriteLine( $"LoadUsers(IDatabase database) Read returned {list2.Count} ssn's taking {sw.ElapsedMilliseconds:N0} ms." );
 
             sw.Restart();
@@ -199,7 +198,7 @@ namespace Dahl.Data.Tests.Core
 
         public List<Common.Models.Users> LoadOneUser()
         {
-            string sqlCmd = "select * from Users where LastName like @lastName ";
+            const string sqlCmd = "select * from Users where LastName like @lastName ";
             var parms = new Dahl.Data.SqlServer.CommandParameter
             {
                 CreateParameter( "@lastName", "Last001-01-0002" )

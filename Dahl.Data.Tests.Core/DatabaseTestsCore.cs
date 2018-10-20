@@ -9,10 +9,10 @@ namespace Dahl.Data.Tests.Core
     {
         public class BaseTest
         {
-            private TestCore _repository;
-            protected TestCore Repository
+            private RepositoryTestCore _repository;
+            protected RepositoryTestCore Repository
             {
-                get { return _repository ?? ( _repository = new TestCore() ); }
+                get { return _repository ?? ( _repository = new RepositoryTestCore() ); }
                 set { _repository = value; }
             }
         }

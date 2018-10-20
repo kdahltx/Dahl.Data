@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Dahl.Data.Common;
 
 namespace Dahl.Data.Tests.Common.Models
 {
@@ -58,7 +59,7 @@ namespace Dahl.Data.Tests.Common.Models
             set { base.MapList = value; }
         }
 
-        private List<string> _mapList = new List<string> {
+        private readonly List<string> _mapList = new List<string> {
                                             "UserId,UserId",
                                             "FirstName,FirstName",
                                             "LastName,LastName",
