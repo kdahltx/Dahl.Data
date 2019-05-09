@@ -17,7 +17,7 @@ namespace Dahl.Data.Common
         /// <param name="fieldName"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static string AsString( this IDataRecord dr, string fieldName, string defaultValue = default( string ) )
+        public static string AsString( this IDataRecord dr, string fieldName, string defaultValue = default )
         {
             return dr.IsDbNull( fieldName ) ? defaultValue : (string)dr[fieldName];
         }
@@ -42,7 +42,7 @@ namespace Dahl.Data.Common
         /// <param name="ordinal"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static short GetSafeInt16( this IDataRecord dr, int ordinal, short defaultValue = default( short ) )
+        public static short GetSafeInt16( this IDataRecord dr, int ordinal, short defaultValue = default )
         {
             return dr.IsDbNull( ordinal ) ? defaultValue : dr.GetInt16( ordinal );
         }
@@ -55,7 +55,7 @@ namespace Dahl.Data.Common
         /// <param name="ordinal"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static short? GetSafeInt16Nullable( this IDataRecord dr, int ordinal, short? defaultValue = default( short? ) )
+        public static short? GetSafeInt16Nullable( this IDataRecord dr, int ordinal, short? defaultValue = default )
         {
             return dr.IsDbNull( ordinal ) ? defaultValue : dr.GetInt16( ordinal );
         }
@@ -68,7 +68,7 @@ namespace Dahl.Data.Common
         /// <param name="ordinal"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static int GetSafeInt32( this IDataRecord dr, int ordinal, int defaultValue = default( int ) )
+        public static int GetSafeInt32( this IDataRecord dr, int ordinal, int defaultValue = default )
         {
             return dr.IsDbNull( ordinal ) ? defaultValue : dr.GetInt32( ordinal );
         }
@@ -81,7 +81,7 @@ namespace Dahl.Data.Common
         /// <param name="ordinal"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static int? GetSafeInt32Nullable( this IDataRecord dr, int ordinal, int? defaultValue = default( int? ) )
+        public static int? GetSafeInt32Nullable( this IDataRecord dr, int ordinal, int? defaultValue = default )
         {
             return dr.IsDbNull( ordinal ) ? defaultValue : dr.GetInt32( ordinal );
         }
@@ -94,7 +94,7 @@ namespace Dahl.Data.Common
         /// <param name="ordinal"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static DateTime GetSafeDateTime( this IDataRecord dr, int ordinal, DateTime defaultValue = default( DateTime ) )
+        public static DateTime GetSafeDateTime( this IDataRecord dr, int ordinal, DateTime defaultValue = default )
         {
             return dr.IsDbNull( ordinal ) ? defaultValue : dr.GetDateTime( ordinal );
         }
@@ -108,7 +108,7 @@ namespace Dahl.Data.Common
         /// <param name="defaultValue"></param>
         /// <returns></returns>
         public static DateTime? GetSafeDateTimeNullable( this IDataRecord dr, int ordinal,
-                                                         DateTime?        defaultValue = default( DateTime? ) )
+                                                         DateTime?        defaultValue = default )
         {
             return dr.IsDbNull( ordinal ) ? defaultValue : dr.GetDateTime( ordinal );
         }
@@ -121,7 +121,7 @@ namespace Dahl.Data.Common
         /// <param name="ordinal"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static string GetSafeString( this IDataRecord dr, int ordinal, string defaultValue = default( string ) )
+        public static string GetSafeString( this IDataRecord dr, int ordinal, string defaultValue = default )
         {
             return dr.IsDbNull( ordinal ) ? defaultValue : dr.GetString( ordinal );
         }
@@ -135,7 +135,7 @@ namespace Dahl.Data.Common
         /// <param name="ordinal"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static T GetSafeValueOrDefault<T>( this IDataRecord dr, int ordinal, T defaultValue = default( T ) )
+        public static T GetSafeValueOrDefault<T>( this IDataRecord dr, int ordinal, T defaultValue = default )
         {
             return (T)( dr.IsDbNull( ordinal ) ? defaultValue : dr.GetValue( ordinal ) );
         }
@@ -149,7 +149,7 @@ namespace Dahl.Data.Common
         /// <param name="fieldName"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static T GetSafeValueOrDefault<T>( this IDataRecord dr, string fieldName, T defaultValue = default( T ) )
+        public static T GetSafeValueOrDefault<T>( this IDataRecord dr, string fieldName, T defaultValue = default )
         {
             return (T)( dr.IsDbNull( fieldName ) ? defaultValue : dr[fieldName] );
         }
@@ -169,7 +169,7 @@ namespace Dahl.Data.Common
         /// <param name="fieldName"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static string AsString( this DataRow dr, string fieldName, string defaultValue = default( string ) )
+        public static string AsString( this DataRow dr, string fieldName, string defaultValue = default )
         {
             return dr.IsDbNull( fieldName ) ? defaultValue : (string)dr[fieldName];
         }
@@ -194,7 +194,7 @@ namespace Dahl.Data.Common
         /// <param name="ordinal"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static short GetInt16( this DataRow dr, int ordinal, short defaultValue = default( short ) )
+        public static short GetInt16( this DataRow dr, int ordinal, short defaultValue = default )
         {
             return dr.IsDbNull( ordinal ) ? defaultValue : (short)dr[ordinal];
         }
@@ -207,7 +207,7 @@ namespace Dahl.Data.Common
         /// <param name="ordinal"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static int GetInt32( this DataRow dr, int ordinal, int defaultValue = default( int ) )
+        public static int GetInt32( this DataRow dr, int ordinal, int defaultValue = default )
         {
             return dr.IsDbNull( ordinal ) ? defaultValue : (int)dr[ordinal];
         }
@@ -220,7 +220,7 @@ namespace Dahl.Data.Common
         /// <param name="ordinal"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static DateTime AsDateTime( this DataRow dr, int ordinal, DateTime defaultValue = default( DateTime ) )
+        public static DateTime AsDateTime( this DataRow dr, int ordinal, DateTime defaultValue = default )
         {
             return dr.IsDbNull( ordinal ) ? defaultValue : (DateTime)dr[ordinal];
         }
@@ -233,7 +233,7 @@ namespace Dahl.Data.Common
         /// <param name="ordinal"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static string AsString( this DataRow dr, int ordinal, string defaultValue = default( string ) )
+        public static string AsString( this DataRow dr, int ordinal, string defaultValue = default )
         {
             return dr.IsDbNull( ordinal ) ? defaultValue : (string)dr[ordinal];
         }
@@ -246,7 +246,7 @@ namespace Dahl.Data.Common
         /// <param name="ordinal"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static short GetSafeInt16( this DataRow dr, int ordinal, short defaultValue = default( short ) )
+        public static short GetSafeInt16( this DataRow dr, int ordinal, short defaultValue = default )
         {
             return dr.IsDbNull( ordinal ) ? defaultValue : dr.GetInt16( ordinal );
         }
@@ -259,7 +259,7 @@ namespace Dahl.Data.Common
         /// <param name="ordinal"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static short? GetSafeInt16Nullable( this DataRow dr, int ordinal, short? defaultValue = default( short? ) )
+        public static short? GetSafeInt16Nullable( this DataRow dr, int ordinal, short? defaultValue = default )
         {
             return dr.IsDbNull( ordinal ) ? defaultValue : dr.GetInt16( ordinal );
         }
@@ -272,7 +272,7 @@ namespace Dahl.Data.Common
         /// <param name="ordinal"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static int GetSafeInt32( this DataRow dr, int ordinal, int defaultValue = default( int ) )
+        public static int GetSafeInt32( this DataRow dr, int ordinal, int defaultValue = default )
         {
             return dr.IsDbNull( ordinal ) ? defaultValue : dr.GetInt32( ordinal );
         }
@@ -285,7 +285,7 @@ namespace Dahl.Data.Common
         /// <param name="ordinal"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static int? GetSafeInt32Nullable( this DataRow dr, int ordinal, int? defaultValue = default( int? ) )
+        public static int? GetSafeInt32Nullable( this DataRow dr, int ordinal, int? defaultValue = default )
         {
             return dr.IsDbNull( ordinal ) ? defaultValue : dr.GetInt32( ordinal );
         }
@@ -298,7 +298,7 @@ namespace Dahl.Data.Common
         /// <param name="ordinal"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static DateTime GetSafeDateTime( this DataRow dr, int ordinal, DateTime defaultValue = default( DateTime ) )
+        public static DateTime GetSafeDateTime( this DataRow dr, int ordinal, DateTime defaultValue = default )
         {
             return dr.IsDbNull( ordinal ) ? defaultValue : dr.AsDateTime( ordinal );
         }
@@ -312,7 +312,7 @@ namespace Dahl.Data.Common
         /// <param name="defaultValue"></param>
         /// <returns></returns>
         public static DateTime? GetSafeDateTimeNullable( this DataRow dr, int ordinal,
-                                                         DateTime?    defaultValue = default( DateTime? ) )
+                                                         DateTime?    defaultValue = default )
         {
             return dr.IsDbNull( ordinal ) ? defaultValue : dr.AsDateTime( ordinal );
         }
@@ -325,7 +325,7 @@ namespace Dahl.Data.Common
         /// <param name="ordinal"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static string GetSafeString( this DataRow dr, int ordinal, string defaultValue = default( string ) )
+        public static string GetSafeString( this DataRow dr, int ordinal, string defaultValue = default )
         {
             return dr.IsDbNull( ordinal ) ? defaultValue : dr.AsString( ordinal );
         }
@@ -339,7 +339,7 @@ namespace Dahl.Data.Common
         /// <param name="ordinal"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static T GetSafeValueOrDefault<T>( this DataRow dr, int ordinal, T defaultValue = default( T ) )
+        public static T GetSafeValueOrDefault<T>( this DataRow dr, int ordinal, T defaultValue = default )
         {
             return (T)( dr.IsDbNull( ordinal ) ? defaultValue : dr[ordinal] );
         }
@@ -353,7 +353,7 @@ namespace Dahl.Data.Common
         /// <param name="fieldName"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static T GetSafeValueOrDefault<T>( this DataRow dr, string fieldName, T defaultValue = default( T ) )
+        public static T GetSafeValueOrDefault<T>( this DataRow dr, string fieldName, T defaultValue = default )
         {
             return (T)( dr.IsDbNull( fieldName ) ? defaultValue : dr[fieldName] );
         }
@@ -380,7 +380,7 @@ namespace Dahl.Data.Common
         /// <param name="obj"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static T As<T>( this object obj, T defaultValue = default( T ) )
+        public static T As<T>( this object obj, T defaultValue = default )
         {
             return obj != null ? (T)obj : defaultValue;
         }
@@ -392,7 +392,7 @@ namespace Dahl.Data.Common
         /// <param name="obj"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static string AsString( this object obj, string defaultValue = default( string ) )
+        public static string AsString( this object obj, string defaultValue = default )
         {
             return ( obj == DBNull.Value ) ? defaultValue : (string)obj;
         }
@@ -404,7 +404,7 @@ namespace Dahl.Data.Common
         /// <param name="obj"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static long AsLong( this object obj, long defaultValue = default( long ) )
+        public static long AsLong( this object obj, long defaultValue = default )
         {
             return ( obj != null ) ? (long)obj : defaultValue;
         }
@@ -416,7 +416,7 @@ namespace Dahl.Data.Common
         /// <param name="obj"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static int AsInt( this object obj, int defaultValue = default( int ) )
+        public static int AsInt( this object obj, int defaultValue = default )
         {
             return ( obj != null ) ? (int)obj : defaultValue;
         }
@@ -428,7 +428,7 @@ namespace Dahl.Data.Common
         /// <param name="obj"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static short AsShort( this object obj, short defaultValue = default( short ) )
+        public static short AsShort( this object obj, short defaultValue = default )
         {
             return ( obj != null ) ? (short)obj : defaultValue;
         }
@@ -440,7 +440,7 @@ namespace Dahl.Data.Common
         /// <param name="obj"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static byte AsByte( this object obj, byte defaultValue = default( byte ) )
+        public static byte AsByte( this object obj, byte defaultValue = default )
         {
             return ( obj != null ) ? (byte)obj : defaultValue;
         }
@@ -452,7 +452,7 @@ namespace Dahl.Data.Common
         /// <param name="obj"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static DateTime AsDateTime( this object obj, DateTime defaultValue = default( DateTime ) )
+        public static DateTime AsDateTime( this object obj, DateTime defaultValue = default )
         {
             return ( obj != null ) ? (DateTime)obj : defaultValue;
         }
@@ -464,9 +464,9 @@ namespace Dahl.Data.Common
         /// <param name="obj"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static short? AsShortNullable( this object obj, short? defaultValue = default( short? ) )
+        public static short? AsShortNullable( this object obj, short? defaultValue = default )
         {
-            return obj != DBNull.Value ? (short?)obj : null;
+            return obj != DBNull.Value ? (short?)obj : defaultValue;
         }
 
         ///----------------------------------------------------------------------------------------
@@ -476,9 +476,9 @@ namespace Dahl.Data.Common
         /// <param name="obj"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static int? AsIntNullable( this object obj, int defaultValue = default( int ) )
+        public static int? AsIntNullable( this object obj, int defaultValue = default )
         {
-            return obj != DBNull.Value ? (int?)obj : null;
+            return obj != DBNull.Value ? (int?)obj : defaultValue;
         }
 
         ///----------------------------------------------------------------------------------------
@@ -488,9 +488,9 @@ namespace Dahl.Data.Common
         /// <param name="obj"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static DateTime? AsDateTimeNullable( this object obj, DateTime? defaultValue = default( DateTime? ) )
+        public static DateTime? AsDateTimeNullable( this object obj, DateTime? defaultValue = default )
         {
-            return obj != DBNull.Value ? (DateTime?)obj : null;
+            return obj != DBNull.Value ? (DateTime?)obj : defaultValue;
         }
         #endregion
 

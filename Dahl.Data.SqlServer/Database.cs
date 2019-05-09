@@ -1,4 +1,4 @@
-﻿#if NETCOREAPP2_0 || NETCOREAPP2_1
+﻿#if NETCOREAPP2_0 || NETCOREAPP2_1 || NETCOREAPP2_2
 using System.Data.Common;
 #endif
 using System;
@@ -160,8 +160,9 @@ namespace Dahl.Data.SqlServer
                 if ( connection == null )
                     throw new NullReferenceException( nameof( connection ) );
 
-                SqlBulkCopy bulkCopy = new SqlBulkCopy( connection );
-                bulkCopy.DestinationTableName = $"#tmp_{bulkMapper.TmpTableName}";
+                SqlBulkCopy bulkCopy = new SqlBulkCopy( connection ) {
+                    DestinationTableName = $"#tmp_{bulkMapper.TmpTableName}"
+                };
                 foreach ( string colPair in bulkMapper.MapList )
                 {
                     string[] fields = colPair.Split( ',' );
@@ -287,8 +288,9 @@ namespace Dahl.Data.SqlServer
                 if ( connection == null )
                     throw new NullReferenceException( nameof( Connection ) );
 
-                SqlBulkCopy bulkCopy = new SqlBulkCopy( connection );
-                bulkCopy.DestinationTableName = bulkMapper.DstTableName[0];
+                SqlBulkCopy bulkCopy = new SqlBulkCopy( connection ) {
+                    DestinationTableName = bulkMapper.DstTableName[0]
+                };
 
                 foreach ( string map in bulkMapper.MapList )
                 {
@@ -326,8 +328,9 @@ namespace Dahl.Data.SqlServer
                 if ( connection == null )
                     throw new NullReferenceException( nameof( Connection ) );
 
-                SqlBulkCopy bulkCopy = new SqlBulkCopy( connection );
-                bulkCopy.DestinationTableName = bulkMapper.DstTableName[0];
+                SqlBulkCopy bulkCopy = new SqlBulkCopy( connection ) {
+                    DestinationTableName = bulkMapper.DstTableName[0]
+                };
 
                 foreach ( string map in bulkMapper.MapList )
                 {
@@ -357,7 +360,7 @@ namespace Dahl.Data.SqlServer
         }
 #endregion
 
-#if NETCOREAPP2_0 || NETCOREAPP2_1
+#if NETCOREAPP2_0 || NETCOREAPP2_1 || NETCOREAPP2_2
         protected override DbProviderFactory CreateProviderFactory()
         {
             return SqlClientFactory.Instance;

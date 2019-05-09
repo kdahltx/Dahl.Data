@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Data;
-#if !NETCOREAPP2_0 && !NETCOREAPP2_1
+#if !NETCOREAPP2_0 && !NETCOREAPP2_1 && !NETCOREAPP2_2
 using Sybase.Data.AseClient;
 #else
 using AdoNetCore.AseClient;

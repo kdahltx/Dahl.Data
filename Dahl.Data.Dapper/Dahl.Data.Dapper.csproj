@@ -9,9 +9,9 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp2.0;netcoreapp2.1;</TargetFrameworks>
-    <AssemblyVersion>0.0.7.229</AssemblyVersion>
-    <FileVersion>0.0.7.229</FileVersion>
+    <TargetFrameworks>netcoreapp2.0;netcoreapp2.1;netcoreapp2.2;</TargetFrameworks>
+    <AssemblyVersion>0.0.7.230</AssemblyVersion>
+    <FileVersion>0.0.7.230</FileVersion>
     <Copyright>Dahl Software Services</Copyright>
     <Authors>Kevin Dahl</Authors>
     <Company>Dahl Software Services</Company>
@@ -27,7 +27,7 @@
     <PackageReference Include="Dapper" Version="1.50.5" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.0' OR '$(TargetFramework)' == 'netcoreapp2.1'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.0' OR '$(TargetFramework)' == 'netcoreapp2.1' OR '$(TargetFramework)' == 'netcoreapp2.2'">
     <PackageReference Include="Dapper" Version="1.50.5" />
   </ItemGroup>
   

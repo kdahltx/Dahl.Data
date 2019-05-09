@@ -9,9 +9,9 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <TargetFrameworks>net461;net462;net47;net471;net472;netcoreapp2.0;netcoreapp2.1;</TargetFrameworks>
-    <AssemblyVersion>1.0.0.36</AssemblyVersion>
-    <FileVersion>1.0.0.36</FileVersion>
+    <TargetFrameworks>net461;net462;net47;net471;net472;netcoreapp2.0;netcoreapp2.1;netcoreapp2.2;</TargetFrameworks>
+    <AssemblyVersion>1.0.0.37</AssemblyVersion>
+    <FileVersion>1.0.0.37</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>

@@ -14,7 +14,7 @@ namespace Dahl.Data.Tests.Core
         public void TestPropertyAccessor()
         {
             IPropertyAccessor[] accessors = typeof( TestClass ).GetAccessorList();
-            foreach ( var item in testClassList )
+            foreach ( var item in _TestClassList )
             {
                 foreach ( var accessor in accessors )
                 {
@@ -25,8 +25,8 @@ namespace Dahl.Data.Tests.Core
                     //    accessor.SetValue( testClass, new Random().Next( 0, int.MaxValue ) );
 
                     var propertyName = accessor.PropertyInfo.Name;
-                    var propteryValue = accessor.GetValue( item );
-                    Trace.Write( $"{propertyName}:{propteryValue}," );
+                    var propertyValue = accessor.GetValue( item );
+                    Trace.Write( $"{propertyName}:{propertyValue}," );
                 }
                 Trace.WriteLine( "" );
             }
@@ -35,20 +35,20 @@ namespace Dahl.Data.Tests.Core
         [TestMethod]
         public void EntityListToDataTable()
         {
-            var x = testClassList.ToDataTable();
+            var x = _TestClassList.ToDataTable();
         }
 
         [TestMethod]
         public void DataTableToEntityList()
         {
-            var dt = testClassList.ToDataTable();
+            var dt = _TestClassList.ToDataTable();
             var el = dt.ToList<TestClass>();
 
             foreach ( var item in el )
                 Trace.WriteLine( $"{item.Id},{item.FirstName},{item.LastName},{item.Age}"  );
         }
 
-        public static List<TestClass> testClassList = new List<TestClass>
+        protected static List<TestClass> _TestClassList = new List<TestClass>
         {
             { new TestClass { Id=1,  FirstName="FirstName01", LastName="LastName01", Age = 50} },
             { new TestClass { Id=2,  FirstName="FirstName02", LastName="LastName02", Age = 51} },

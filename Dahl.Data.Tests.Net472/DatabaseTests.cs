@@ -5,6 +5,7 @@ using Dahl.Data.Common;
 
 namespace Dahl.Data.Tests.Net472
 {
+    [TestCategory("NET472.DatabaseTests")]
     [TestClass]
     public class DatabaseTests
     {

@@ -89,7 +89,7 @@ namespace Dahl.Data.Common
         {
             get
             {
-                if ( _ordinalLookup.TryGetValue( ordinal, out string name ) )
+                if ( _ordinalLookup.TryGetValue( ordinal, out _ ) )
                     return _accessorsList[ordinal].GetValue( _entityEnumerator.Current );
 
                 return null;

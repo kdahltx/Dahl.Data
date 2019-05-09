@@ -15,9 +15,10 @@ namespace Dahl.Data.Tests.Common
         protected override IDatabase CreateDatabase()
         {
 
-            ConnectionStringSettings css = new ConnectionStringSettings();
-            css.Name = "App.SqlServer";
-            css.ConnectionString = ConfigurationManager.ConnectionStrings["App.SqlServer"].ConnectionString;
+            ConnectionStringSettings css = new ConnectionStringSettings {
+                Name = "App.SqlServer",
+                ConnectionString = ConfigurationManager.ConnectionStrings["App.SqlServer"].ConnectionString
+            };
 
             Database = new Dahl.Data.SqlServer.Database
             {

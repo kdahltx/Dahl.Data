@@ -11,7 +11,7 @@ namespace Dahl.Data.Common
         {
             try
             {
-                #if NETCOREAPP2_0 || NECOREAPP2_1
+                #if NETCOREAPP2_0 || NECOREAPP2_1 || NETCOREAPP2_2
                 return null;
                 #else
                 return DbProviderFactories.GetFactory( providerName );
