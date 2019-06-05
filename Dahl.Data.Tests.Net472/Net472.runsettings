@@ -11,7 +11,7 @@
         <TargetPlatform>x64</TargetPlatform>
 
         <!-- Framework35 | [Framework40] | Framework45 -->
-        <TargetFrameworkVersion>Framework47</TargetFrameworkVersion>
+        <TargetFrameworkVersion>Framework472</TargetFrameworkVersion>
         <TreatTestAdapterErrorsAsWarnings>false</TreatTestAdapterErrorsAsWarnings>
         <CollectSourceInformation>true</CollectSourceInformation>
 
