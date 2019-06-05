@@ -13,20 +13,20 @@ namespace Dahl.Data.Oracle
 
         protected OracleCommand Cmd
         {
-            get { return _cmd as OracleCommand; }
-            set { _cmd = value; }
+            get { return _Cmd as OracleCommand; }
+            set { _Cmd = value; }
         }
 
         protected OracleDataReader Reader
         {
-            get { return _reader as OracleDataReader; }
-            set { _reader = value; }
+            get { return _Reader as OracleDataReader; }
+            set { _Reader = value; }
         }
 
         protected OracleDataAdapter DataAdapter
         {
-            get { return _da as OracleDataAdapter; }
-            set { _da = value; }
+            get { return _Da as OracleDataAdapter; }
+            set { _Da = value; }
         }
 
         // https://msdn.microsoft.com/en-us/library/cc716729(v=vs.110).aspx

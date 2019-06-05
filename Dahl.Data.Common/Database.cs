@@ -10,8 +10,8 @@ namespace Dahl.Data.Common
 {
     public abstract class Database : IDisposable, IDatabase
     {
-        protected const string CreateConnectionError = "Unable to create IConnection object";
-        protected const string UnableToOpenDbError   = "Unable to open database connection";
+        protected const string _CreateConnectionError = "Unable to create IConnection object";
+        protected const string _UnableToOpenDbError   = "Unable to open database connection";
 
         public IDbConnection  Connection     { get; set; }
         public int            CommandTimeOut { get; set; } = 300;
@@ -171,16 +171,16 @@ namespace Dahl.Data.Common
                     if ( Connection.State == ConnectionState.Open )
                         return true;
 
-                    SetLastError( 1001, FormatExceptionMessage( GetMethodName(), CreateConnectionError, null ) );
+                    SetLastError( 1001, FormatExceptionMessage( GetMethodName(), _CreateConnectionError, null ) );
                 }
             }
             catch ( DataException ex )
             {
-                SetLastError( 1008, FormatExceptionMessage( fnName, UnableToOpenDbError, ex ) );
+                SetLastError( 1008, FormatExceptionMessage( fnName, _UnableToOpenDbError, ex ) );
             }
             catch ( Exception ex )
             {
-                SetLastError( 1009, FormatExceptionMessage( fnName, CreateConnectionError, ex ) );
+                SetLastError( 1009, FormatExceptionMessage( fnName, _CreateConnectionError, ex ) );
             }
 
             return false;
@@ -479,12 +479,12 @@ namespace Dahl.Data.Common
         /// <param name="parameters"></param>
         public void AddParameters( CommandParameter parameters )
         {
-            if ( _cmd == null || parameters == null )
+            if ( _Cmd == null || parameters == null )
                 return;
 
-            _cmd.Parameters.Clear();
-            parameters.AddParameters( _cmd );
-            _cmd.Prepare();
+            _Cmd.Parameters.Clear();
+            parameters.AddParameters( _Cmd );
+            _Cmd.Prepare();
         }
 
         ///----------------------------------------------------------------------------------------
@@ -500,11 +500,11 @@ namespace Dahl.Data.Common
             {
                 if ( CreateConnection() )
                 {
-                    _cmd                = Connection.CreateCommand();
-                    _cmd.CommandTimeout = CommandTimeOut;
-                    _cmd.CommandText    = sqlCmd;
-                    _cmd.CommandType    = commandType;
-                    _cmd.Parameters.Clear();
+                    _Cmd                = Connection.CreateCommand();
+                    _Cmd.CommandTimeout = CommandTimeOut;
+                    _Cmd.CommandText    = sqlCmd;
+                    _Cmd.CommandType    = commandType;
+                    _Cmd.Parameters.Clear();
 
                     return true;
                 }
@@ -563,7 +563,7 @@ namespace Dahl.Data.Common
             try
             {
                 if ( CreateQuery( sqlCmd, parameters ) )
-                    numRows = _cmd.ExecuteNonQuery();
+                    numRows = _Cmd.ExecuteNonQuery();
             }
             catch ( DataException e )
             {
@@ -590,7 +590,7 @@ namespace Dahl.Data.Common
             try
             {
                 if ( CreateNamedQuery( sqlCmd, parameters ) )
-                    numRows = _cmd.ExecuteNonQuery();
+                    numRows = _Cmd.ExecuteNonQuery();
             }
             catch ( DataException ex )
             {
@@ -617,9 +617,9 @@ namespace Dahl.Data.Common
             {
                 if ( CreateQuery( sqlCmd ) )
                 {
-                    _reader = _cmd.ExecuteReader();
+                    _Reader = _Cmd.ExecuteReader();
 
-                    if ( _reader != null )
+                    if ( _Reader != null )
                         return Read( mapper );
                 }
             }
@@ -648,9 +648,9 @@ namespace Dahl.Data.Common
             {
                 if ( CreateQuery( sqlCmd, parameters ) )
                 {
-                    _reader = _cmd.ExecuteReader();
+                    _Reader = _Cmd.ExecuteReader();
 
-                    if ( _reader != null )
+                    if ( _Reader != null )
                         return Read( mapper );
                 }
             }
@@ -679,11 +679,11 @@ namespace Dahl.Data.Common
             {
                 if ( CreateNamedQuery( sqlCmd ) )
                 {
-                    _reader = _cmd.ExecuteReader();
-                    if ( _reader != null )
+                    _Reader = _Cmd.ExecuteReader();
+                    if ( _Reader != null )
                     {
                         var result = Read( mapper );
-                        _reader.NextResult();
+                        _Reader.NextResult();
 
                         return result;
                     }
@@ -714,11 +714,11 @@ namespace Dahl.Data.Common
             {
                 if ( CreateNamedQuery( sqlCmd, parameters ) )
                 {
-                    _reader = _cmd.ExecuteReader();
-                    if ( _reader != null )
+                    _Reader = _Cmd.ExecuteReader();
+                    if ( _Reader != null )
                     {
                         var result = Read( mapper );
-                        _reader.NextResult();
+                        _Reader.NextResult();
 
                         return result;
                     }
@@ -747,10 +747,10 @@ namespace Dahl.Data.Common
                 mapper = new Mapper<TEntity>();
 
             List<TEntity> list = new List<TEntity>();
-            while ( _reader.Read() )
-                list.Add( mapper.Map( _reader ) );
+            while ( _Reader.Read() )
+                list.Add( mapper.Map( _Reader ) );
 
-            _reader.NextResult();
+            _Reader.NextResult();
 
             return list;
         }
@@ -817,10 +817,10 @@ namespace Dahl.Data.Common
         #endregion
 
         #region FIELDS ----------------------------------------------------------------------------
-        protected IDbCommand     _cmd;
-        protected IDataReader    _reader;
-        protected IDbDataAdapter _da;
-        protected DataSet        _ds;
+        protected IDbCommand     _Cmd;
+        protected IDataReader    _Reader;
+        protected IDbDataAdapter _Da;
+        protected DataSet        _Ds;
         #endregion
     }
 }

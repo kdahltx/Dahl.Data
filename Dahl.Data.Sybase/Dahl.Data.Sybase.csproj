@@ -13,6 +13,12 @@
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Version>0.0.2</Version>
     </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net461|AnyCPU'">
+      <CodeAnalysisRuleSet />
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net461|AnyCPU'">
+      <CodeAnalysisRuleSet />
+    </PropertyGroup>
     <ItemGroup Condition="'$(TargetFramework)' == 'net46' OR '$(TargetFramework)' == 'net461' OR '$(TargetFramework)' == 'net462'">
         <PackageReference Include="Sybase.AdoNet4.AseClient" Version="1.0.0" />
     </ItemGroup>

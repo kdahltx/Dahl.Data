@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using Dahl.Extensions;
 using Dahl.Data.Common;
 using Dahl.Data.Tests.Common.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -14,15 +15,9 @@ namespace Dahl.Data.Tests.Common
     {
         protected override IDatabase CreateDatabase()
         {
-
-            ConnectionStringSettings css = new ConnectionStringSettings {
-                Name = "App.SqlServer",
-                ConnectionString = ConfigurationManager.ConnectionStrings["App.SqlServer"].ConnectionString
-            };
-
             Database = new Dahl.Data.SqlServer.Database
             {
-                ConnectionString = css.ConnectionString
+                ConnectionString = GetConnectionString( "App.SqlServer" )
             };
 
             return Database;
@@ -59,7 +54,7 @@ namespace Dahl.Data.Tests.Common
         /// Run #1 : took 3,376 ms to insert 500,000
         /// </summary>
         /// <returns></returns>
-        public int InsertUsers()
+        public int InsertUsers(int newUserCount )
         {
             Stopwatch sw = new Stopwatch();
             const string sqlCmd = "Insert DbDemo.Dbo.Ssn ( SsnId, Ssn1, Ssn2, Ssn3 ) " +
@@ -68,7 +63,7 @@ namespace Dahl.Data.Tests.Common
                                   "Insert DbDemo.Dbo.Users ( FirstName, LastName, SsnId ) " +
                                   "values (@firstName, @lastName, @ssnId )";
 
-            var userList = CreateUserList( 9999, 1, 1, 1 );
+            var userList = CreateUserList( newUserCount, 1, 1, 1 );
 
             int count = 0;
             sw.Restart();
@@ -117,7 +112,7 @@ namespace Dahl.Data.Tests.Common
         /// <returns></returns>
         public int BulkInsertUsers()
         {
-            int listSize = 100000;
+            int listSize = 100;//000;
             Stopwatch sw = new Stopwatch();
             Models.UsersBulkMapper bulkMapper = new Models.UsersBulkMapper();
 

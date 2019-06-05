@@ -14,10 +14,22 @@
     <FileVersion>1.0.0.214</FileVersion>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <CodeAnalysisRuleSet />
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <CodeAnalysisRuleSet />
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="Models\**" />
     <EmbeddedResource Remove="Models\**" />
     <None Remove="Models\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="RepositoryTestCore.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -30,11 +42,5 @@
     <ProjectReference Include="..\Dahl.Data.Common\Dahl.Data.Common.csproj" />
     <ProjectReference Include="..\Dahl.Data.SqlServer\Dahl.Data.SqlServer.csproj" />
     <ProjectReference Include="..\Dahl.Data.Tests.Common\Dahl.Data.Tests.Common.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="appsettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 </Project>

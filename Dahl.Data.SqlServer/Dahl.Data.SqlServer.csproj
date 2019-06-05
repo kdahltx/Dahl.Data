@@ -21,6 +21,12 @@
         <Description>Database facade for ADO.NET for SQL Server</Description>
         <PackageReleaseNotes>Updated to work with .NET 4.6x, 4.7x, .NET Core 2.0, .NET Core 2.1</PackageReleaseNotes>
     </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net461|AnyCPU'">
+      <CodeAnalysisRuleSet />
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net461|AnyCPU'">
+      <CodeAnalysisRuleSet />
+    </PropertyGroup>
 
     <ItemGroup Condition="'$(TargetFramework)' == 'net461'">
         <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />

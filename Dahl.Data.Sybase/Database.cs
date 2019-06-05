@@ -17,20 +17,20 @@ namespace Dahl.Data.Sybase
 
         protected AseCommand Cmd
         {
-            get { return _cmd as AseCommand; }
-            set { _cmd = value; }
+            get { return _Cmd as AseCommand; }
+            set { _Cmd = value; }
         }
 
         protected AseDataReader Reader
         {
-            get { return _reader as AseDataReader; }
-            set { _reader = value; }
+            get { return _Reader as AseDataReader; }
+            set { _Reader = value; }
         }
 
         protected AseDataAdapter DataAdapter
         {
-            get { return _da as AseDataAdapter; }
-            set { _da = value; }
+            get { return _Da as AseDataAdapter; }
+            set { _Da = value; }
         }
 
         // https://msdn.microsoft.com/en-us/library/cc716729(v=vs.110).aspx

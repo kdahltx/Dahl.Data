@@ -16,9 +16,16 @@ namespace Dahl.Data.Tests.Common
         public    IServiceProvider   ServiceProvider { get { return _serviceProvider ?? ( _serviceProvider = Services.BuildServiceProvider() ); } }
         protected TestRepository     Repository      { get { return _repository      ?? ( _repository = ServiceProvider.GetService<TestRepository>() ); } }
 
-        public DatabaseTests( TestRepository repository )
+        public DatabaseTests()
         {
-            _repository = repository;
+            DatabaseTestsInitialize();
+        }
+
+        public void DatabaseTestsInitialize()
+        {
+            Trace.WriteLine( "Dahl.Data.Tests.Common.DatabaseTests.Initialize()" );
+            //Services.AddScoped<ILookupRepository, LookupRepository>();
+            Services.AddScoped<TestRepository, TestRepository>();
         }
 
         public bool DatabaseProviders()
@@ -52,6 +59,15 @@ namespace Dahl.Data.Tests.Common
             TraceResult( result, "SqlServer_Open" );
 
             return result;
+        }
+
+        public bool SqlServer_InsertNewUsers()
+        {
+            int count = 9;
+            var result = Repository.InsertUsers( count );
+            TraceResult( result != count, "SqlServer_eInsertNewUsers()" );
+
+            return result == count;
         }
 
         public List<Models.Users> SqlServer_ExecuteQueryLoadUsers()

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Configuration;
 using System.Data;
+using Dahl.Extensions;
 
 namespace Dahl.Data.Common
 {
@@ -13,6 +15,28 @@ namespace Dahl.Data.Common
         }
 
         protected abstract IDatabase CreateDatabase();
+
+        private string _connectionString;
+        protected virtual string GetConnectionString( string connectionStringName )
+        {
+            if ( _connectionString.IsNotNullOrEmpty() )
+                return _connectionString;
+
+#if NETCOREAPP2_0 || NETCOREAPP2_1 || NETCOREAPP2_2
+            var css = new Dahl.Data.Common.ConnectionStringSettings( connectionStringName );
+            _connectionString = css.ConnectionString;
+#else
+            var cs = ConfigurationManager.ConnectionStrings;
+            if ( cs == null )
+                throw new NullReferenceException("Connection strings undefined.");
+
+            if ( cs[connectionStringName] == null || cs[connectionStringName].ConnectionString.IsNullOrEmpty() )
+                throw new NullReferenceException( $"Connection string [{connectionStringName}] is undefined." );
+
+            _connectionString = cs["App.SqlServer"].ConnectionString;
+#endif
+            return _connectionString;
+        }
 
         #region CreateParameter Methods -----------------------------------------------------------
         /// <summary>

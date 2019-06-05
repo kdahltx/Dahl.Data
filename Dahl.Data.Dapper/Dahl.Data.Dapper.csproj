@@ -20,6 +20,14 @@
     <Version>0.0.7</Version>
     <Description>Provides basic facade for Dapper</Description>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp2.0|AnyCPU'">
+    <CodeAnalysisRuleSet />
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp2.0|AnyCPU'">
+    <CodeAnalysisRuleSet />
+  </PropertyGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net46' OR '$(TargetFramework)' == 'net461' OR '$(TargetFramework)' == 'net462'">
     <PackageReference Include="Dapper" Version="1.50.5" />
   </ItemGroup>

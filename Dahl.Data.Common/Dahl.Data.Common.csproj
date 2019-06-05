@@ -28,14 +28,21 @@
     <PackageReleaseNotes>Updated to work with .NET 4.6x, 4.7x, .NET Core 2.0, .NET Core 2.1</PackageReleaseNotes>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net461|AnyCPU'">
+    <CodeAnalysisRuleSet />
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net461|AnyCPU'">
+    <CodeAnalysisRuleSet />
+  </PropertyGroup>
+
   <ItemGroup>
-    <Compile Remove="ConfigurationManager.cs" />
-    <Compile Remove="ConnectionStringSettings.cs" />
     <Compile Remove="ConnectionStringSettingsCollection.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Dahl.Extensions" Version="1.1.20" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.5.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.5.0" />
     <PackageReference Include="System.Data.Common" Version="4.3.0" />
     <PackageReference Include="System.Runtime.Caching" Version="4.5.0" />
@@ -45,14 +52,12 @@
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="1.1.2" />
     <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="1.1.2" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="1.1.2" />
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.5.0" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net462'">
     <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="1.1.2" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="1.1.2" />
     <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="1.1.2" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="1.1.2" />
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.5.0" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net47'">
     <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="2.1.0" />
@@ -79,7 +84,6 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.1" />
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.5.0" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.1'">
     <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="2.1.2" />
@@ -88,7 +92,6 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.1" />
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.5.0" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.2'">
         <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="2.1.2" />
@@ -97,6 +100,8 @@
         <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.1.1" />
         <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="2.1.1" />
         <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.1" />
-        <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.5.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Configuration" />
   </ItemGroup>
 </Project>

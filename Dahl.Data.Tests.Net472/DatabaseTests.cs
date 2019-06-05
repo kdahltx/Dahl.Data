@@ -10,30 +10,20 @@ namespace Dahl.Data.Tests.Net472
     public class DatabaseTests
     {
         [TestClass]
-        public class Common_Methods
-        {
-            [TestMethod]
-            public void StringToInt()
-            {
-                for ( int i = 0; i < 1000; i++ )
-                    Trace.WriteLine( $"i=[{i:D6}]" );
-            }
-
-            [TestMethod]
-            public void Common_Connect()
-            {
-            }
-
-            [TestMethod]
-            public void Common_DatabaseProviders()
-            {
-            }
-        }
-
-        [TestClass]
         public class SqlServer_Methods
         {
-            public Dahl.Data.Tests.Common.DatabaseTests DbTests { get; set; }
+            private Dahl.Data.Tests.Common.DatabaseTests _dbTests;
+            public Dahl.Data.Tests.Common.DatabaseTests DbTests
+            {
+                get
+                {
+                    if ( _dbTests == null )
+                        _dbTests = new Dahl.Data.Tests.Common.DatabaseTests();
+                    return _dbTests;
+                }
+
+                set { _dbTests = value; }
+            }
 
             [TestMethod]
             public void SqlServer_Connect()
@@ -53,38 +43,13 @@ namespace Dahl.Data.Tests.Net472
                 Assert.IsTrue( result );
             }
 
-            //[TestMethod]
-            //public void SqlServer_ExecuteCommandWithParametersNone()
-            //{
-            //    var list = Repository.InsertUsers();
-            //    Assert.IsNotNull( list );
-            //}
-
             [TestMethod]
-            public void SqlServer_ExecuteCommandInsertUsers()
+            public void SqlServer_InsertUsers()
             {
-                Trace.Write( "SqlServer_Open: " );
-                var result = DbTests.SqlServer_Open();
-                Trace.WriteLine( result ? "PASSED" : "FAILED" );
+                var result = DbTests.SqlServer_InsertNewUsers();
+                Trace.WriteLine( $"SqlServer_InsertUsers: {(result ? "PASSED" : "FAILED")}" );
                 Assert.IsTrue( result );
-
-                //var list = Repository.InsertUsers();
-                //Assert.IsNotNull( list );
             }
-
-            //[TestMethod]
-            //public void SqlServer_ExecuteNamedCommandWithParametersNone()
-            //{
-            //    var list = Repository.InsertUsers();
-            //    Assert.IsNotNull( list );
-            //}
-
-            //[TestMethod]
-            //public void SqlServer_ExecuteNamedCommandWithParameters()
-            //{
-            //    var list = Repository.InsertUsers();
-            //    Assert.IsNotNull( list );
-            //}
 
             [TestMethod]
             public void SqlServer_ExecuteQueryLoadUsers()
@@ -93,34 +58,6 @@ namespace Dahl.Data.Tests.Net472
                 var list = DbTests.SqlServer_ExecuteQueryLoadUsers();
                 Trace.WriteLine( list != null ? "PASSED" : "FAILED" );
                 Assert.IsNotNull( list );
-            }
-
-            //[TestMethod]
-            //public void SqlServer_ExecuteQueryWithParameters()
-            //{
-            //    var list = Repository.LoadUsers();
-            //    Assert.IsNotNull( list );
-            //}
-
-            //[TestMethod]
-            //public void SqlServer_ExecuteNamedQueryWithParametersNone()
-            //{
-            //    var list = Repository.LoadUsers();
-            //    Assert.IsNotNull( list );
-            //}
-
-            //[TestMethod]
-            //public void SqlServer_ExecuteNamedQueryWithParameters()
-            //{
-            //    var list = Repository.LoadUsers();
-            //    Assert.IsNotNull( list );
-            //}
-
-            [TestMethod]
-            public void SqlServer_BulkInsertUsers()
-            {
-                //var list = Repository.BulkInsertUsers();
-                //Assert.IsNotNull( list );
             }
         }
     }

@@ -23,20 +23,20 @@ namespace Dahl.Data.SqlServer
 
         protected SqlCommand Cmd
         {
-            get { return _cmd as SqlCommand; }
-            set { _cmd = value; }
+            get { return _Cmd as SqlCommand; }
+            set { _Cmd = value; }
         }
 
         protected SqlDataReader Reader
         {
-            get { return _reader as SqlDataReader; }
-            set { _reader = value; }
+            get { return _Reader as SqlDataReader; }
+            set { _Reader = value; }
         }
 
         protected SqlDataAdapter DataAdapter
         {
-            get { return _da as SqlDataAdapter; }
-            set { _da = value; }
+            get { return _Da as SqlDataAdapter; }
+            set { _Da = value; }
         }
 
         // https://msdn.microsoft.com/en-us/library/cc716729(v=vs.110).aspx

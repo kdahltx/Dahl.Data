@@ -1,4 +1,4 @@
-﻿#if NETCOREAPP2_0 || NETCOREAPP2_1
+﻿#if NETCOREAPP2_0 || NETCOREAPP2_1 || NETCOREAPP2_2
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -8,83 +8,83 @@ using System.Threading.Tasks;
 
 namespace Dahl.Data.Common
 {
-    //public class ConnectionStringSettingsCollection : ConfigurationElementCollection
-    //{
-    //    private static readonly ConfigurationPropertyCollection s_properties;
+    public class ConnectionStringSettingsCollection : ConfigurationElementCollection
+    {
+        private static readonly ConfigurationPropertyCollection s_properties;
 
-    //    static ConnectionStringSettingsCollection()
-    //    {
-    //        // Property initialization
-    //        s_properties = new ConfigurationPropertyCollection();
-    //    }
+        static ConnectionStringSettingsCollection()
+        {
+            // Property initialization
+            s_properties = new ConfigurationPropertyCollection();
+        }
 
-    //    public ConnectionStringSettingsCollection()
-    //        : base( StringComparer.OrdinalIgnoreCase )
-    //    {}
+        public ConnectionStringSettingsCollection()
+            : base( StringComparer.OrdinalIgnoreCase )
+        {}
 
-    //    protected internal override ConfigurationPropertyCollection Properties => s_properties;
+        protected internal override ConfigurationPropertyCollection Properties => s_properties;
 
-    //    public ConnectionStringSettings this[ int index ]
-    //    {
-    //        get { return (ConnectionStringSettings)BaseGet( index ); }
-    //        set
-    //        {
-    //            if ( BaseGet( index ) != null ) BaseRemoveAt( index );
-    //            BaseAdd( index, value );
-    //        }
-    //    }
+        public ConnectionStringSettings this[ int index ]
+        {
+            get { return (ConnectionStringSettings)BaseGet( index ); }
+            set
+            {
+                if ( BaseGet( index ) != null ) BaseRemoveAt( index );
+                BaseAdd( index, value );
+            }
+        }
 
-    //    public new ConnectionStringSettings this[ string name ] => (ConnectionStringSettings)BaseGet( name );
+        public new ConnectionStringSettings this[ string name ] => (ConnectionStringSettings)BaseGet( name );
 
-    //    public int IndexOf( ConnectionStringSettings settings )
-    //    {
-    //        return BaseIndexOf( settings );
-    //    }
+        public int IndexOf( ConnectionStringSettings settings )
+        {
+            return BaseIndexOf( settings );
+        }
 
-    //    // the connection string behavior is strange in that is acts kind of like a
-    //    // basic map and partially like an add remove clear collection
-    //    // Overriding these methods allows for the specific behaviors to be
-    //    // patterened
-    //    protected override void BaseAdd( int index, ConfigurationElement element )
-    //    {
-    //        if ( index == -1 ) BaseAdd( element, false );
-    //        else base.BaseAdd( index, element );
-    //    }
+        // the connection string behavior is strange in that is acts kind of like a
+        // basic map and partially like an add remove clear collection
+        // Overriding these methods allows for the specific behaviors to be
+        // patterened
+        protected override void BaseAdd( int index, ConfigurationElement element )
+        {
+            if ( index == -1 ) BaseAdd( element, false );
+            else base.BaseAdd( index, element );
+        }
 
-    //    public void Add( ConnectionStringSettings settings )
-    //    {
-    //        BaseAdd( settings );
-    //    }
+        public void Add( ConnectionStringSettings settings )
+        {
+            BaseAdd( settings );
+        }
 
-    //    public void Remove( ConnectionStringSettings settings )
-    //    {
-    //        if ( BaseIndexOf( settings ) >= 0 ) BaseRemove( settings.Key );
-    //    }
+        public void Remove( ConnectionStringSettings settings )
+        {
+            if ( BaseIndexOf( settings ) >= 0 ) BaseRemove( settings.Key );
+        }
 
-    //    public void RemoveAt( int index )
-    //    {
-    //        BaseRemoveAt( index );
-    //    }
+        public void RemoveAt( int index )
+        {
+            BaseRemoveAt( index );
+        }
 
-    //    public void Remove( string name )
-    //    {
-    //        BaseRemove( name );
-    //    }
+        public void Remove( string name )
+        {
+            BaseRemove( name );
+        }
 
-    //    protected override ConfigurationElement CreateNewElement()
-    //    {
-    //        return new ConnectionStringSettings();
-    //    }
+        protected override ConfigurationElement CreateNewElement()
+        {
+            return new ConnectionStringSettings();
+        }
 
-    //    protected override object GetElementKey( ConfigurationElement element )
-    //    {
-    //        return ( (ConnectionStringSettings)element ).Key;
-    //    }
+        protected override object GetElementKey( ConfigurationElement element )
+        {
+            return ( (ConnectionStringSettings)element ).Key;
+        }
 
-    //    public void Clear()
-    //    {
-    //        BaseClear();
-    //    }
-    //}
+        public void Clear()
+        {
+            BaseClear();
+        }
+    }
 }
 #endif
