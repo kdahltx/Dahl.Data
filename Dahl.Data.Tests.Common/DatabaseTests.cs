@@ -67,7 +67,7 @@ namespace Dahl.Data.Tests.Common
             var result = Repository.InsertUsers( count );
             TraceResult( result != count, "SqlServer_eInsertNewUsers()" );
 
-            return result == count;
+            return result == count * 2;
         }
 
         public List<Models.Users> SqlServer_ExecuteQueryLoadUsers()
