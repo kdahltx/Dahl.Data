@@ -1,151 +1,76 @@
-﻿using System.Collections.Generic;
+using System;
 using System.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Dahl.Data.Common;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Dahl.Data.Tests
 {
     [TestClass]
     public class DatabaseTests
     {
-        [TestClass]
-        public class Common_Methods
+        public IServiceCollection Services      { get { return _services        ?? ( _services        = new ServiceCollection() ); } }
+        public IServiceProvider ServiceProvider { get { return _serviceProvider ?? ( _serviceProvider = Services.BuildServiceProvider() ); } }
+        protected TestRepository Repository     { get { return _repository      ?? ( _repository      = ServiceProvider.GetService<TestRepository>() ); } }
+
+        [TestInitialize]
+        public void Initialize()
         {
-            private Test _repository;
-            protected Test Repository
-            {
-                get
-                {
-                    if ( _repository == null )
-                        _repository = new Test();
-
-                    return _repository;
-                }
-                set { _repository = value; }
-            }
-
-            [TestMethod]
-            public void StringToInt()
-            {
-                for ( int i = 0; i < 1000; i++ )
-                    Trace.WriteLine( $"i=[{i:D6}]" );
-            }
-
-            [TestMethod]
-            public void Common_Connect()
-            {
-            }
-
-            [TestMethod]
-            public void Common_DatabaseProviders()
-            {
-
-                List<DataProvider> providers = Repository.ProviderList;
-                Assert.IsNotNull( providers, "Provider List returned null" );
-
-                Trace.WriteLine( "------------------------------------------------------------------------" );
-                foreach ( DataProvider provider in providers )
-                {
-                    Trace.WriteLine( $"Name: {provider.Name}, InvariantName: {provider.InvariantName}" );
-                }
-                Trace.WriteLine( "------------------------------------------------------------------------" );
-            }
+            Trace.WriteLine( "Dahl.Data.Tests.DataTests.Initialize()" );
+            //Services.AddScoped<ILookupRepository, LookupRepository>();
+            Services.AddScoped<TestRepository, TestRepository>();
         }
 
-        [TestClass]
-        public class SqlServer_Methods
+        [TestMethod]
+        public void SqlServer_Connect()
         {
-            private Test _repository;
-            protected Test Repository
-            {
-                get
-                {
-                    if ( _repository == null )
-                        _repository = new Test();
-
-                    return _repository;
-                }
-                set { _repository = value; }
-            }
-
-            [TestMethod]
-            public void SqlServer_Connect()
-            {
-                Assert.IsNotNull( Repository, "_repository is null" );
-                Trace.WriteLine( "Database connection to SqlServer successful!" );
-            }
-
-            [TestMethod]
-            public void SqlServer_Open()
-            {
-                Assert.IsNotNull( Repository, "_repository is null" );
-                var list = Repository.LoadUsers();
-                Assert.IsNotNull( list );
-            }
-
-            //[TestMethod]
-            //public void SqlServer_ExecuteCommandWithParametersNone()
-            //{
-            //    var list = Repository.InsertUsers();
-            //    Assert.IsNotNull( list );
-            //}
-
-            [TestMethod]
-            public void SqlServer_ExecuteCommandInsertUsers()
-            {
-                var list = Repository.InsertUsers();
-                Assert.IsNotNull( list );
-            }
-
-            //[TestMethod]
-            //public void SqlServer_ExecuteNamedCommandWithParametersNone()
-            //{
-            //    var list = Repository.InsertUsers();
-            //    Assert.IsNotNull( list );
-            //}
-
-            //[TestMethod]
-            //public void SqlServer_ExecuteNamedCommandWithParameters()
-            //{
-            //    var list = Repository.InsertUsers();
-            //    Assert.IsNotNull( list );
-            //}
-
-            [TestMethod]
-            public void SqlServer_ExecuteQueryLoadUsers()
-            {
-                var list = Repository.LoadUsers();
-                Assert.IsNotNull( list );
-            }
-
-            //[TestMethod]
-            //public void SqlServer_ExecuteQueryWithParameters()
-            //{
-            //    var list = Repository.LoadUsers();
-            //    Assert.IsNotNull( list );
-            //}
-
-            //[TestMethod]
-            //public void SqlServer_ExecuteNamedQueryWithParametersNone()
-            //{
-            //    var list = Repository.LoadUsers();
-            //    Assert.IsNotNull( list );
-            //}
-
-            //[TestMethod]
-            //public void SqlServer_ExecuteNamedQueryWithParameters()
-            //{
-            //    var list = Repository.LoadUsers();
-            //    Assert.IsNotNull( list );
-            //}
-
-            [TestMethod]
-            public void SqlServer_BulkInsertUsers()
-            {
-                var list = Repository.BulkInsertUsers();
-                Assert.IsNotNull( list );
-            }
+            Trace.Write( "SqlServer_Connect: " );
+            var result = Repository != null;
+            Trace.WriteLine( result ? "PASSED" : "FAILED" );
+            Assert.IsTrue( result );
         }
+
+        [TestMethod]
+        public void SqlServer_LoadUsers()
+        {
+            Trace.Write( "SqlServer_LoadUsers: " );
+            var result = Repository.LoadUsers() != null;
+            TraceResult( result, "SqlServer_Open: " );
+        }
+
+        //[TestMethod]
+        public void SqlServer_InsertUsers()
+        {
+            int count = 9;
+            var result = Repository.InsertUsers( count );
+            TraceResult( result == count * 2, "SqlServer_InsertNewUsers()" );
+        }
+
+        [TestMethod]
+        public void SqlServer_ExecuteQueryLoadUsers()
+        {
+            Trace.Write( "SqlServer_ExecuteQueryLoadUsers: " );
+            var result = Repository.LoadUsers();
+            TraceResult( result != null, "SqlServer_ExecuteQueryLoadUsers()" );
+        }
+
+        ///---------------------------------------------------------------------------------------
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="result"></param>
+        /// <param name="text"></param>
+        private static void TraceResult( bool result, string text )
+        {
+            Trace.Write( result ? "PASSED" : "FAILED" );
+            Trace.WriteLine( $": {text}" );
+            if ( !result )
+                Assert.Fail();
+        }
+
+        #region FIELDS ----------------------------------------------------------------------------
+        private IServiceCollection _services;
+        private IServiceProvider   _serviceProvider;
+        private TestRepository     _repository;
+        #endregion
     }
 }
-

@@ -6,10 +6,10 @@ using Dahl.Extensions;
 
 namespace Dahl.Data.Tests.Core
 {
+    [TestCategory("NETCore.EntityReaderTests")]
     [TestClass]
-    public class EntityReaderTestsCore
+    public class EntityReaderTests
     {
-
         [TestMethod]
         public void TestPropertyAccessor()
         {
@@ -62,7 +62,6 @@ namespace Dahl.Data.Tests.Core
             { new TestClass { Id=10, FirstName="FirstName10", LastName="LastName10", Age = 60} },
         };
     }
-
 
     public class TestClass
     {

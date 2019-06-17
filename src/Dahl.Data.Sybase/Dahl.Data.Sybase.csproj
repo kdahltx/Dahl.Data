@@ -35,6 +35,9 @@
         <PackageReference Include="AdoNetCore.AseClient" Version="0.10.1" />
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\Dahl.Data.Common\Dahl.Data.Common.csproj" />
+      <PackageReference Include="AdoNetCore.AseClient" Version="0.13.1" />
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\Dahl.Data.Common\Dahl.Data.Common.csproj" />
     </ItemGroup>
 </Project>

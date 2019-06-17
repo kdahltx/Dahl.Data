@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Dahl.Data.Common;
 
 namespace Dahl.Data.Tests.Models
 {
@@ -28,27 +29,27 @@ namespace Dahl.Data.Tests.Models
                 $"merge into {DstTableName[0]} as dst " +
                 $"using #tmp_{TmpTableName} as src " +
                 "on dst.UserId = src.UserId " +
+                "when not matched then " +
+                    "insert (FirstName,LastName,SsnId) " +
+                    "values (src.FirstName,src.LastName,src.SsnId) " +
                 "when matched then " +
                     "update set " +
                         "dst.FirstName = src.FirstName, " +
                         "dst.LastName = src.LastName, " +
-                        "dst.SsnId = src.SsnId " +
-                "when not matched then " +
-                    "insert (FirstName,LastName,SsnId) " +
-                    "values (src.FirstName,src.LastName,src.SsnId); ",
+                        "dst.SsnId = src.SsnId; ",
 
                 // merges into Ssn table
                 $"merge into {DstTableName[1]} as dst " +
                 $"using #tmp_{TmpTableName} as src " +
                 "on dst.SsnId = src.SsnId " +
+                "when not matched then " +
+                    "insert (SsnId,Ssn1,Ssn2,Ssn3) " +
+                    "values (src.SsnId,src.fk_Ssn_Ssn1,src.fk_Ssn_Ssn2,fk_Ssn_Ssn3) " +
                 "when matched then " +
                     "update set " +
                         "dst.Ssn1 = src.fk_Ssn_Ssn1, " +
                         "dst.Ssn2 = src.fk_Ssn_Ssn2, " +
-                        "dst.Ssn3 = src.fk_Ssn_Ssn3 " +
-                "when not matched then " +
-                    "insert (SsnId,Ssn1,Ssn2,Ssn3) " +
-                    "values (src.SsnId,src.fk_Ssn_Ssn1,src.fk_Ssn_Ssn2,fk_Ssn_Ssn3); "
+                        "dst.Ssn3 = src.fk_Ssn_Ssn3; "
             };
         }
 
@@ -58,7 +59,7 @@ namespace Dahl.Data.Tests.Models
             set { base.MapList = value; }
         }
 
-        private List<string> _mapList = new List<string> {
+        private readonly List<string> _mapList = new List<string> {
                                             "UserId,UserId",
                                             "FirstName,FirstName",
                                             "LastName,LastName",

@@ -3,19 +3,21 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
+using Dahl.Extensions;
 using Dahl.Data.Common;
+using Dahl.Data.Tests.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Dahl.Data.Tests
 {
-    public class Test : Dahl.Data.Common.RepositoryBase
+    public class TestRepository : Dahl.Data.Common.RepositoryBase
     {
         protected override IDatabase CreateDatabase()
         {
             Database = new Dahl.Data.SqlServer.Database
             {
-                ConnectionStringName = "App.SqlServer",
-                ConnectionString = ConfigurationManager.ConnectionStrings["App.SqlServer"].ConnectionString
+                ConnectionString = GetConnectionString( "App.SqlServer" )
             };
 
             return Database;
@@ -26,21 +28,42 @@ namespace Dahl.Data.Tests
             get { return Database.ProviderList; }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public Course GetCourse( string name )
+        {
+            const string sqlCmd = "select * from Courses where [Name] like @name";
+            var parms = new Dahl.Data.SqlServer.CommandParameter
+            {
+                CreateParameter( "@name", name )
+            };
+
+            var result = Database.ExecuteQuery<Course>( sqlCmd, parms )?.ToList();
+            if ( result != null && !result.Any() )
+                return null;
+
+            return result?.ToList()[0];
+        }
+
+
         ///-----------------------------------------------------------------------------------------
         /// <summary>
         /// Run #1 : took 3,376 ms to insert 500,000
         /// </summary>
         /// <returns></returns>
-        public int InsertUsers()
+        public int InsertUsers(int newUserCount )
         {
             Stopwatch sw = new Stopwatch();
-            string sqlCmd = "Insert DbDemo.Dbo.Ssn ( SsnId, Ssn1, Ssn2, Ssn3 ) " +
-                            "values( @ssnId, @ssn1, @ssn2, @ssn3 ) " +
+            const string sqlCmd = "Insert DbDemo.Dbo.Ssn ( SsnId, Ssn1, Ssn2, Ssn3 ) " +
+                                  "values( @ssnId, @ssn1, @ssn2, @ssn3 ) "             +
 
-                            "Insert DbDemo.Dbo.Users ( FirstName, LastName, SsnId ) " +
-                            "values (@firstName, @lastName, @ssnId )";
+                                  "Insert DbDemo.Dbo.Users ( FirstName, LastName, SsnId ) " +
+                                  "values (@firstName, @lastName, @ssnId )";
 
-            var userList = CreateUserList( 9999, 1, 1, 1 );
+            var userList = CreateUserList( newUserCount, 1, 1, 1 );
 
             int count = 0;
             sw.Restart();
@@ -89,13 +112,14 @@ namespace Dahl.Data.Tests
         /// <returns></returns>
         public int BulkInsertUsers()
         {
+            int listSize = 100;//000;
             Stopwatch sw = new Stopwatch();
             Models.UsersBulkMapper bulkMapper = new Models.UsersBulkMapper();
 
             sw.Restart();
-            var userList = CreateUserList( 500000, 1, 1, 1 );
+            var userList = CreateUserList( listSize, 1, 1, 1 );
             sw.Stop();
-            Trace.WriteLine( $"BulkInsertUsers --- CreateUserList(500000,1,1,1) executed in {sw.ElapsedMilliseconds} ms" );
+            Trace.WriteLine( $"BulkInsertUsers --- CreateUserList({listSize},1,1,1) executed in {sw.ElapsedMilliseconds} ms" );
 
             sw.Restart();
             Database.BulkUpdate( userList, new Models.UsersBulkMapper() );
@@ -114,8 +138,8 @@ namespace Dahl.Data.Tests
         /// <returns></returns>
         public int DeleteUsers()
         {
-            string sqlCmd = "delete DbDemo.Dbo.Users " +
-                            "delete DbDemo.Dbo.Ssn ";
+            const string sqlCmd = "delete DbDemo.Dbo.Users " +
+                                  "delete DbDemo.Dbo.Ssn ";
 
             return Database.ExecuteCommand( sqlCmd );
         }
@@ -127,8 +151,8 @@ namespace Dahl.Data.Tests
         /// <returns></returns>
         public List<Models.Users> LoadUsers()
         {
-            string sqlCmd = "select * from Users u " +
-                            "inner join Ssn s on s.SsnId = u.SsnId";
+            const string sqlCmd = "select * from Users u " +
+                                  "inner join Ssn s on s.SsnId = u.SsnId";
 
             Stopwatch sw = new Stopwatch();
             sw.Start();
@@ -138,6 +162,54 @@ namespace Dahl.Data.Tests
 
             var users = list.ToList();
             Trace.WriteLine( $"LoadUsers(IDatabase database) loaded {users.Count} educators taking {sw.ElapsedMilliseconds:N0} ms." );
+            return users;
+        }
+
+        public List<Models.Users> LoadUsers2()
+        {
+            string sqlCmd = "select * from Users " +
+                            "select * from Ssn ";
+
+            Stopwatch sw = new Stopwatch();
+
+            sw.Restart();
+            var users = Database.ExecuteQuery( sqlCmd, new Models.UsersMap() ).ToList();
+            sw.Stop();
+            Trace.WriteLine( $"LoadUsers(IDatabase database) ExecuteQuery returned {users.Count} user taking {sw.ElapsedMilliseconds:N0} ms." );
+
+            sw.Restart();
+            var list2 = Database.Read( new Models.SsnMap() ).ToDictionary(x => x.SsnId, x => x );
+            Trace.WriteLine( $"LoadUsers(IDatabase database) Read returned {list2.Count} ssn's taking {sw.ElapsedMilliseconds:N0} ms." );
+
+            sw.Restart();
+            foreach ( var item in users )
+            {
+                if ( list2.TryGetValue( item.SsnId, out Models.Ssn fk ) )
+                    item.fk_Ssn = fk;
+            }
+            sw.Stop();
+            Trace.WriteLine( $"Assignment took {sw.ElapsedMilliseconds:N0} ms." );
+
+            Assert.IsNotNull( users );
+            return users;
+        }
+
+        public List<Models.Users> LoadOneUser()
+        {
+            const string sqlCmd = "select * from Users where LastName like @lastName ";
+            var parms = new Dahl.Data.SqlServer.CommandParameter
+            {
+                CreateParameter( "@lastName", "Last001-01-0002" )
+            };
+
+            Stopwatch sw = new Stopwatch();
+
+            sw.Restart();
+            var users = Database.ExecuteQuery( sqlCmd, parms, new Models.UsersMap() ).ToList();
+            sw.Stop();
+            Trace.WriteLine( $"LoadUsers(IDatabase database) ExecuteQuery returned {users.Count} user taking {sw.ElapsedMilliseconds:N0} ms." );
+
+            Assert.IsNotNull( users );
             return users;
         }
 

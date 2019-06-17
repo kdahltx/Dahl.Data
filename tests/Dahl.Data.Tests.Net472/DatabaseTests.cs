@@ -5,20 +5,19 @@ using Dahl.Data.Common;
 
 namespace Dahl.Data.Tests.Net472
 {
-    [TestCategory("NET472.DatabaseTests")]
-    [TestClass]
     public class DatabaseTests
     {
+        [TestCategory("NET472.DatabaseTests")]
         [TestClass]
         public class SqlServer_Methods
         {
-            private Dahl.Data.Tests.Common.DatabaseTests _dbTests;
-            public Dahl.Data.Tests.Common.DatabaseTests DbTests
+            private Dahl.Data.Tests.DataTests _dbTests;
+            public Dahl.Data.Tests.DataTests DbTests
             {
                 get
                 {
                     if ( _dbTests == null )
-                        _dbTests = new Dahl.Data.Tests.Common.DatabaseTests();
+                        _dbTests = new Dahl.Data.Tests.DataTests();
                     return _dbTests;
                 }
 
