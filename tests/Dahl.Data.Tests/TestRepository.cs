@@ -82,6 +82,7 @@ namespace Dahl.Data.Tests
                 if ( Database.LastError.Code != 0 )
                     break;
             }
+            Database.Close();
             sw.Stop();
             Trace.WriteLine( $"InsertUsers -- Records Inserted: {count} --- Time to insert: {sw.ElapsedMilliseconds} ms" );
             return count;
@@ -138,11 +139,19 @@ namespace Dahl.Data.Tests
         /// <returns></returns>
         public int DeleteUsers()
         {
-            const string sqlCmd = "delete DbDemo.Dbo.Users " +
-                                  "delete DbDemo.Dbo.Ssn ";
+            Stopwatch sw = new Stopwatch();
+            const string sqlCmd = "delete DbDemo.Dbo.Ssn " +
+                                  "delete DbDemo.Dbo.Users ";
 
-            return Database.ExecuteCommand( sqlCmd );
+            int count = 0;
+            sw.Restart();
+            count += Database.ExecuteCommand( sqlCmd );
+            Database.Close();
+            sw.Stop();
+            Trace.WriteLine( $"InsertUsers -- Records Inserted: {count} --- Time to insert: {sw.ElapsedMilliseconds} ms" );
+            return count;
         }
+
 
         ///----------------------------------------------------------------------------------------
         /// <summary>

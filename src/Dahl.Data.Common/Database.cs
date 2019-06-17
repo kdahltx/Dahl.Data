@@ -251,6 +251,13 @@ namespace Dahl.Data.Common
             Trace.WriteLine( $"0: Start {GetType().FullName}.Close()" );
             try
             {
+                //if ( _Cmd != null )
+                //    if ( _Cmd.Connection != null )
+                //        _Cmd.Connection.Close();
+
+                //if ( _Reader != null )
+                //    _Reader.Close();
+
                 if ( Connection != null )
                 {
                     Trace.WriteLine( $"0: {GetType().FullName}.Close() - Connection.State = {Connection.State}." );
@@ -613,6 +620,7 @@ namespace Dahl.Data.Common
         public virtual IEnumerable<TEntity> ExecuteQuery<TEntity>( string sqlCmd, IMapper<TEntity> mapper = null )
             where TEntity : class, new()
         {
+            IEnumerable<TEntity> list = null;
             try
             {
                 if ( CreateQuery( sqlCmd ) )
@@ -620,7 +628,7 @@ namespace Dahl.Data.Common
                     _Reader = _Cmd.ExecuteReader();
 
                     if ( _Reader != null )
-                        return Read( mapper );
+                        list = Read( mapper );
                 }
             }
             catch ( Exception ex )
@@ -628,7 +636,8 @@ namespace Dahl.Data.Common
                 SetLastError( 1003, ex.Message );
             }
 
-            return null;
+            Close();
+            return list;
         }
 
         ///----------------------------------------------------------------------------------------

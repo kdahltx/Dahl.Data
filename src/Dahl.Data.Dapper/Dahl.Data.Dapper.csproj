@@ -29,15 +29,18 @@
     <CodeAnalysisRuleSet />
   </PropertyGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net46' OR '$(TargetFramework)' == 'net461' OR '$(TargetFramework)' == 'net462'">
-    <PackageReference Include="Dapper" Version="1.50.5" />
+    <PackageReference Include="Dapper" Version="1.60.6" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net47' OR '$(TargetFramework)' == 'net471' OR '$(TargetFramework)' == 'net472'">
-    <PackageReference Include="Dapper" Version="1.50.5" />
+      <PackageReference Include="Dapper" Version="1.60.6" />
   </ItemGroup>
+    <ItemGroup Condition="'$(TargetFramework)' == 'net48'">
+        <PackageReference Include="Dapper" Version="1.60.6" />
+    </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.0' OR '$(TargetFramework)' == 'netcoreapp2.1' OR '$(TargetFramework)' == 'netcoreapp2.2'">
-    <PackageReference Include="Dapper" Version="1.50.5" />
-  </ItemGroup>
+    <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.0' OR '$(TargetFramework)' == 'netcoreapp2.1' OR '$(TargetFramework)' == 'netcoreapp2.2'">
+        <PackageReference Include="Dapper" Version="1.60.6" />
+    </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Dahl.Data.Common\Dahl.Data.Common.csproj" />

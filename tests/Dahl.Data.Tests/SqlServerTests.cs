@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Dahl.Data.Tests
 {
     [TestClass]
-    public class DatabaseTests
+    public class SqlServerTests
     {
         public IServiceCollection Services      { get { return _services        ?? ( _services        = new ServiceCollection() ); } }
         public IServiceProvider ServiceProvider { get { return _serviceProvider ?? ( _serviceProvider = Services.BuildServiceProvider() ); } }
@@ -30,14 +30,6 @@ namespace Dahl.Data.Tests
         }
 
         [TestMethod]
-        public void SqlServer_LoadUsers()
-        {
-            Trace.Write( "SqlServer_LoadUsers: " );
-            var result = Repository.LoadUsers() != null;
-            TraceResult( result, "SqlServer_Open: " );
-        }
-
-        //[TestMethod]
         public void SqlServer_InsertUsers()
         {
             int count = 9;
@@ -46,11 +38,18 @@ namespace Dahl.Data.Tests
         }
 
         [TestMethod]
-        public void SqlServer_ExecuteQueryLoadUsers()
+        public void SqlServer_LoadUsers()
         {
-            Trace.Write( "SqlServer_ExecuteQueryLoadUsers: " );
-            var result = Repository.LoadUsers();
-            TraceResult( result != null, "SqlServer_ExecuteQueryLoadUsers()" );
+            Trace.Write( "SqlServer_LoadUsers: " );
+            var result = Repository.LoadUsers() != null;
+            TraceResult( result, "SqlServer_Open: " );
+        }
+
+        [TestMethod]
+        public void SqlServer_DeleteUsers()
+        {
+            var result = Repository.DeleteUsers();
+            TraceResult( result >= 0, "SqlServer_DeleteUsers()" );
         }
 
         ///---------------------------------------------------------------------------------------

@@ -7,7 +7,7 @@
         <SccLocalPath>SAK</SccLocalPath>
     </PropertyGroup>
     <PropertyGroup>
-        <TargetFrameworks>net461;net462;net47;net471;net472;netcoreapp2.0;netcoreapp2.1;netcoreapp2.2;</TargetFrameworks>
+        <TargetFrameworks>net461;net462;net47;net471;net472;net48;netcoreapp2.0;netcoreapp2.1;netcoreapp2.2;</TargetFrameworks>
         <AssemblyVersion>0.0.2.173</AssemblyVersion>
         <FileVersion>0.0.2.173</FileVersion>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -25,6 +25,9 @@
     <ItemGroup Condition="'$(TargetFramework)' == 'net47' OR '$(TargetFramework)' == 'net471' OR '$(TargetFramework)' == 'net472'">
         <PackageReference Include="Sybase.AdoNet4.AseClient" Version="1.0.0" />
     </ItemGroup>
+    <ItemGroup Condition="'$(TargetFramework)' == 'net48'">
+        <PackageReference Include="Sybase.AdoNet4.AseClient" Version="1.0.0" />
+    </ItemGroup>
     <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.0'">
         <PackageReference Include="AdoNetCore.AseClient" Version="0.10.1" />
     </ItemGroup>
@@ -35,7 +38,7 @@
         <PackageReference Include="AdoNetCore.AseClient" Version="0.10.1" />
     </ItemGroup>
     <ItemGroup>
-      <PackageReference Include="AdoNetCore.AseClient" Version="0.13.1" />
+      <PackageReference Include="AdoNetCore.AseClient" Version="0.14.0" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\Dahl.Data.Common\Dahl.Data.Common.csproj" />
