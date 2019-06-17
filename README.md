@@ -26,12 +26,13 @@ Features
 --------
 Dahl.Data is a [NuGet library](https://www.nuget.org/packages/Dahl.Data) that you can add in to your project to create a consistent framework for data access.
 
-This facade provides an interface/mechanism to implement customized mapping classes that can be used to
-optimize performance for an object used a significant number of times. For large result sets it does provide
-for better performance than Dapper.
+This facade provides an interface/mechanism to implement customized mapping classes that can
+be used to optimize performance for an object used a significant number of times. For large
+result sets it can provide better performance than Dapper because the mapping class does a
+direct assignment between the data row column and object property.
 
-
-
+Of course on needs to remember that creating a direct mapping class requires more work than
+using an alternative approach.
 
 
 
