@@ -36,6 +36,7 @@ namespace Dahl.Data.Tests.Core
         public void EntityListToDataTable()
         {
             var x = _TestClassList.ToDataTable();
+            Trace.WriteLine( x );
         }
 
         [TestMethod]

@@ -115,7 +115,6 @@ namespace Dahl.Data.Tests
         {
             int listSize = 100;//000;
             Stopwatch sw = new Stopwatch();
-            Models.UsersBulkMapper bulkMapper = new Models.UsersBulkMapper();
 
             sw.Restart();
             var userList = CreateUserList( listSize, 1, 1, 1 );

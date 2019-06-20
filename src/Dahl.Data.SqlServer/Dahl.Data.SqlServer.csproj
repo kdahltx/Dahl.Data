@@ -8,18 +8,19 @@
     </PropertyGroup>
     <PropertyGroup>
         <TargetFrameworks>net461;net462;net47;net471;net472;net48;netcoreapp2.0;netcoreapp2.1;netcoreapp2.2;</TargetFrameworks>
-        <AssemblyVersion>1.0.0.307</AssemblyVersion>
-        <FileVersion>1.0.0.307</FileVersion>
+        <AssemblyVersion>1.0.1.307</AssemblyVersion>
+        <FileVersion>1.0.1.307</FileVersion>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <Version>1.0.0</Version>
+        <Version>1.0.1</Version>
         <PackageProjectUrl>https://github.com/kdahltx/Dahl.Data</PackageProjectUrl>
         <RepositoryUrl>https://github.com/kdahltx/Dahl.Data</RepositoryUrl>
         <Copyright>Dahl Software Consulting</Copyright>
         <RepositoryType />
         <PackageTags>ado.net</PackageTags>
         <Description>Database facade for ADO.NET for SQL Server</Description>
-        <PackageReleaseNotes>Updated to work with .NET 4.6x, 4.7x, .NET Core 2.0, .NET Core 2.1</PackageReleaseNotes>
+        <PackageReleaseNotes>Updated to work with .NET 4.6x, 4.7x, 4.8, .NET Core 2.0, .NET Core 2.1, .NET Core 2.2</PackageReleaseNotes>
         <PackageLicenseExpression></PackageLicenseExpression>
+        <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net461|AnyCPU'">
       <CodeAnalysisRuleSet />
@@ -66,5 +67,11 @@
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\Dahl.Data.Common\Dahl.Data.Common.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+      <None Include="..\..\LICENSE.txt">
+        <Pack>True</Pack>
+        <PackagePath></PackagePath>
+      </None>
     </ItemGroup>
 </Project>

@@ -6,4 +6,6 @@
 
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage( "Style", "IDE0059:Value assigned to symbol is never used", Justification = "<Pending>", Scope = "member", Target = "~M:Dahl.Data.Tests.Core.EntityReaderTestsCore.EntityListToDataTable" )]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage( "Style", "IDE0059:Value assigned to symbol is never used", Justification = "<Pending>", Scope = "member", Target = "~M:Dahl.Data.Tests.Core.RepositoryTestCore.BulkInsertUsers~System.Int32" )]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage( "Style", "IDE0017:Simplify object initialization", Justification = "<Pending>", Scope = "member", Target = "~M:Dahl.Data.Tests.Models.SsnMap.Map(System.Object[])~Dahl.Data.Tests.Models.Ssn" )]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage( "Style", "IDE0017:Simplify object initialization", Justification = "<Pending>", Scope = "member", Target = "~M:Dahl.Data.Tests.Models.UsersMap.Map(System.Object[])~Dahl.Data.Tests.Models.Users" )]
 
