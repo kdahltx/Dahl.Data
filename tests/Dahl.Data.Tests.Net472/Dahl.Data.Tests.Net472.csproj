@@ -49,9 +49,8 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Dahl.Data.Tests\DataTests.cs">
-      <Link>DataTests.cs</Link>
-    </Compile>
+    <Compile Include="DatabaseTests.cs" />
+    <Compile Include="EntityReaderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -73,6 +72,10 @@
     <ProjectReference Include="..\..\src\Dahl.Data.SqlServer\Dahl.Data.SqlServer.csproj">
       <Project>{cc39a4f7-de1e-4cba-87a2-d5e211a89ee1}</Project>
       <Name>Dahl.Data.SqlServer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dahl.Data.Tests.Common\Dahl.Data.Tests.Common.csproj">
+      <Project>{31523339-0b89-4ff6-be2c-28cb8e4f8036}</Project>
+      <Name>Dahl.Data.Tests.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

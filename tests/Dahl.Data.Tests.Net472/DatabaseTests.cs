@@ -11,13 +11,13 @@ namespace Dahl.Data.Tests.Net472
         [TestClass]
         public class SqlServer_Methods
         {
-            private Dahl.Data.Tests.DataTests _dbTests;
-            public Dahl.Data.Tests.DataTests DbTests
+            private Dahl.Data.Tests.Common.DatabaseTests _dbTests;
+            public Dahl.Data.Tests.Common.DatabaseTests DbTests
             {
                 get
                 {
                     if ( _dbTests == null )
-                        _dbTests = new Dahl.Data.Tests.DataTests();
+                        _dbTests = new Dahl.Data.Tests.Common.DatabaseTests();
                     return _dbTests;
                 }
 

@@ -33,11 +33,13 @@ namespace Dahl.Data.Tests.Common.Models
 
         public override Users Map( object[] values )
         {
-            Users users = new Users();
-            users.UserId    = (int)values[_ordUserId];
-            users.FirstName = (string)values[_ordFirstName];
-            users.LastName  = (string)values[_ordLastName];
-            //users.fk_Ssn    = _ssnMap.Map( values );
+            Users users = new Users
+            {
+                UserId    = (int)values[_ordUserId],
+                FirstName = (string)values[_ordFirstName],
+                LastName  = (string)values[_ordLastName]
+               //fk_Ssn     = _ssnMap.Map( values );
+            };
 
             return users;
         }

@@ -114,7 +114,7 @@ namespace Dahl.Data.Tests.Common
         {
             int listSize = 100;//000;
             Stopwatch sw = new Stopwatch();
-            Models.UsersBulkMapper bulkMapper = new Models.UsersBulkMapper();
+            var bulkMapper = new Models.UsersBulkMapper();
 
             sw.Restart();
             var userList = CreateUserList( listSize, 1, 1, 1 );
@@ -122,7 +122,7 @@ namespace Dahl.Data.Tests.Common
             Trace.WriteLine( $"BulkInsertUsers --- CreateUserList({listSize},1,1,1) executed in {sw.ElapsedMilliseconds} ms" );
 
             sw.Restart();
-            Database.BulkUpdate( userList, new Models.UsersBulkMapper() );
+            Database.BulkUpdate( userList, bulkMapper );
             sw.Stop();
             Trace.WriteLine( $"BulkInsertUsers --- Database.BulkUpdate(userList) executed in {sw.ElapsedMilliseconds} ms" );
 

@@ -22,7 +22,7 @@ namespace Dahl.Data.Common
             if ( _connectionString.IsNotNullOrEmpty() )
                 return _connectionString;
 
-#if NETCOREAPP2_0 || NETCOREAPP2_1 || NETCOREAPP2_2
+#if NETCOREAPP2_0 || NETCOREAPP2_1 || NETCOREAPP2_2 || NETCOREAPP3_0
             var css = new Dahl.Data.Common.ConnectionStringSettings( connectionStringName );
             _connectionString = css.ConnectionString;
 #else

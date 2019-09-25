@@ -14,8 +14,8 @@ Located at [kdahltx/Dahl.Data](https://github.com/kdahltx/Data.Data)
 
 Packages
 --------
-
 NuGet Release feed: https://www.nuget.org/
+
 
 | Package | NuGet Stable | NuGet Pre-release | Downloads | MyGet |
 | ------- | ------------ | ----------------- | --------- | ----- |
@@ -24,7 +24,7 @@ NuGet Release feed: https://www.nuget.org/
 
 Features
 --------
-Dahl.Data is a [NuGet library](https://www.nuget.org/packages/Dahl.Data) that you can add in to your project to create a consistent framework for data access.
+Dahl.Data is a [NuGet library](https://www.nuget.org/packages/Dahl.Data) that can be added to a project for creating a consistent api to access data.
 
 This facade provides an interface/mechanism to implement customized mapping classes that can
 be used to optimize performance for an object used a significant number of times. For large

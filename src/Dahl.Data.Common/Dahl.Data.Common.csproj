@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <TargetFrameworks>net461;net462;net47;net471;net472;net48;netcoreapp2.0;netcoreapp2.1;netcoreapp2.2;</TargetFrameworks>
+    <TargetFrameworks>net461;net462;net47;net471;net472;net48;netcoreapp2.0;netcoreapp2.1;netcoreapp2.2;netcoreapp3.0;</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <SignAssembly>true</SignAssembly>
     <ShouldCreateLogs>True</ShouldCreateLogs>
@@ -19,9 +19,9 @@
     <Description>Database facade for ADO.NET</Description>
     <Copyright>Dahl Software Consulting</Copyright>
     <PackageTags>ado.net</PackageTags>
-    <AssemblyVersion>1.0.4.448</AssemblyVersion>
-    <FileVersion>1.0.4.448</FileVersion>
-    <Version>1.0.4</Version>
+    <AssemblyVersion>1.0.5.448</AssemblyVersion>
+    <FileVersion>1.0.5.448</FileVersion>
+    <Version>1.0.5</Version>
     <RepositoryUrl>https://github.com/kdahltx/Dahl.Data</RepositoryUrl>
     <PackageProjectUrl>https://github.com/kdahltx/Dahl.Data</PackageProjectUrl>
     <PackageReleaseNotes>Updated to work with .NET 4.6x, 4.7x, 4.8, .NET Core 2.0, .NET Core 2.1, .NET Core 2.2</PackageReleaseNotes>
@@ -35,68 +35,100 @@
 
   <ItemGroup>
     <PackageReference Include="Dahl.Extensions" Version="1.1.21" />
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.5.0" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.6.1" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.7.0" />
     <PackageReference Include="System.Data.Common" Version="4.3.0" />
-    <PackageReference Include="System.Runtime.Caching" Version="4.5.0" />
+    <PackageReference Include="System.Runtime.Caching" Version="4.6.0" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net461'">
-    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="2.1.2" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="1.1.2" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="1.1.2" />
+      <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.6.0" />
+      <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="1.1.2" />
+      <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="1.1.2" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="1.1.2" />
+      <PackageReference Include="Microsoft.Extensions.Configuration" Version="1.1.2" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="1.1.2" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="1.1.2" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net462'">
-    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="1.1.2" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="1.1.2" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="1.1.2" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="1.1.2" />
+      <PackageReference Include="Microsoft.Extensions.Configuration" Version="1.1.2" />
+      <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.6.0" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="1.1.2" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="1.1.2" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="1.1.2" />
+      <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="1.1.2" />
+      <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="1.1.2" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net47'">
-    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="2.1.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="2.1.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.0" />
+      <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.0" />
+      <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.6.0" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.1.0" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="2.1.0" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.0" />
+      <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="2.1.0" />
+      <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="2.1.0" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net471'">
-    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="2.1.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="2.1.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.0" />
+      <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.0" />
+      <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.6.0" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.1.0" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="2.1.0" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.0" />
+      <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="2.1.0" />
+      <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="2.1.0" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net472'">
-    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="2.1.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="2.1.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.0" />
+      <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.0" />
+      <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.6.0" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.1.0" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="2.1.0" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.0" />
+      <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="2.1.0" />
+      <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="2.1.0" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net48'">
+      <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.0" />
+      <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.6.0" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.1.0" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="2.1.0" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.0" />
+      <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="2.1.0" />
+      <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="2.1.0" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.0'">
-    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="2.1.2" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="2.1.2" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="2.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.1" />
+      <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
+      <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.6.0" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.1.1" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="2.1.1" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.1" />
+      <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="2.1.2" />
+      <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="2.1.2" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.1'">
-    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="2.1.2" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="2.1.2" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="2.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.1" />
+      <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
+      <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.6.0" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.1.1" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="2.1.1" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.1" />
+      <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="2.1.2" />
+      <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="2.1.2" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.2'">
-        <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="2.1.2" />
-        <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="2.1.2" />
-        <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
-        <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.1.1" />
-        <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="2.1.1" />
-        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.1" />
+      <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
+      <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.6.0" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.2.0" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="2.2.0" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
+      <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="2.2.0" />
+      <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="2.2.0" />
   </ItemGroup>
-  <ItemGroup>
-    <Reference Include="System.Configuration" />
-  </ItemGroup>
+    <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
+        <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.0.0" />
+        <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.6.0" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="3.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="3.0.0" />
+    </ItemGroup>
   <ItemGroup>
     <None Include="..\..\LICENSE.txt">
       <Pack>True</Pack>

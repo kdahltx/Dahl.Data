@@ -31,12 +31,13 @@ namespace Dahl.Data.Tests.Common.Models
 
         public override Ssn Map( object[] values )
         {
-            Ssn ssn = new Ssn();
-
-            ssn.SsnId = (Guid)values[_ordSsnId];
-            ssn.Ssn1 = (short)values[_ordSsn1];
-            ssn.Ssn2 = (byte)values[_ordSsn2];
-            ssn.Ssn3 = (short)values[_ordSsn3];
+            Ssn ssn = new Ssn
+            {
+                SsnId = (Guid)values[_ordSsnId],
+                Ssn1 = (short)values[_ordSsn1],
+                Ssn2 = (byte)values[_ordSsn2],
+                Ssn3 = (short)values[_ordSsn3]
+            };
 
             return ssn;
         }
