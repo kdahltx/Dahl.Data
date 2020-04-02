@@ -16,13 +16,18 @@ namespace Dahl.Data.Common
 
         protected abstract IDatabase CreateDatabase();
 
+        public void Close()
+        {
+            _database?.Close();
+        }
+
         private string _connectionString;
         protected virtual string GetConnectionString( string connectionStringName )
         {
             if ( _connectionString.IsNotNullOrEmpty() )
                 return _connectionString;
 
-#if NETCOREAPP2_0 || NETCOREAPP2_1 || NETCOREAPP2_2 || NETCOREAPP3_0
+#if NETCOREAPP2_0 || NETCOREAPP2_1 || NETCOREAPP2_2 || NETCOREAPP3_0 || NETCOREAPP3_1
             var css = new Dahl.Data.Common.ConnectionStringSettings( connectionStringName );
             _connectionString = css.ConnectionString;
 #else
@@ -39,6 +44,11 @@ namespace Dahl.Data.Common
         }
 
         #region CreateParameter Methods -----------------------------------------------------------
+        public IDbDataParameter CreateOutputParameter( string name, Type type )
+        {
+            return Database.CreateOutputParameter( name, type );
+        }
+
         /// <summary>
         /// CreateParameter overload
         /// </summary>
@@ -50,9 +60,19 @@ namespace Dahl.Data.Common
             return Database.CreateParameter( name, value, typeof( string ), true );
         }
 
+        public IDbDataParameter CreateParameter( string name, string value, int maxLen )
+        {
+            return Database.CreateParameter( name, value, typeof( string ), maxLen, true );
+        }
+
         public IDbDataParameter CreateParameter( string name, byte value )
         {
             return Database.CreateParameter( name, value, typeof( byte ) );
+        }
+
+        public IDbDataParameter CreateParameter( string name, byte[] value, int maxLen )
+        {
+            return Database.CreateParameter( name, value, typeof( byte[] ), maxLen );
         }
 
         public IDbDataParameter CreateParameter( string name, short value )
@@ -63,6 +83,11 @@ namespace Dahl.Data.Common
         public IDbDataParameter CreateParameter( string name, int value )
         {
             return Database.CreateParameter( name, value, typeof( int ) );
+        }
+
+        public IDbDataParameter CreateParameter( string name, int[] value, int maxLen )
+        {
+            return Database.CreateParameter( name, value, typeof( int[] ), maxLen );
         }
 
         public IDbDataParameter CreateParameter( string name, long value )

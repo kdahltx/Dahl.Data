@@ -77,7 +77,7 @@ namespace Dahl.Data.SqlServer
             return parameter;
         }
 
-#region BulkCopy Methods ------------------------------------------------------------------
+        #region BulkCopy Methods ------------------------------------------------------------------
         public override bool BulkInsert<TEntity>( IEnumerable<TEntity> list, IBulkMapper bulkMapper )
         {
             try
@@ -96,7 +96,7 @@ namespace Dahl.Data.SqlServer
                     bulkCopy.ColumnMappings.Add( cols[0], cols[1] );
                 }
 
-                using ( EntityReader<TEntity> er = new EntityReader<TEntity>( list ) )
+                using ( var er = new EntityReader<TEntity>( list ) )
                 {
                     Stopwatch sw = new Stopwatch();
                     sw.Start();
@@ -160,7 +160,8 @@ namespace Dahl.Data.SqlServer
                 if ( connection == null )
                     throw new NullReferenceException( nameof( connection ) );
 
-                SqlBulkCopy bulkCopy = new SqlBulkCopy( connection ) {
+                SqlBulkCopy bulkCopy = new SqlBulkCopy( connection )
+                {
                     DestinationTableName = $"#tmp_{bulkMapper.TmpTableName}"
                 };
                 foreach ( string colPair in bulkMapper.MapList )
@@ -197,7 +198,7 @@ namespace Dahl.Data.SqlServer
                     }
                 }
 #else
-                using ( EntityReader<TEntity> reader = new EntityReader<TEntity>( list ) )
+                using ( var reader = new EntityReader<TEntity>( list ) )
                 {
                     // write records to temp table.
                     sw.Restart();
@@ -288,7 +289,8 @@ namespace Dahl.Data.SqlServer
                 if ( connection == null )
                     throw new NullReferenceException( nameof( Connection ) );
 
-                SqlBulkCopy bulkCopy = new SqlBulkCopy( connection ) {
+                SqlBulkCopy bulkCopy = new SqlBulkCopy( connection )
+                {
                     DestinationTableName = bulkMapper.DstTableName[0]
                 };
 
@@ -298,7 +300,7 @@ namespace Dahl.Data.SqlServer
                     bulkCopy.ColumnMappings.Add( cols[0], cols[1] );
                 }
 
-                using ( EntityReader<TEntity> er = new EntityReader<TEntity>( list ) )
+                using ( var er = new EntityReader<TEntity>( list ) )
                 {
                     Stopwatch sw = new Stopwatch();
                     sw.Start();
@@ -328,7 +330,8 @@ namespace Dahl.Data.SqlServer
                 if ( connection == null )
                     throw new NullReferenceException( nameof( Connection ) );
 
-                SqlBulkCopy bulkCopy = new SqlBulkCopy( connection ) {
+                SqlBulkCopy bulkCopy = new SqlBulkCopy( connection )
+                {
                     DestinationTableName = bulkMapper.DstTableName[0]
                 };
 
@@ -338,7 +341,7 @@ namespace Dahl.Data.SqlServer
                     bulkCopy.ColumnMappings.Add( cols[0], cols[1] );
                 }
 
-                using ( EntityReader<TEntity> er = new EntityReader<TEntity>( list ) )
+                using ( var er = new EntityReader<TEntity>( list ) )
                 {
                     Stopwatch sw = new Stopwatch();
                     sw.Start();

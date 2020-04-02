@@ -12,6 +12,7 @@ namespace Dahl.Data.Common
     {
         protected const string _CreateConnectionError = "Unable to create IConnection object";
         protected const string _UnableToOpenDbError   = "Unable to open database connection";
+        protected const string _RETURN_VALUE          = "@Identity";
 
         public IDbConnection  Connection     { get; set; }
         public int            CommandTimeOut { get; set; } = 300;
@@ -23,7 +24,7 @@ namespace Dahl.Data.Common
         public string ProviderName         { get; set; }
 
         #region Database Providers ----------------------------------------------------------------
-#if !NETCOREAPP2_0 && !NETCOREAPP2_1 && !NETCOREAPP2_2 && !NETCOREAPP3_0
+#if !NETCOREAPP2_0 && !NETCOREAPP2_1 && !NETCOREAPP2_2 && !NETCOREAPP3_0 && !NETCOREAPP3_1
         private List<DataProvider> _providerList;
         public  List<DataProvider> ProviderList { get { return _providerList ?? ( _providerList = GetProviderFactoryClasses() ); } }
 
@@ -129,7 +130,7 @@ namespace Dahl.Data.Common
         {
             try
             {
-#if !NETCOREAPP2_0 && !NETCOREAPP2_1 && !NETCOREAPP2_2 && !NETCOREAPP3_0
+#if !NETCOREAPP2_0 && !NETCOREAPP2_1 && !NETCOREAPP2_2 && !NETCOREAPP3_0 && !NETCOREAPP3_1
                 _providerFactory = DbProviderFactories.GetFactory( ProviderName );
 #else
                 throw new NotImplementedException("This method must be overridden in a .NET Core Applications");
@@ -188,32 +189,31 @@ namespace Dahl.Data.Common
 
         ~Database()
         {
-            Trace.WriteLine( $"0:Start {GetType().FullName}.~Database()" );
-            try
-            {
-                Dispose();
-            }
-            catch ( Exception e )
-            {
-                LastError.Message = GetExceptionAsString( e );
-                Trace.WriteLine( $"Logging Exception: {LastError.Message}" );
-            }
-            finally
-            {
-                GC.SuppressFinalize( this );
-                Trace.WriteLine( $"0:End   {GetType().FullName}.~Database()" );
-            }
+            Dispose( false );
+
+            //Trace.WriteLine( $"0:Start {GetType().FullName}.~Database()" );
+            //try
+            //{
+            //}
+            //catch ( Exception e )
+            //{
+            //    throw e;
+            //    LastError.Message = GetExceptionAsString( e );
+            //    Trace.WriteLine( $"Logging Exception: {LastError.Message}" );
+            //}
+            //Trace.WriteLine( $"0:End   {GetType().FullName}.~Database()" );
         }
 
         ///----------------------------------------------------------------------------------------
         /// <summary>
         /// 
         /// </summary>
-        public virtual void Dispose()
+        public void Dispose()
         {
-            Trace.WriteLine( $"0:Start {GetType().FullName}.Dispose()" );
-            Dispose( true );
-            Trace.WriteLine( $"0:End   {GetType().FullName}.Dispose()" );
+            //Trace.WriteLine( $"0:Start {GetType().FullName}.Dispose()" );
+            this.Dispose( true );
+            GC.SuppressFinalize(this);
+            //Trace.WriteLine( $"0:End   {GetType().FullName}.Dispose()" );
         }
 
         ///----------------------------------------------------------------------------------------
@@ -229,9 +229,22 @@ namespace Dahl.Data.Common
                 if ( _disposed )
                     return;
 
+                if ( _Cmd != null )
+                {
+                    _Cmd.Dispose();
+                    _Cmd = null;
+                }
+
+                if ( _Reader != null )
+                {
+                    if ( !_Reader.IsClosed )
+                        _Reader.Close();
+
+                    _Reader.Dispose();
+                }
+
                 _disposed = true;
-                if ( disposing )
-                    Close();
+                // calling Close here will cause an exception to be thrown.
             }
             catch ( Exception e )
             {
@@ -372,6 +385,12 @@ namespace Dahl.Data.Common
             throw new NotImplementedException( "CreateParameter" );
         }
 
+        public virtual IDbDataParameter CreateOutputParameter( string name, Type type )
+        {
+            throw new NotImplementedException( "CreateOutputParameter" );
+        }
+
+        #region CreateParameter -------------------------------------------------------------------
         ///----------------------------------------------------------------------------------------
         /// <summary>
         /// 
@@ -384,6 +403,12 @@ namespace Dahl.Data.Common
             return CreateParameter( name, value, typeof( string ), true );
         }
 
+        public virtual IDbDataParameter CreateParameter( string name, object value, Type type, int maxLen, bool isNullable = false )
+        {
+            return CreateParameter( name, value, type, true );
+        }
+		#endregion
+		
         #region CreateParameter short -------------------------------------------------------------
         public IDbDataParameter CreateParameter( string name, short value )
         {
@@ -405,6 +430,11 @@ namespace Dahl.Data.Common
         public virtual IDbDataParameter CreateParameter( string name, int? value )
         {
             return CreateParameter( name, value, typeof( int? ), true );
+        }
+
+        public virtual IDbDataParameter CreateParameter( string name, int[] value )
+        {
+            return CreateParameter( name, value, typeof( int[] ), true );
         }
         #endregion
 
@@ -453,6 +483,11 @@ namespace Dahl.Data.Common
         public virtual IDbDataParameter CreateParameter( string name, byte? value )
         {
             return CreateParameter( name, value, typeof( byte? ), true );
+        }
+
+        public virtual IDbDataParameter CreateParameter( string name, byte[] value )
+        {
+            return CreateParameter( name, value, typeof( byte[] ), true );
         }
         #endregion
 
@@ -586,6 +621,12 @@ namespace Dahl.Data.Common
             return numRows;
         }
 
+        //-----------------------------------------------------------------------------------------
+        public virtual TReturnValue GetReturnValue<TReturnValue>( string parmName )
+        {
+            throw new NotImplementedException( "GetReturnValue" );
+        }
+
         ///----------------------------------------------------------------------------------------
         /// <summary>
         /// 
@@ -651,8 +692,7 @@ namespace Dahl.Data.Common
         /// <param name="parameters"></param>
         /// <param name="mapper"></param>
         /// <returns></returns>
-        public virtual IEnumerable<TEntity> ExecuteQuery<TEntity>( string           sqlCmd, CommandParameter parameters,
-                                                                   IMapper<TEntity> mapper = null )
+        public virtual IEnumerable<TEntity> ExecuteQuery<TEntity>( string sqlCmd, CommandParameter parameters, IMapper<TEntity> mapper = null )
             where TEntity : class, new()
         {
             try
@@ -660,9 +700,33 @@ namespace Dahl.Data.Common
                 if ( CreateQuery( sqlCmd, parameters ) )
                 {
                     _Reader = _Cmd.ExecuteReader();
-
                     if ( _Reader != null )
                         return Read( mapper );
+                }
+            }
+            catch ( Exception ex )
+            {
+                SetLastError( 1003, ex.Message );
+            }
+
+            return null;
+        }
+		
+        ///----------------------------------------------------------------------------------------
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sqlCmd"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        public virtual IDataReader ExecuteMultipleQueries( string sqlCmd, CommandParameter parameters = null )
+        {
+            try
+            {
+                if ( CreateQuery( sqlCmd, parameters ) )
+                {
+                    _Reader = _Cmd.ExecuteReader();
+                    return _Reader;
                 }
             }
             catch ( Exception ex )
@@ -717,8 +781,7 @@ namespace Dahl.Data.Common
         /// <param name="parameters"></param>
         /// <param name="mapper"></param>
         /// <returns></returns>
-        public virtual IEnumerable<TEntity> ExecuteNamedQuery<TEntity>( string           sqlCmd, CommandParameter parameters,
-                                                                        IMapper<TEntity> mapper = null )
+        public virtual IEnumerable<TEntity> ExecuteNamedQuery<TEntity>( string sqlCmd, CommandParameter parameters, IMapper<TEntity> mapper = null )
             where TEntity : class, new()
         {
             try

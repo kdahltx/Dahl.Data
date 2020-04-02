@@ -156,7 +156,7 @@ namespace Dahl.Data.Common
         protected ConcurrentDictionary<string, IFieldInfo> Columns = new ConcurrentDictionary<string, IFieldInfo>();
 
         //-----------------------------------------------------------------------------------------
-        public class FieldInfo : IFieldInfo
+        protected class FieldInfo : IFieldInfo
         {
             public string Name         { get; set; }
             public Type   FieldType    { get; set; }

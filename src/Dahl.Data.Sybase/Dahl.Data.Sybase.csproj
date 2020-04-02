@@ -12,6 +12,13 @@
         <FileVersion>1.0.5.173</FileVersion>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Version>0.0.4</Version>
+        <Description>Database facade for ADO.NET for Sybase</Description>
+        <Copyright>Dahl Software Services</Copyright>
+        <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+        <PackageProjectUrl>https://github.com/kdahltx/Dahl.Data</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/kdahltx/Dahl.Data</RepositoryUrl>
+        <PackageTags>ado.net</PackageTags>
+        <PackageReleaseNotes>Updated to work with .NET 4.6x, 4.7x, 4.8, .NET Core 2.0, .NET Core 2.1, .NET Core 2.2, .NET Core 3.0</PackageReleaseNotes>
     </PropertyGroup>
     <ItemGroup Condition="'$(TargetFramework)' == 'net46' OR '$(TargetFramework)' == 'net461' OR '$(TargetFramework)' == 'net462'">
         <PackageReference Include="Sybase.AdoNet4.AseClient" Version="1.0.0" />
@@ -39,5 +46,11 @@
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\Dahl.Data.Common\Dahl.Data.Common.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+      <None Include="..\..\LICENSE.txt">
+        <Pack>True</Pack>
+        <PackagePath></PackagePath>
+      </None>
     </ItemGroup>
 </Project>

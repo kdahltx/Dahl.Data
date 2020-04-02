@@ -7,74 +7,64 @@
         <SccLocalPath>SAK</SccLocalPath>
     </PropertyGroup>
     <PropertyGroup>
-        <TargetFrameworks>net461;net462;net47;net471;net472;net48;netcoreapp2.0;netcoreapp2.1;netcoreapp2.2;netcoreapp3.0</TargetFrameworks>
-        <AssemblyVersion>1.0.5.307</AssemblyVersion>
-        <FileVersion>1.0.5.307</FileVersion>
+        <TargetFrameworks>net461;net462;net47;net471;net472;net48;netcoreapp2.0;netcoreapp2.1;netcoreapp2.2;netcoreapp3.0;netcoreapp3.1;</TargetFrameworks>
+        <AssemblyVersion>1.0.6.307</AssemblyVersion>
+        <FileVersion>1.0.6.307</FileVersion>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <Version>1.0.2</Version>
+        <Version>1.0.3</Version>
         <PackageProjectUrl>https://github.com/kdahltx/Dahl.Data</PackageProjectUrl>
         <RepositoryUrl>https://github.com/kdahltx/Dahl.Data</RepositoryUrl>
-        <Copyright>Dahl Software Consulting</Copyright>
+        <Copyright>Dahl Software Services</Copyright>
         <RepositoryType />
         <PackageTags>ado.net</PackageTags>
         <Description>Database facade for ADO.NET for SQL Server</Description>
-        <PackageReleaseNotes>Updated to work with .NET 4.6x, 4.7x, 4.8, .NET Core 2.0, .NET Core 2.1, .NET Core 2.2, .NET Core 3.0</PackageReleaseNotes>
+        <PackageReleaseNotes>Updated to work with .NET 4.6x, 4.7x, 4.8, .NET Core 2.0, .NET Core 2.1, .NET Core 2.2, .NET Core 3.0, .NET Core 3.1</PackageReleaseNotes>
         <PackageLicenseExpression></PackageLicenseExpression>
         <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net461|AnyCPU'">
       <CodeAnalysisRuleSet />
+      <NoWarn>1701;1702;CA1031;</NoWarn>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net461|AnyCPU'">
       <CodeAnalysisRuleSet />
     </PropertyGroup>
 
     <ItemGroup Condition="'$(TargetFramework)' == 'net461'">
-        <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
-        <PackageReference Include="System.Data.SqlClient" Version="4.7.0" />
+        <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     </ItemGroup>
     <ItemGroup Condition="'$(TargetFramework)' == 'net462'">
-        <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
-        <PackageReference Include="System.Data.SqlClient" Version="4.7.0" />
+        <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     </ItemGroup>
 
     <ItemGroup Condition="'$(TargetFramework)' == 'net47'">
-        <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
-        <PackageReference Include="System.Data.SqlClient" Version="4.7.0" />
+        <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     </ItemGroup>
     <ItemGroup Condition="'$(TargetFramework)' == 'net471'">
-        <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
-        <PackageReference Include="System.Data.SqlClient" Version="4.7.0" />
+        <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     </ItemGroup>
     <ItemGroup Condition="'$(TargetFramework)' == 'net472'">
-        <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
-        <PackageReference Include="System.Data.SqlClient" Version="4.7.0" />
+        <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     </ItemGroup>
     
     <ItemGroup Condition="'$(TargetFramework)' == 'net48'">
-        <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
-        <PackageReference Include="System.Data.SqlClient" Version="4.7.0" />
+        <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     </ItemGroup>
 
     <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.0'">
-        <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
-        <PackageReference Include="System.Data.SqlClient" Version="4.7.0" />
-        <PackageReference Include="System.Data.Common" Version="4.3.0" />
+        <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     </ItemGroup>
     <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.1'">
-        <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
-        <PackageReference Include="System.Data.SqlClient" Version="4.7.0" />
-        <PackageReference Include="System.Data.Common" Version="4.3.0" />
+        <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     </ItemGroup>
     <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.2'">
-        <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
-        <PackageReference Include="System.Data.SqlClient" Version="4.7.0" />
-        <PackageReference Include="System.Data.Common" Version="4.3.0" />
+        <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     </ItemGroup>
     <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
-        <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
-        <PackageReference Include="System.Data.SqlClient" Version="4.7.0" />
-        <PackageReference Include="System.Data.Common" Version="4.3.0" />
+        <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    </ItemGroup>
+    <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
+        <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\Dahl.Data.Common\Dahl.Data.Common.csproj" />
