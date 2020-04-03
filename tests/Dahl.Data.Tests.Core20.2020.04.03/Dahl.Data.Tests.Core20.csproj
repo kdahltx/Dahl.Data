@@ -1,13 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFramework>netcoreapp2.1</TargetFramework>
-        <RootNamespace>Dahl.Data.Tests.Core21</RootNamespace>
+        <TargetFramework>netcoreapp2.0</TargetFramework>
+        <RootNamespace>Dahl.Data.Tests.Core20</RootNamespace>
         <IsPackable>false</IsPackable>
+        <OutputType>Exe</OutputType>
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
         <PackageReference Include="MSTest.TestAdapter" Version="2.1.1" />
         <PackageReference Include="MSTest.TestFramework" Version="2.1.1" />
+        <PackageReference Include="coverlet.collector" Version="1.2.1">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\Dahl.Data.Tests.Common\Dahl.Data.Tests.Common.csproj" />

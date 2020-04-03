@@ -1,5 +1,6 @@
 ﻿#if NETCOREAPP2_0 || NETCOREAPP2_1 || NETCOREAPP2_2 || NETCOREAPP3_0 || NETCOREAPP3_1
 using System;
+using System.Diagnostics;
 using System.IO;
 using Microsoft.Extensions.Configuration;
 using Dahl.Extensions;
@@ -21,10 +22,22 @@ namespace Dahl.Data.Common
 
         public ConnectionStringSettings( string connectionStringName = null )
         {
-            IConfigurationBuilder cb = new ConfigurationBuilder();
-            cb = cb.SetBasePath( Directory.GetCurrentDirectory() );
-            cb = cb.AddJsonFile( "appsettings.json" );
-            Configuration = cb.Build();
+            //var cs = Microsoft.Extensions
+            //                  .Configuration
+            //                  .ConfigurationExtensions
+            //                  .GetConnectionString( this.Configuration, connectionStringName );
+
+            var currentDir = Directory.GetCurrentDirectory();
+            IConfigurationBuilder cb = new ConfigurationBuilder().SetBasePath( currentDir )
+                                                                 .AddJsonFile( "appsettings.json" );
+            try {
+                Configuration = cb.Build();
+            }
+            catch ( Exception e )
+            {
+                Trace.WriteLine( $"{e}" );
+                throw e;
+            }
 
             if ( connectionStringName.IsNotNullOrEmpty() )
                 LoadConnectionString( connectionStringName );

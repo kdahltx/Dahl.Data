@@ -133,7 +133,8 @@ namespace Dahl.Data.Common
 #if !NETCOREAPP2_0 && !NETCOREAPP2_1 && !NETCOREAPP2_2 && !NETCOREAPP3_0 && !NETCOREAPP3_1
                 _providerFactory = DbProviderFactories.GetFactory( ProviderName );
 #else
-                throw new NotImplementedException("This method must be overridden in a .NET Core Applications");
+                throw new NotImplementedException("Dahl.Data.Common.Database.cs line 136: " +
+                                                  "This method must be overridden in a .NET Core Applications");
 #endif
             }
             catch ( Exception e )
