@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp2.0;netcoreapp2.1;netcoreapp2.2;netcoreapp3.0</TargetFrameworks>
+    <TargetFrameworks>netcoreapp2.1;netcoreapp3.1;net5.0</TargetFrameworks>
     <AssemblyVersion>1.0.5.230</AssemblyVersion>
     <FileVersion>1.0.5.230</FileVersion>
     <Copyright>Dahl Software Services</Copyright>
@@ -21,11 +21,11 @@
     <Description>Provides basic facade for Dapper</Description>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp2.0|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp2.1|AnyCPU'">
     <CodeAnalysisRuleSet />
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp2.0|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp2.1|AnyCPU'">
     <CodeAnalysisRuleSet />
   </PropertyGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net46' OR '$(TargetFramework)' == 'net461' OR '$(TargetFramework)' == 'net462'">
@@ -38,11 +38,14 @@
         <PackageReference Include="Dapper" Version="1.60.6" />
     </ItemGroup>
 
-    <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.0' OR '$(TargetFramework)' == 'netcoreapp2.1' OR '$(TargetFramework)' == 'netcoreapp2.2'">
+    <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.1'">
         <PackageReference Include="Dapper" Version="2.0.30" />
     </ItemGroup>
     
-    <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0' OR '$(TargetFramework)' == 'netcoreapp3.1'">
+    <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
+        <PackageReference Include="Dapper" Version="2.0.30" />
+    </ItemGroup>
+    <ItemGroup Condition="'$(TargetFramework)' == 'net5.0'">
         <PackageReference Include="Dapper" Version="2.0.30" />
     </ItemGroup>
 

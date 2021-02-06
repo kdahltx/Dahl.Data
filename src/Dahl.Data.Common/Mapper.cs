@@ -143,8 +143,9 @@ namespace Dahl.Data.Common
                     if ( p != null && p.CanWrite )
                         p.SetValue( entity, o );
 
-                    var accessor = _accessorsList.Find( x => x.Ordinal == ci.Ordinal );
-                    accessor.SetValue( entity, o );
+                    //TODO: is this really a faster/better way?
+                    //var accessor = _accessorsList.Find( x => x.Ordinal == ci.Ordinal );
+                    //accessor.SetValue( entity, o );
                 }
             }
 
@@ -154,14 +155,14 @@ namespace Dahl.Data.Common
         //-----------------------------------------------------------------------------------------
         protected bool                                     FieldOrdinalsInitialized;
         protected ConcurrentDictionary<string, IFieldInfo> Columns = new ConcurrentDictionary<string, IFieldInfo>();
+    }
 
-        //-----------------------------------------------------------------------------------------
-        protected class FieldInfo : IFieldInfo
-        {
-            public string Name         { get; set; }
-            public Type   FieldType    { get; set; }
-            public string DataTypeName { get; set; }
-            public int    Ordinal      { get; set; }
-        }
+    //-----------------------------------------------------------------------------------------
+    public class FieldInfo : IFieldInfo
+    {
+        public string Name         { get; set; }
+        public Type   FieldType    { get; set; }
+        public string DataTypeName { get; set; }
+        public int    Ordinal      { get; set; }
     }
 }

@@ -4,9 +4,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Dahl.Data.Common;
 using Dahl.Extensions;
 
-namespace Dahl.Data.Tests.Core20
+namespace Dahl.Data.Tests.Core31
 {
-    [TestCategory("Core20.EntityReaderTests")]
+    [TestCategory("Core31.EntityReaderTests")]
     [TestClass]
     public class EntityReaderTests
     {

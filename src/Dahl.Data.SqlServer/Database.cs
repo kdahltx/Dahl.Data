@@ -1,4 +1,4 @@
-﻿#if NETCOREAPP2_0 || NETCOREAPP2_1 || NETCOREAPP2_2 || NETCOREAPP3_0 || NETCOREAPP3_1
+﻿#if NETCOREAPP2_1 || NETCOREAPP3_1 || NET5_0
 using System.Data.Common;
 #endif
 using System;
@@ -66,15 +66,97 @@ namespace Dahl.Data.SqlServer
             return (SqlDbType)GetDbType( dataType );
         }
 
+        public override IDbDataParameter CreateOutputParameter( string name, Type type )
+        {
+            IDbDataParameter parameter = new SqlParameter
+            {
+                ParameterName = name,
+                SqlDbType = GetSqlDbType( type ),
+                Direction = ParameterDirection.Output
+            };
+            return parameter;
+        }
+
+        //-----------------------------------------------------------------------------------------
+        public override IDbDataParameter CreateParameter( string name, decimal value, byte precision = 0, byte scale = 0 )
+        {
+            IDbDataParameter parameter = new SqlParameter( name, value )
+            {
+                SqlDbType = GetSqlDbType( value.GetType() ),
+                Value = value,
+                Precision = precision,
+                Scale = scale
+            };
+            return parameter;
+        }
+
+        //-----------------------------------------------------------------------------------------
         public override IDbDataParameter CreateParameter( string name, object value, Type type, bool isNullable = false )
         {
             IDbDataParameter parameter = new SqlParameter( name, value )
             {
                 SqlDbType = GetSqlDbType( type ),
                 IsNullable = isNullable,
-                Size = GetSize( value )
+                Size = value == null ? sizeof(SqlDbType) : GetSize( value )
             };
             return parameter;
+        }
+
+        //-----------------------------------------------------------------------------------------
+        public override IDbDataParameter CreateParameter( string name, object value, Type type, int maxLen, bool isNullable = false )
+        {
+            IDbDataParameter parameter = new SqlParameter( name, value )
+            {
+                SqlDbType = GetSqlDbType( type ),
+                IsNullable = isNullable,
+                Size = maxLen
+            };
+            return parameter;
+        }
+
+        ///----------------------------------------------------------------------------------------
+        /// <summary>
+        /// Adds parameters to the IDbCommand Parameters property.
+        /// </summary>
+        /// <param name="parameters"></param>
+        public override void AddParameters( Common.CommandParameter parameters )
+        {
+            if ( _Cmd == null || parameters == null )
+                return;
+
+            _Cmd.Parameters.Clear();
+            parameters.AddParameters( _Cmd );
+            try
+            {
+                _Cmd.Prepare();
+            }
+            catch( Exception e )
+            {
+                Trace.WriteLine( $"SqlServer.Database.AddParameters: [{e.Message}]" );
+            }
+        }
+
+        ///----------------------------------------------------------------------------------------
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sqlCmd"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        public override bool CreateQuery( string sqlCmd, Common.CommandParameter parameters = null )
+        {
+            var sqlParameters = parameters as SqlServer.CommandParameter;
+            bool result = CreateCommand( sqlCmd );
+            if ( result )
+                AddParameters( sqlParameters );
+
+            return result;
+        }
+
+        //-----------------------------------------------------------------------------------------
+        public override TReturnValue GetReturnValue<TReturnValue>( string parmName )
+        {
+            return Cmd.Parameters[parmName].GetValueOrDefault<TReturnValue>();
         }
 
         #region BulkCopy Methods ------------------------------------------------------------------
@@ -363,7 +445,8 @@ namespace Dahl.Data.SqlServer
         }
         #endregion
 
-#if NETCOREAPP2_0 || NETCOREAPP2_1 || NETCOREAPP2_2 || NETCOREAPP3_0 || NETCOREAPP3_1
+
+#if NETCOREAPP2_1 || NETCOREAPP3_1 || NET5_0
         protected override DbProviderFactory CreateProviderFactory()
         {
             return SqlClientFactory.Instance;

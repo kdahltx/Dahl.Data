@@ -28,7 +28,7 @@ namespace Dahl.Data.SqlServer
                         parm.Value = DBNull.Value;
 
                     sqlCommand.Parameters.Add( parm );
-                    sb.AppendFormat( $"   {parm.ParameterName} = {parm.Value}{Environment.NewLine}" );
+                    sb.Append( $"   {parm.ParameterName} = {parm.Value}{Environment.NewLine}" );
                 }
                 catch ( Exception e )
                 {

@@ -3,11 +3,11 @@ using System.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Dahl.Data.Common;
 
-namespace Dahl.Data.Tests.Core20
+namespace Dahl.Data.Tests.Net50
 {
     public class DatabaseTests
     {
-        [TestCategory("Core20.DatabaseTests")]
+        [TestCategory( "Net50.DatabaseTests" )]
         [TestClass]
         public class SqlServer_Methods
         {

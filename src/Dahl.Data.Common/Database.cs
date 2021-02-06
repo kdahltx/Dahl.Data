@@ -24,7 +24,7 @@ namespace Dahl.Data.Common
         public string ProviderName         { get; set; }
 
         #region Database Providers ----------------------------------------------------------------
-#if !NETCOREAPP2_0 && !NETCOREAPP2_1 && !NETCOREAPP2_2 && !NETCOREAPP3_0 && !NETCOREAPP3_1
+#if !NETCOREAPP2_1 && !NETCOREAPP3_1 && !NET5_0
         private List<DataProvider> _providerList;
         public  List<DataProvider> ProviderList { get { return _providerList ?? ( _providerList = GetProviderFactoryClasses() ); } }
 
@@ -130,7 +130,7 @@ namespace Dahl.Data.Common
         {
             try
             {
-#if !NETCOREAPP2_0 && !NETCOREAPP2_1 && !NETCOREAPP2_2 && !NETCOREAPP3_0 && !NETCOREAPP3_1
+#if !NETCOREAPP2_1 && !NETCOREAPP3_1 && !NET5_0
                 _providerFactory = DbProviderFactories.GetFactory( ProviderName );
 #else
                 throw new NotImplementedException("Dahl.Data.Common.Database.cs line 136: " +
@@ -383,12 +383,26 @@ namespace Dahl.Data.Common
         /// <returns></returns>
         public virtual IDbDataParameter CreateParameter( string name, object value, Type type, bool isNullable = false )
         {
-            throw new NotImplementedException( "CreateParameter" );
+            throw new NotImplementedException( "CreateParameter needs to be implemented in the inherited class." );
         }
 
+        //-----------------------------------------------------------------------------------------
+        // special case for decimals?
+        public virtual IDbDataParameter CreateParameter( string name, decimal value, byte precision, byte scale )
+        {
+            throw new NotImplementedException( "CreateParameter needs to be implemented in the inherited class." );
+        }
+
+        //-----------------------------------------------------------------------------------------
+        public virtual IDbDataParameter CreateParameter( string name, object value, Type type, int maxLen, bool isNullable = false )
+        {
+            throw new NotImplementedException( "CreateParameter needs to be implemented in the inherited class." );
+        }
+
+        //-----------------------------------------------------------------------------------------
         public virtual IDbDataParameter CreateOutputParameter( string name, Type type )
         {
-            throw new NotImplementedException( "CreateOutputParameter" );
+            throw new NotImplementedException( "CreateOutputParameter needs to be implemented in the inherited class." );
         }
 
         #region CreateParameter -------------------------------------------------------------------
@@ -403,13 +417,8 @@ namespace Dahl.Data.Common
         {
             return CreateParameter( name, value, typeof( string ), true );
         }
+        #endregion
 
-        public virtual IDbDataParameter CreateParameter( string name, object value, Type type, int maxLen, bool isNullable = false )
-        {
-            return CreateParameter( name, value, type, true );
-        }
-		#endregion
-		
         #region CreateParameter short -------------------------------------------------------------
         public IDbDataParameter CreateParameter( string name, short value )
         {
@@ -459,7 +468,7 @@ namespace Dahl.Data.Common
 
         public virtual IDbDataParameter CreateParameter( string name, decimal? value )
         {
-            return CreateParameter( name, value, typeof( decimal ), true );
+            return CreateParameter( name, value, typeof( decimal? ), true );
         }
         #endregion
 
@@ -522,14 +531,14 @@ namespace Dahl.Data.Common
         /// Adds parameters to the IDbCommand Parameters property.
         /// </summary>
         /// <param name="parameters"></param>
-        public void AddParameters( CommandParameter parameters )
+        public virtual void AddParameters( CommandParameter parameters )
         {
             if ( _Cmd == null || parameters == null )
                 return;
 
             _Cmd.Parameters.Clear();
             parameters.AddParameters( _Cmd );
-            _Cmd.Prepare();
+            //_Cmd.Prepare();
         }
 
         ///----------------------------------------------------------------------------------------
@@ -617,6 +626,8 @@ namespace Dahl.Data.Common
             catch ( Exception e )
             {
                 SetLastError( 1003, e.Message );
+                Trace.WriteLine( $"Exception in file: Dahl.Data.Common.Database.cs - Message: [{e.Message}]" );
+                Trace.WriteLine( e.StackTrace );
             }
 
             return numRows;
@@ -844,6 +855,50 @@ namespace Dahl.Data.Common
         public virtual bool BulkUpdate<TEntity>( IEnumerable<TEntity> list, IBulkMapper bulkMapper ) where TEntity : class, new()
         {
             throw new NotImplementedException();
+        }
+        #endregion
+
+        #region Generate SQL Statements
+        //-----------------------------------------------------------------------------------------
+        public virtual string GenerateInsertStatement( string tableName, CommandParameter parms, bool isIdentity = false )
+        {
+            StringBuilder sb1 = new StringBuilder( $"insert into {tableName} (" );
+            StringBuilder sb2 = new StringBuilder();
+            foreach ( var parm in parms )
+            {
+                if ( parm.Direction == System.Data.ParameterDirection.Input )
+                {
+                    if ( parm.Value == DBNull.Value && parm.IsNullable )
+                        continue;
+
+                    sb1.Append( $"{parm.ParameterName.Substring( 1 )}," );
+                    sb2.Append( $"{parm.ParameterName}," );
+                }
+            }
+            sb1.Remove( sb1.Length - 1, 1 );
+            sb2.Remove( sb2.Length - 1, 1 );
+
+            sb1.Append( $") values({sb2})" );
+            if ( isIdentity )
+                sb1.Append( " set @Identity = scope_identity()" );
+
+            //Trace.WriteLine( $"sb1: [{sb1}]" );
+            return sb1.ToString();
+        }
+
+        //-----------------------------------------------------------------------------------------
+        public virtual string GenerateUpdateStatement( string tableName, CommandParameter parms, string whereClause )
+        {
+            StringBuilder sb = new StringBuilder( $"update {tableName} set " );
+            foreach ( var parm in parms )
+            {
+                if ( parm.Value != null )
+                    sb.Append( $"{parm.ParameterName.Substring( 1 )} = {parm.ParameterName}," );
+            }
+            sb.Remove( sb.Length - 1, 1 );
+            sb.Append( $" {whereClause}" );
+
+            return sb.ToString();
         }
         #endregion
 

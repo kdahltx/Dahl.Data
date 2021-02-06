@@ -1,131 +1,104 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
 
-  <PropertyGroup Label="Globals">
-    <SccProjectName>SAK</SccProjectName>
-    <SccProvider>SAK</SccProvider>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccLocalPath>SAK</SccLocalPath>
-  </PropertyGroup>
+    <PropertyGroup Label="Globals">
+        <SccProjectName>SAK</SccProjectName>
+        <SccProvider>SAK</SccProvider>
+        <SccAuxPath>SAK</SccAuxPath>
+        <SccLocalPath>SAK</SccLocalPath>
+    </PropertyGroup>
 
-  <PropertyGroup>
-    <TargetFrameworks>net461;net462;net47;net471;net472;net48;netcoreapp2.0;netcoreapp2.1;netcoreapp2.2;netcoreapp3.0;netcoreapp3.1;</TargetFrameworks>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <SignAssembly>true</SignAssembly>
-    <ShouldCreateLogs>True</ShouldCreateLogs>
-    <Authors>Kevin Dahl</Authors>
-    <Company>Dahl Software Services</Company>
-    <Product>Dahl.Data.Common</Product>
-    <Description>Database facade for ADO.NET</Description>
-    <Copyright>Dahl Software Consulting</Copyright>
-    <PackageTags>ado.net</PackageTags>
-    <AssemblyVersion>1.0.6.448</AssemblyVersion>
-    <FileVersion>1.0.6.448</FileVersion>
-    <Version>1.0.6</Version>
-    <RepositoryUrl>https://github.com/kdahltx/Dahl.Data</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/kdahltx/Dahl.Data</PackageProjectUrl>
-    <PackageReleaseNotes>Updated to work with .NET 4.6x, 4.7x, 4.8, .NET Core 2.0, .NET Core 2.1, .NET Core 2.2, .NET Core 3.0, .NET Core 3.1</PackageReleaseNotes>
-    <PackageLicenseExpression />
-    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-    <RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
-    <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFrameworks>net461;net462;net47;net471;net472;net48;netcoreapp2.1;netcoreapp3.1;net5.0</TargetFrameworks>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <SignAssembly>true</SignAssembly>
+        <ShouldCreateLogs>True</ShouldCreateLogs>
+        <Authors>Kevin Dahl</Authors>
+        <Company>Dahl Software Services</Company>
+        <Product>Dahl.Data.Common</Product>
+        <Description>Database facade for ADO.NET</Description>
+        <Copyright>Dahl Software Consulting</Copyright>
+        <PackageTags>ado.net</PackageTags>
+        <AssemblyVersion>1.0.6.448</AssemblyVersion>
+        <FileVersion>1.0.6.448</FileVersion>
+        <Version>1.0.6</Version>
+        <RepositoryUrl>https://github.com/kdahltx/Dahl.Data</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/kdahltx/Dahl.Data</PackageProjectUrl>
+        <PackageReleaseNotes>Updated to work with .NET 4.6x, 4.7x, 4.8, .NET Core 2.1, .NET Core 3.1, .NET 5.0</PackageReleaseNotes>
+        <PackageLicenseExpression />
+        <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+        <RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
+        <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
+    </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net461|AnyCPU'">
-    <NoWarn>1701;1702;1822;1031;</NoWarn>
-  </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net461|AnyCPU'">
+        <NoWarn>1701;1702;1822;1031;</NoWarn>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="ConnectionStringSettingsCollection.cs" />
-  </ItemGroup>
+    <ItemGroup>
+        <Compile Remove="ConnectionStringSettingsCollection.cs" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.1" />
-    <PackageReference Include="System.Data.Common" Version="4.3.0" />
-    <PackageReference Include="System.Runtime.Caching" Version="4.7.0" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net461'">
-      <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
-      <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.3" />
-      <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.1.3" />
-      <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.1.3" />
-      <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.3" />
-      <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="3.1.3" />
-      <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="3.1.3" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net462'">
-      <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
-      <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.3" />
-      <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.1.3" />
-      <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.1.3" />
-      <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.3" />
-      <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="3.1.3" />
-      <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="3.1.3" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net47'">
-      <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
-      <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.3" />
-      <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.1.3" />
-      <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.1.3" />
-      <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.3" />
-      <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="3.1.3" />
-      <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="3.1.3" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net471'">
-      <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
-      <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.3" />
-      <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.1.3" />
-      <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.1.3" />
-      <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.3" />
-      <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="3.1.3" />
-      <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="3.1.3" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net472'">
-      <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
-      <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.3" />
-      <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.1.3" />
-      <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.1.3" />
-      <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.3" />
-      <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="3.1.3" />
-      <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="3.1.3" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net48'">
-      <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
-      <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.3" />
-      <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.1.3" />
-      <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.1.3" />
-      <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.3" />
-      <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="3.1.3" />
-      <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="3.1.3" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.0'">
-      <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
-      <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.3" />
-      <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.1.3" />
-      <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.1.3" />
-      <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.3" />
-      <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="3.1.3" />
-      <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="3.1.3" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.1'">
-      <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
-      <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.3" />
-      <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.1.3" />
-      <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.1.3" />
-      <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.3" />
-      <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="3.1.3" />
-      <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="3.1.3" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.2'">
-      <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
-      <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.3" />
-      <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.1.3" />
-      <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.1.3" />
-      <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.3" />
-      <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="3.1.3" />
-      <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="3.1.3" />
-  </ItemGroup>
-    <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
+    <ItemGroup>
+        <PackageReference Include="System.Data.SqlClient" Version="4.8.1" />
+        <PackageReference Include="System.Data.Common" Version="4.3.0" />
+        <PackageReference Include="System.Runtime.Caching" Version="4.7.0" />
+    </ItemGroup>
+    <ItemGroup Condition="'$(TargetFramework)' == 'net461'">
+        <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
+        <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.3" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.1.3" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.1.3" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.3" />
+        <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="3.1.3" />
+        <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="3.1.3" />
+    </ItemGroup>
+    <ItemGroup Condition="'$(TargetFramework)' == 'net462'">
+        <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
+        <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.3" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.1.3" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.1.3" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.3" />
+        <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="3.1.3" />
+        <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="3.1.3" />
+    </ItemGroup>
+    <ItemGroup Condition="'$(TargetFramework)' == 'net47'">
+        <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
+        <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.3" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.1.3" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.1.3" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.3" />
+        <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="3.1.3" />
+        <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="3.1.3" />
+    </ItemGroup>
+    <ItemGroup Condition="'$(TargetFramework)' == 'net471'">
+        <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
+        <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.3" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.1.3" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.1.3" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.3" />
+        <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="3.1.3" />
+        <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="3.1.3" />
+    </ItemGroup>
+    <ItemGroup Condition="'$(TargetFramework)' == 'net472'">
+        <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
+        <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.3" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.1.3" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.1.3" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.3" />
+        <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="3.1.3" />
+        <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="3.1.3" />
+    </ItemGroup>
+    <ItemGroup Condition="'$(TargetFramework)' == 'net48'">
+        <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
+        <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.3" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.1.3" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.1.3" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.3" />
+        <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="3.1.3" />
+        <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="3.1.3" />
+    </ItemGroup>
+    <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.1'">
         <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
         <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.3" />
         <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.1.3" />
@@ -143,13 +116,22 @@
         <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="3.1.3" />
         <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="3.1.3" />
     </ItemGroup>
+    <ItemGroup Condition="'$(TargetFramework)' == 'net5.0'">
+        <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
+        <PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="5.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="5.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="5.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="5.0.0" />
+    </ItemGroup>
     <ItemGroup>
-    <None Include="..\..\LICENSE.txt">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\Dahl.Extensions\src\Dahl.Extensions\Dahl.Extensions.csproj" />
-  </ItemGroup>
+        <None Include="..\..\LICENSE.txt">
+            <Pack>True</Pack>
+            <PackagePath></PackagePath>
+        </None>
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\..\..\Dahl.Extensions\src\Dahl.Extensions\Dahl.Extensions.csproj" />
+    </ItemGroup>
 </Project>

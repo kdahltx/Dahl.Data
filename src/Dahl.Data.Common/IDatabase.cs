@@ -30,7 +30,7 @@ namespace Dahl.Data.Common
         IDbDataParameter CreateParameter( string name, short value );
         IDbDataParameter CreateParameter( string name, int value );
         IDbDataParameter CreateParameter( string name, long value );
-        IDbDataParameter CreateParameter( string name, decimal value );
+        IDbDataParameter CreateParameter( string name, decimal value, byte precision, byte scale );
         IDbDataParameter CreateParameter( string name, double value );
         IDbDataParameter CreateParameter( string name, DateTime value );
         IDbDataParameter CreateParameter( string name, Guid value );
@@ -73,9 +73,19 @@ namespace Dahl.Data.Common
         //-----------------------------------------------------------------------------------------
         IEnumerable<TEntity> Read<TEntity>( IMapper<TEntity> mapper = null ) where TEntity : class, new();
 
+        //-----------------------------------------------------------------------------------------
+        #region BulkXxxx Methods
         bool BulkInsert<TEntity>( IEnumerable<TEntity> list, IBulkMapper bulkMapper ) where TEntity : class, new();
         bool BulkCopy<TEntity>( IEnumerable<TEntity> list, IBulkMapper bulkMapper ) where TEntity : class, new();
         bool BulkUpdate<TEntity>( IEnumerable<TEntity> list, IBulkMapper bulkMapper ) where TEntity : class, new();
+        #endregion
+
+        #region Methods to Generate SQL Statements
+        string GenerateInsertStatement( string tableName, CommandParameter parms, bool isIdentity = false );
+        string GenerateUpdateStatement( string tableName, CommandParameter parms, string whereClause );
+        #endregion
+
+        //-----------------------------------------------------------------------------------------
         void Dispose();
     }
 }
