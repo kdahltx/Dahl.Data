@@ -9,7 +9,7 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <TargetFrameworks>net461;net462;net47;net471;net472;net48;netcoreapp2.1;netcoreapp3.1;net5.0</TargetFrameworks>
+        <TargetFrameworks>net461;net462;net47;net471;net472;net48;netcoreapp3.1;net5.0</TargetFrameworks>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <SignAssembly>true</SignAssembly>
         <ShouldCreateLogs>True</ShouldCreateLogs>
@@ -24,7 +24,7 @@
         <Version>1.0.6</Version>
         <RepositoryUrl>https://github.com/kdahltx/Dahl.Data</RepositoryUrl>
         <PackageProjectUrl>https://github.com/kdahltx/Dahl.Data</PackageProjectUrl>
-        <PackageReleaseNotes>Updated to work with .NET 4.6x, 4.7x, 4.8, .NET Core 2.1, .NET Core 3.1, .NET 5.0</PackageReleaseNotes>
+        <PackageReleaseNotes>Updated to work with .NET 4.6x, 4.7x, 4.8, .NET Core 3.1, .NET 5.0</PackageReleaseNotes>
         <PackageLicenseExpression />
         <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
         <RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
@@ -90,15 +90,6 @@
         <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="3.1.3" />
     </ItemGroup>
     <ItemGroup Condition="'$(TargetFramework)' == 'net48'">
-        <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
-        <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.3" />
-        <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.1.3" />
-        <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.1.3" />
-        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.3" />
-        <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="3.1.3" />
-        <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="3.1.3" />
-    </ItemGroup>
-    <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.1'">
         <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
         <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.3" />
         <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.1.3" />
