@@ -24,7 +24,7 @@ namespace Dahl.Data.Common
         public string ProviderName         { get; set; }
 
         #region Database Providers ----------------------------------------------------------------
-#if !NETCOREAPP3_1 && !NET5_0
+#if !NETCOREAPP3_1 && !NET5_0_OR_GREATER
         private List<DataProvider> _providerList;
         public  List<DataProvider> ProviderList { get { return _providerList ?? ( _providerList = GetProviderFactoryClasses() ); } }
 
@@ -130,7 +130,7 @@ namespace Dahl.Data.Common
         {
             try
             {
-#if !NETCOREAPP3_1 && !NET5_0
+#if !NETCOREAPP3_1 && !NET5_0_OR_GREATER
                 _providerFactory = DbProviderFactories.GetFactory( ProviderName );
 #else
                 throw new NotImplementedException("Dahl.Data.Common.Database.cs line 136: " +
@@ -890,6 +890,21 @@ namespace Dahl.Data.Common
         public virtual string GenerateUpdateStatement( string tableName, CommandParameter parms, string whereClause )
         {
             StringBuilder sb = new StringBuilder( $"update {tableName} set " );
+            foreach ( var parm in parms )
+            {
+                if ( parm.Value != null )
+                    sb.Append( $"{parm.ParameterName.Substring( 1 )} = {parm.ParameterName}," );
+            }
+            sb.Remove( sb.Length - 1, 1 );
+            sb.Append( $" {whereClause}" );
+
+            return sb.ToString();
+        }
+
+        //-----------------------------------------------------------------------------------------
+        public virtual string GenerateDeleteStatement( string tableName, CommandParameter parms, string whereClause )
+        {
+            StringBuilder sb = new StringBuilder( $"delete {tableName} {whereClause} " );
             foreach ( var parm in parms )
             {
                 if ( parm.Value != null )

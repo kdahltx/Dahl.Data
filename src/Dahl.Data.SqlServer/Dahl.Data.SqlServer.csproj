@@ -7,7 +7,7 @@
         <SccLocalPath>SAK</SccLocalPath>
     </PropertyGroup>
     <PropertyGroup>
-        <TargetFrameworks>net461;net462;net47;net471;net472;net48;netcoreapp3.1;net5.0;</TargetFrameworks>
+        <TargetFrameworks>net461;net462;net47;net471;net472;net48;netcoreapp3.1;net5.0;net6.0;</TargetFrameworks>
         <AssemblyVersion>1.0.6.307</AssemblyVersion>
         <FileVersion>1.0.6.307</FileVersion>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -30,34 +30,18 @@
         <CodeAnalysisRuleSet />
     </PropertyGroup>
 
-    <ItemGroup Condition="'$(TargetFramework)' == 'net461'">
-        <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    </ItemGroup>
-    <ItemGroup Condition="'$(TargetFramework)' == 'net462'">
-        <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    </ItemGroup>
-
-    <ItemGroup Condition="'$(TargetFramework)' == 'net47'">
-        <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    </ItemGroup>
-    <ItemGroup Condition="'$(TargetFramework)' == 'net471'">
-        <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    </ItemGroup>
-    <ItemGroup Condition="'$(TargetFramework)' == 'net472'">
-        <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    </ItemGroup>
-
-    <ItemGroup Condition="'$(TargetFramework)' == 'net48'">
-        <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    </ItemGroup>
-    <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
-        <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    </ItemGroup>
     <ItemGroup Condition="'$(TargetFramework)' == 'net5.0'">
-        <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    </ItemGroup>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="5.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="5.0.0" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="5.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="5.0.0" />
+	</ItemGroup>
 
-    <ItemGroup>
+	<ItemGroup>
         <ProjectReference Include="..\Dahl.Data.Common\Dahl.Data.Common.csproj" />
     </ItemGroup>
     <ItemGroup>
@@ -65,5 +49,10 @@
             <Pack>True</Pack>
             <PackagePath></PackagePath>
         </None>
+    </ItemGroup>
+    <ItemGroup>
+      <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="6.0.0" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
+      <PackageReference Include="System.Runtime.Caching" Version="6.0.0" />
     </ItemGroup>
 </Project>
