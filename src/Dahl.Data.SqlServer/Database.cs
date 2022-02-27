@@ -1,4 +1,4 @@
-﻿#if NETCOREAPP3_1 || NET5_0
+﻿#if NETCOREAPP3_1 || NET5_0_OR_GREATER
 using System.Data.Common;
 #endif
 using System;
@@ -446,7 +446,7 @@ namespace Dahl.Data.SqlServer
         #endregion
 
 
-#if NETCOREAPP3_1 || NET5_0
+#if NETCOREAPP3_1 || NET5_0_OR_GREATER
         protected override DbProviderFactory CreateProviderFactory()
         {
             return SqlClientFactory.Instance;
