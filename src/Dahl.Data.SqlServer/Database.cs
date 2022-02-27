@@ -1,4 +1,4 @@
-﻿#if NETCOREAPP3_1 || NET5_0_OR_GREATER
+﻿#if NETCOREAPP3_1 || NET5_0
 using System.Data.Common;
 #endif
 using System;
@@ -169,7 +169,7 @@ namespace Dahl.Data.SqlServer
                 if ( connection == null )
                     throw new NullReferenceException( nameof( Connection ) );
 
-                SqlBulkCopy bulkCopy = new SqlBulkCopy( connection );
+                var bulkCopy = new SqlBulkCopy( connection );
                 bulkCopy.DestinationTableName = bulkMapper.DstTableName[0];
 
                 foreach ( string map in bulkMapper.MapList )
@@ -180,7 +180,7 @@ namespace Dahl.Data.SqlServer
 
                 using ( var er = new EntityReader<TEntity>( list ) )
                 {
-                    Stopwatch sw = new Stopwatch();
+                    var sw = new Stopwatch();
                     sw.Start();
                     bulkCopy.WriteToServer( er );
                     sw.Stop();
@@ -228,7 +228,7 @@ namespace Dahl.Data.SqlServer
         //-----------------------------------------------------------------------------------------
         public override bool BulkUpdate<TEntity>( IEnumerable<TEntity> list, IBulkMapper bulkMapper )
         {
-            Stopwatch sw = new Stopwatch();
+            var sw = new Stopwatch();
             try
             {
                 if ( bulkMapper.SqlCreateTmpTable.IsNotNullOrEmpty() )
@@ -242,7 +242,7 @@ namespace Dahl.Data.SqlServer
                 if ( connection == null )
                     throw new NullReferenceException( nameof( connection ) );
 
-                SqlBulkCopy bulkCopy = new SqlBulkCopy( connection )
+                var bulkCopy = new SqlBulkCopy( connection )
                 {
                     DestinationTableName = $"#tmp_{bulkMapper.TmpTableName}"
                 };
@@ -324,9 +324,9 @@ namespace Dahl.Data.SqlServer
         // and update statements
         public string CreateMergeSqlStatement( PropertyInfo[] properties, string tableName )
         {
-            StringBuilder sbCreateTable = new StringBuilder();
-            StringBuilder sbColNames = new StringBuilder();
-            StringBuilder sbColValues = new StringBuilder();
+            var  sbCreateTable = new StringBuilder();
+            var sbColNames = new StringBuilder();
+            var sbColValues = new StringBuilder();
 
             sbCreateTable.Append( $"create table #tmp_{tableName} (" );
             foreach ( var prop in properties )
@@ -371,7 +371,7 @@ namespace Dahl.Data.SqlServer
                 if ( connection == null )
                     throw new NullReferenceException( nameof( Connection ) );
 
-                SqlBulkCopy bulkCopy = new SqlBulkCopy( connection )
+                var bulkCopy = new SqlBulkCopy( connection )
                 {
                     DestinationTableName = bulkMapper.DstTableName[0]
                 };
@@ -384,7 +384,7 @@ namespace Dahl.Data.SqlServer
 
                 using ( var er = new EntityReader<TEntity>( list ) )
                 {
-                    Stopwatch sw = new Stopwatch();
+                    var sw = new Stopwatch();
                     sw.Start();
                     bulkCopy.WriteToServer( er );
                     sw.Stop();
@@ -412,7 +412,7 @@ namespace Dahl.Data.SqlServer
                 if ( connection == null )
                     throw new NullReferenceException( nameof( Connection ) );
 
-                SqlBulkCopy bulkCopy = new SqlBulkCopy( connection )
+                var bulkCopy = new SqlBulkCopy( connection )
                 {
                     DestinationTableName = bulkMapper.DstTableName[0]
                 };
@@ -425,7 +425,7 @@ namespace Dahl.Data.SqlServer
 
                 using ( var er = new EntityReader<TEntity>( list ) )
                 {
-                    Stopwatch sw = new Stopwatch();
+                    var sw = new Stopwatch();
                     sw.Start();
                     bulkCopy.WriteToServer( er );
                     sw.Stop();
@@ -446,7 +446,7 @@ namespace Dahl.Data.SqlServer
         #endregion
 
 
-#if NETCOREAPP3_1 || NET5_0_OR_GREATER
+#if NETCOREAPP3_1 || NET5_0
         protected override DbProviderFactory CreateProviderFactory()
         {
             return SqlClientFactory.Instance;

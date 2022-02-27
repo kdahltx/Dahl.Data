@@ -9,9 +9,9 @@ namespace Dahl.Data.Tests.Common
     //[TestClass]
     public class SqlServerTests
     {
-        public IServiceCollection Services      { get { return _services        ?? ( _services        = new ServiceCollection() ); } }
-        public IServiceProvider ServiceProvider { get { return _serviceProvider ?? ( _serviceProvider = Services.BuildServiceProvider() ); } }
-        protected TestRepository Repository     { get { return _repository      ?? ( _repository      = ServiceProvider.GetService<TestRepository>() ); } }
+        public IServiceCollection Services      { get { return _services        ?? (_services        = new ServiceCollection()); } }
+        public IServiceProvider ServiceProvider { get { return _serviceProvider ?? (_serviceProvider = Services.BuildServiceProvider()); } }
+        protected TestRepository Repository     { get { return _repository      ?? (_repository      = ServiceProvider.GetService<TestRepository>()); } }
 
         [TestInitialize]
         public void Initialize()

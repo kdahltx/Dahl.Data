@@ -44,4 +44,7 @@
         <PackagePath></PackagePath>
       </None>
     </ItemGroup>
+    <ItemGroup>
+      <PackageReference Include="AdoNetCore.AseClient" Version="0.19.2" />
+    </ItemGroup>
 </Project>
