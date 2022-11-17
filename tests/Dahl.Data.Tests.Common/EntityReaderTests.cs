@@ -3,6 +3,7 @@ using Dahl.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -17,6 +18,7 @@ namespace Dahl.Data.Tests.Common
         [TestMethod]
         public void TestPropertyAccessor()
         {
+            Trace.WriteLine( "public void TestPropertyAccessor()" );
             IPropertyAccessor[] accessors = typeof( TestClass ).GetAccessorList();
             foreach ( var item in _TestClassList )
             {
@@ -30,7 +32,7 @@ namespace Dahl.Data.Tests.Common
 
                     var propertyName = accessor.PropertyInfo.Name;
                     var propertyValue = accessor.GetValue( item );
-                    Trace.Write( $"{propertyName}:{propertyValue}," );
+                    Trace.Write( $"[{propertyName}:{propertyValue}]," );
                 }
                 Trace.WriteLine( "" );
             }
@@ -39,13 +41,22 @@ namespace Dahl.Data.Tests.Common
         [TestMethod]
         public void EntityListToDataTable()
         {
+            Trace.WriteLine( "public void EntityListToDataTable()" );
             var x = _TestClassList.ToDataTable();
-            Trace.WriteLine( x );
+            foreach ( DataRow row in x.Rows )
+            {
+                foreach ( var col in row.ItemArray )
+                {
+                    Trace.Write( $"{col}," );
+                }
+                Trace.WriteLine("");
+            }
         }
 
         [TestMethod]
         public void DataTableToEntityList()
         {
+            Trace.WriteLine( "public void DataTableToEntityList()" );
             var dt = _TestClassList.ToDataTable();
             var el = dt.ToList<TestClass>();
 

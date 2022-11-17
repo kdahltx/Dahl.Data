@@ -1,5 +1,4 @@
-﻿#if NETCOREAPP3_1 || NET5_0_OR_GREATER
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using Microsoft.Extensions.Configuration;
@@ -55,4 +54,3 @@ namespace Dahl.Data.Common
         }
     }
 }
-#endif

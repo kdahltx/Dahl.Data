@@ -28,19 +28,8 @@ namespace Dahl.Data.Common
             if ( _connectionString.IsNotNullOrEmpty() )
                 return _connectionString;
 
-#if NETCOREAPP3_1 || NET5_0_OR_GREATER
             var css = new Dahl.Data.Common.ConnectionStringSettings( connectionStringName );
             _connectionString = css.ConnectionString;
-#else
-            var cs = ConfigurationManager.ConnectionStrings;
-            if ( cs == null )
-                throw new NullReferenceException("Connection strings undefined.");
-
-            if ( cs[connectionStringName] == null || cs[connectionStringName].ConnectionString.IsNullOrEmpty() )
-                throw new NullReferenceException( $"Connection string [{connectionStringName}] is undefined." );
-
-            _connectionString = cs["App.SqlServer"].ConnectionString;
-#endif
             return _connectionString;
         }
 

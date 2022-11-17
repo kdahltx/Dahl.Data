@@ -1,5 +1,4 @@
-﻿#if NETCOREAPP2_0 || NETCOREAPP3_1 || NET5_0_OR_GREATER
-using Microsoft.Extensions.Caching.Memory;
+﻿using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -252,4 +251,3 @@ namespace Dahl.Data.Common
         //}
     }
 }
-#endif

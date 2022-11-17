@@ -48,7 +48,6 @@ namespace Dahl.Data.Tests.Common
             return result?.ToList()[0];
         }
 
-
         ///-----------------------------------------------------------------------------------------
         /// <summary>
         /// Run #1 : took 3,376 ms to insert 500,000
@@ -56,7 +55,7 @@ namespace Dahl.Data.Tests.Common
         /// <returns></returns>
         public int InsertUsers(int newUserCount )
         {
-            Stopwatch sw = new Stopwatch();
+            Stopwatch sw = new();
             const string sqlCmd = "Insert DbDemo.Dbo.Ssn ( SsnId, Ssn1, Ssn2, Ssn3 ) " +
                                   "values( @ssnId, @ssn1, @ssn2, @ssn3 ) "             +
 
@@ -113,7 +112,7 @@ namespace Dahl.Data.Tests.Common
         public int BulkInsertUsers()
         {
             int listSize = 100;//000;
-            Stopwatch sw = new Stopwatch();
+            Stopwatch sw = new();
             var bulkMapper = new Models.UsersBulkMapper();
 
             sw.Restart();
@@ -154,7 +153,7 @@ namespace Dahl.Data.Tests.Common
             const string sqlCmd = "select * from Users u " +
                                   "inner join Ssn s on s.SsnId = u.SsnId";
 
-            Stopwatch sw = new Stopwatch();
+            Stopwatch sw = new();
             sw.Start();
             var list = Database.ExecuteQuery<Models.Users>( sqlCmd, new Models.UsersMap() );
             sw.Stop();
@@ -170,16 +169,16 @@ namespace Dahl.Data.Tests.Common
             string sqlCmd = "select * from Users " +
                             "select * from Ssn ";
 
-            Stopwatch sw = new Stopwatch();
+            Stopwatch sw = new();
 
             sw.Restart();
             var users = Database.ExecuteQuery( sqlCmd, new Models.UsersMap() ).ToList();
             sw.Stop();
-            Trace.WriteLine( $"LoadUsers(IDatabase database) ExecuteQuery returned {users.Count} user taking {sw.ElapsedMilliseconds:N0} ms." );
+            Trace.WriteLine( $"LoadUsers2(IDatabase database) ExecuteQuery returned {users.Count} user taking {sw.ElapsedMilliseconds:N0} ms." );
 
             sw.Restart();
             var list2 = Database.Read( new Models.SsnMap() ).ToDictionary(x => x.SsnId, x => x );
-            Trace.WriteLine( $"LoadUsers(IDatabase database) Read returned {list2.Count} ssn's taking {sw.ElapsedMilliseconds:N0} ms." );
+            Trace.WriteLine( $"LoadUsers2(IDatabase database) Read returned {list2.Count} ssn's taking {sw.ElapsedMilliseconds:N0} ms." );
 
             sw.Restart();
             foreach ( var item in users )
@@ -202,7 +201,7 @@ namespace Dahl.Data.Tests.Common
                 CreateParameter( "@lastName", "Last001-01-0002" )
             };
 
-            Stopwatch sw = new Stopwatch();
+            Stopwatch sw = new();
 
             sw.Restart();
             var users = Database.ExecuteQuery( sqlCmd, parms, new Models.UsersMap() ).ToList();
@@ -222,12 +221,12 @@ namespace Dahl.Data.Tests.Common
         /// <param name="ssn2"></param>
         /// <param name="ssn3"></param>
         /// <returns></returns>
-        public List<Models.Users> CreateUserList( int count, short ssn1, short ssn2, short ssn3 )
+        static public List<Models.Users> CreateUserList( int count, short ssn1, short ssn2, short ssn3 )
         {
-            List<Models.Users> userList = new List<Models.Users>( count );
+            List<Models.Users> userList = new( count );
             for ( int i = 0; i < count; i++ )
             {
-                Models.Users user = new Models.Users
+                Models.Users user = new()
                 {
                     FirstName = $"First{ssn1:D3}-{ssn2:d2}-{ssn3:D4}",
                     LastName = $"Last{ssn1:D3}-{ssn2:d2}-{ssn3:D4}",
