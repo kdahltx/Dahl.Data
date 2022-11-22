@@ -21,10 +21,10 @@ namespace Dahl.Data.Common
 
         public ConnectionStringSettings( string connectionStringName = null )
         {
-            //var cs = Microsoft.Extensions
-            //                  .Configuration
-            //                  .ConfigurationExtensions
-            //                  .GetConnectionString( this.Configuration, connectionStringName );
+            var cs = Microsoft.Extensions
+                              .Configuration
+                              .ConfigurationExtensions
+                              .GetConnectionString( configuration: Configuration, name: connectionStringName );
 
             var currentDir = Directory.GetCurrentDirectory();
             IConfigurationBuilder cb = new ConfigurationBuilder().SetBasePath( currentDir )

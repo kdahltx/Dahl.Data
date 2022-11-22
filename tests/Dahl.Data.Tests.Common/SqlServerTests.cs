@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Dahl.Data.Tests.Common
 {
     //TODO: not sure this is needed anymore...
-    //[TestClass]
+    [TestClass]
     public class SqlServerTests
     {
         public IServiceCollection Services      { get { return _services        ?? (_services        = new ServiceCollection()); } }
