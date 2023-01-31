@@ -1,6 +1,4 @@
-﻿#if NETCOREAPP3_1 || NET5_0_OR_GREATER
-using System.Data.Common;
-#endif
+﻿using System.Data.Common;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -164,18 +162,24 @@ namespace Dahl.Data.SqlServer
         {
             try
             {
-                CreateConnection();
+                if ( bulkMapper.SqlCreateTmpTable.IsNotNullOrEmpty() )
+                {
+                    CreateCommand( bulkMapper.SqlCreateTmpTable );
+                    Cmd.ExecuteNonQuery();
+                }
+
+                // this is the connection for WriteToServer
                 SqlConnection connection = Connection as SqlConnection;
                 if ( connection == null )
-                    throw new NullReferenceException( nameof( Connection ) );
+                    throw new NullReferenceException( nameof( connection ) );
 
                 var bulkCopy = new SqlBulkCopy( connection );
                 bulkCopy.DestinationTableName = bulkMapper.DstTableName[0];
-
-                foreach ( string map in bulkMapper.MapList )
+                foreach ( string colPair in bulkMapper.MapList )
                 {
-                    string[] cols = map.Split( ',' );
-                    bulkCopy.ColumnMappings.Add( cols[0], cols[1] );
+                    string[] fields = colPair.Split( ',' );
+                    if ( fields.Length == 2 )
+                        bulkCopy.ColumnMappings.Add( fields[0], fields[0] );
                 }
 
                 using ( var er = new EntityReader<TEntity>( list ) )
@@ -229,6 +233,7 @@ namespace Dahl.Data.SqlServer
         public override bool BulkUpdate<TEntity>( IEnumerable<TEntity> list, IBulkMapper bulkMapper )
         {
             var sw = new Stopwatch();
+            int totalRows = 0;
             try
             {
                 if ( bulkMapper.SqlCreateTmpTable.IsNotNullOrEmpty() )
@@ -242,44 +247,15 @@ namespace Dahl.Data.SqlServer
                 if ( connection == null )
                     throw new NullReferenceException( nameof( connection ) );
 
-                var bulkCopy = new SqlBulkCopy( connection )
-                {
-                    DestinationTableName = $"#tmp_{bulkMapper.TmpTableName}"
-                };
+                var bulkCopy = new SqlBulkCopy( connection );
+                bulkCopy.DestinationTableName = $"#tmp_{bulkMapper.TmpTableName}";
                 foreach ( string colPair in bulkMapper.MapList )
                 {
                     string[] fields = colPair.Split( ',' );
                     if ( fields.Length == 2 )
                         bulkCopy.ColumnMappings.Add( fields[0], fields[0] );
                 }
-#if false
-                using ( var reader = ObjectReader.Create( list ) )
-                {
-                    // write records to temp table.
-                    sw.Restart();
-                    bulkCopy.WriteToServer( reader );
-                    sw.Stop();
-                    bulkCopy.Close();
-                    Trace.WriteLine( $"BulkUpdate bulkCopy.WriteToServer took {sw.ElapsedMilliseconds} ms to execute" );
 
-                    // merge temp table into specified tables, one at a time.
-                    foreach ( var sqlMerge in bulkMapper.SqlMerge )
-                    {
-                        var resultList = ExecuteQuery<TEntity>( $"select * from #tmp_{bulkMapper.TmpTableName}" );
-                        if ( resultList != null && resultList.Any() )
-                        {
-                            if ( sqlMerge.IsNotNullOrEmpty() )
-                            {
-                                sw.Restart();
-                                CreateCommand( sqlMerge );
-                                Cmd.ExecuteNonQuery();
-                                sw.Stop();
-                                Trace.WriteLine( $"BulkUpdate Merge statement took {sw.ElapsedMilliseconds} ms to execute" );
-                            }
-                        }
-                    }
-                }
-#else
                 using ( var reader = new EntityReader<TEntity>( list ) )
                 {
                     // write records to temp table.
@@ -292,21 +268,16 @@ namespace Dahl.Data.SqlServer
                     // merge temp table into specified tables, one at a time.
                     foreach ( var sqlMerge in bulkMapper.SqlMerge )
                     {
-                        var resultList = ExecuteQuery<TEntity>( $"select top 1 * from #tmp_{bulkMapper.TmpTableName}" );
-                        if ( resultList != null && resultList.Any() )
+                        if ( sqlMerge.IsNotNullOrEmpty() )
                         {
-                            if ( sqlMerge.IsNotNullOrEmpty() )
-                            {
-                                CreateCommand( sqlMerge );
-                                sw.Restart();
-                                Cmd.ExecuteNonQuery();
-                                sw.Stop();
-                                Trace.WriteLine( $"BulkUpdate Merge statement took {sw.ElapsedMilliseconds} ms to execute" );
-                            }
+                            CreateCommand( sqlMerge );
+                            sw.Restart();
+                            totalRows += Cmd.ExecuteNonQuery();
+                            sw.Stop();
+                            Trace.WriteLine( $"BulkUpdate Merge statement took {sw.ElapsedMilliseconds} ms to execute" );
                         }
                     }
                 }
-#endif
             }
             catch ( Exception e )
             {
@@ -446,12 +417,12 @@ namespace Dahl.Data.SqlServer
         #endregion
 
 
-#if NETCOREAPP3_1 || NET5_0_OR_GREATER
+//#if NETCOREAPP3_1 || NET5_0_OR_GREATER
         protected override DbProviderFactory CreateProviderFactory()
         {
             return SqlClientFactory.Instance;
         }
-#endif
+//#endif
     }
 }
 
