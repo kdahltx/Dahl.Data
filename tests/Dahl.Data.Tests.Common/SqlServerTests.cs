@@ -9,9 +9,11 @@ namespace Dahl.Data.Tests.Common
     [TestClass]
     public class SqlServerTests
     {
-        public IServiceCollection Services      { get { return _services        ?? (_services        = new ServiceCollection()); } }
-        public IServiceProvider ServiceProvider { get { return _serviceProvider ?? (_serviceProvider = Services.BuildServiceProvider()); } }
-        protected TestRepository Repository     { get { return _repository      ?? (_repository      = ServiceProvider.GetService<TestRepository>()); } }
+        private static readonly int count = 100000;
+
+        public IServiceCollection Services      { get { return _services        ??= new ServiceCollection(); } }
+        public IServiceProvider ServiceProvider { get { return _serviceProvider ??= Services.BuildServiceProvider(); } }
+        protected TestRepository Repository     { get { return _repository      ??= ServiceProvider.GetService<TestRepository>(); } }
 
         [TestInitialize]
         public void Initialize()
@@ -31,18 +33,25 @@ namespace Dahl.Data.Tests.Common
         }
 
         [TestMethod]
+        public void SqlServer_BulkInsertUsers()
+        {
+            Repository.DeleteUsers();
+            var result = Repository.BulkInsertUsers( count );
+            TraceResult( result, "SqlServer_BulkInsertUsers()" );
+        }
+
+        [TestMethod]
         public void SqlServer_InsertUsers()
         {
-            int count = 9;
             var result = Repository.InsertUsers( count );
             TraceResult( result == count * 2, "SqlServer_InsertNewUsers()" );
         }
 
         [TestMethod]
-        public void SqlServer_LoadUsers()
+        public void SqlServer_LoadUsersUsingInnerJoin()
         {
-            Trace.Write( "SqlServer_LoadUsers: " );
-            var result = Repository.LoadUsers() != null;
+            Trace.Write( "SqlServer_LoadUsersUsingInnerJoin: " );
+            var result = Repository.LoadUsersUsingInnerJoin() != null;
             TraceResult( result, "SqlServer_Open: " );
         }
 

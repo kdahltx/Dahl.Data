@@ -24,36 +24,36 @@ namespace Dahl.Data.Common
         public string ProviderName         { get; set; }
 
         #region Database Providers ----------------------------------------------------------------
-#if !NETCOREAPP3_1 && !NET5_0_OR_GREATER
-        private List<DataProvider> _providerList;
-        public  List<DataProvider> ProviderList { get { return _providerList ?? ( _providerList = GetProviderFactoryClasses() ); } }
+//#if !NETCOREAPP3_1 && !NET5_0_OR_GREATER
+//        private List<DataProvider> _providerList;
+//        public  List<DataProvider> ProviderList { get { return _providerList ?? ( _providerList = GetProviderFactoryClasses() ); } }
 
-        ///----------------------------------------------------------------------------------------
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        private static List<DataProvider> GetProviderFactoryClasses()
-        {
-            List<DataProvider> list = new List<DataProvider>();
-            DataTable          dt   = DbProviderFactories.GetFactoryClasses();
+//        ///----------------------------------------------------------------------------------------
+//        /// <summary>
+//        /// 
+//        /// </summary>
+//        /// <returns></returns>
+//        private static List<DataProvider> GetProviderFactoryClasses()
+//        {
+//            List<DataProvider> list = new List<DataProvider>();
+//            DataTable          dt   = DbProviderFactories.GetFactoryClasses();
 
-            foreach ( DataRow dr in dt.Rows )
-            {
-                Trace.WriteLine( dr.ItemArray[0].AsString() );
-                DataProvider dp = new DataProvider()
-                {
-                    Name                  = dr.ItemArray[0].As<string>(),
-                    Description           = dr.ItemArray[1].As<string>(),
-                    InvariantName         = dr.ItemArray[2].As<string>(),
-                    AssemblyQualifiedName = dr.ItemArray[3].As<string>()
-                };
-                list.Add( dp );
-            }
+//            foreach ( DataRow dr in dt.Rows )
+//            {
+//                Trace.WriteLine( dr.ItemArray[0].AsString() );
+//                DataProvider dp = new DataProvider()
+//                {
+//                    Name                  = dr.ItemArray[0].As<string>(),
+//                    Description           = dr.ItemArray[1].As<string>(),
+//                    InvariantName         = dr.ItemArray[2].As<string>(),
+//                    AssemblyQualifiedName = dr.ItemArray[3].As<string>()
+//                };
+//                list.Add( dp );
+//            }
 
-            return list;
-        }
-#else
+//            return list;
+//        }
+//#else
         private List<DataProvider> _providerList;
         public List<DataProvider> ProviderList
         {
@@ -84,7 +84,7 @@ namespace Dahl.Data.Common
 
             return list;
         }
-#endif
+//#endif
         #endregion
 
         ///----------------------------------------------------------------------------------------
@@ -130,12 +130,12 @@ namespace Dahl.Data.Common
         {
             try
             {
-#if !NETCOREAPP3_1 && !NET5_0_OR_GREATER
-                _providerFactory = DbProviderFactories.GetFactory( ProviderName );
-#else
+//#if !NETCOREAPP3_1 && !NET5_0_OR_GREATER
+//                _providerFactory = DbProviderFactories.GetFactory( ProviderName );
+//#else
                 throw new NotImplementedException("Dahl.Data.Common.Database.cs line 136: " +
                                                   "This method must be overridden in a .NET Core Applications");
-#endif
+//#endif
             }
             catch ( Exception e )
             {
@@ -681,7 +681,6 @@ namespace Dahl.Data.Common
                 if ( CreateQuery( sqlCmd ) )
                 {
                     _Reader = _Cmd.ExecuteReader();
-
                     if ( _Reader != null )
                         list = Read( mapper );
                 }

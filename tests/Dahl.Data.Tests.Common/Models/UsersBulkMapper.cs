@@ -20,7 +20,6 @@ namespace Dahl.Data.Tests.Common.Models
                                 $"FirstName varchar(32)," +
                                 $"LastName varchar(32)," +
                                 $"SsnId uniqueidentifier," +
-
                                 $"fk_Ssn_Ssn1 smallint," +
                                 $"fk_Ssn_Ssn2 tinyint," +
                                 $"fk_Ssn_Ssn3 smallint )";
@@ -59,7 +58,7 @@ namespace Dahl.Data.Tests.Common.Models
             set { base.MapList = value; }
         }
 
-        private readonly List<string> _mapList = new List<string> {
+        private readonly List<string> _mapList = new() {
                                             "UserId,UserId",
                                             "FirstName,FirstName",
                                             "LastName,LastName",

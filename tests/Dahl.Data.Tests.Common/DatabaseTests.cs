@@ -12,9 +12,9 @@ namespace Dahl.Data.Tests.Common
 {
     public class DatabaseTests
     {
-        public    IServiceCollection Services        { get { return _services        ?? ( _services = new ServiceCollection() ); } }
-        public    IServiceProvider   ServiceProvider { get { return _serviceProvider ?? ( _serviceProvider = Services.BuildServiceProvider() ); } }
-        protected TestRepository     Repository      { get { return _repository      ?? ( _repository = ServiceProvider.GetService<TestRepository>() ); } }
+        public    IServiceCollection Services        { get { return _services        ??= new ServiceCollection() ; } }
+        public    IServiceProvider   ServiceProvider { get { return _serviceProvider ??= Services.BuildServiceProvider() ; } }
+        protected TestRepository     Repository      { get { return _repository      ??= ServiceProvider.GetService<TestRepository>() ; } }
 
         public DatabaseTests()
         {
@@ -55,7 +55,7 @@ namespace Dahl.Data.Tests.Common
 
         public bool SqlServer_Open()
         {
-            var result = Repository.LoadUsers() != null;
+            var result = Repository.LoadUsersUsingInnerJoin() != null;
             TraceResult( result, "SqlServer_Open" );
 
             return result;
@@ -72,7 +72,7 @@ namespace Dahl.Data.Tests.Common
 
         public List<Models.Users> SqlServer_ExecuteQueryLoadUsers()
         {
-            var result = Repository.LoadUsers();
+            var result = Repository.LoadUsersUsingInnerJoin();
             TraceResult( result != null, "SqlServer_ExecuteQueryLoadUsers()" );
 
             return result;

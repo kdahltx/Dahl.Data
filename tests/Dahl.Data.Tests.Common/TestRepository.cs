@@ -50,7 +50,8 @@ namespace Dahl.Data.Tests.Common
 
         ///-----------------------------------------------------------------------------------------
         /// <summary>
-        /// Run #1 : took 3,376 ms to insert 500,000
+        /// Run #1 : took 54,556 ms to insert 100,000 records.
+        /// Run #2 : took 54,556 ms to insert 100,000 records.
         /// </summary>
         /// <returns></returns>
         public int InsertUsers(int newUserCount )
@@ -82,7 +83,7 @@ namespace Dahl.Data.Tests.Common
                     break;
             }
             sw.Stop();
-            Trace.WriteLine( $"InsertUsers -- Records Inserted: {count} --- Time to insert: {sw.ElapsedMilliseconds} ms" );
+            Trace.WriteLine( $"InsertUsers -- Records Inserted: {count/2} --- Time to insert: {sw.ElapsedMilliseconds} ms" );
             return count;
         }
 
@@ -109,21 +110,61 @@ namespace Dahl.Data.Tests.Common
         /// 
         /// </summary>
         /// <returns></returns>
-        public int BulkInsertUsers()
+        public bool BulkInsertUsers(int newUserCount )
         {
-            int listSize = 100;//000;
             Stopwatch sw = new();
             var bulkMapper = new Models.UsersBulkMapper();
 
             sw.Restart();
-            var userList = CreateUserList( listSize, 1, 1, 1 );
+            var userList = CreateUserList( newUserCount, 1, 1, 1 );
             sw.Stop();
-            Trace.WriteLine( $"BulkInsertUsers --- CreateUserList({listSize},1,1,1) executed in {sw.ElapsedMilliseconds} ms" );
+            Trace.WriteLine( $"BulkInsertUsers() --- CreateUserList({userList.Count},1,1,1) executed in {sw.ElapsedMilliseconds} ms" );
+
+            sw.Restart();
+            var result = Database.BulkUpdate( userList, bulkMapper );
+            sw.Stop();
+            Trace.WriteLine( $"BulkInsertUsers() --- Time to insert: {sw.ElapsedMilliseconds} ms" );
+
+            return result; // resultList.Count();
+        }
+
+        ///-----------------------------------------------------------------------------------------
+        /// <summary>
+        /// Run #1 : ObjectReader
+        ///     BulkInsertUsers --- CreateUserList(500000,1,1,1) executed in 1386 ms
+        ///     BulkUpdate bulkCopy.WriteToServer took 4,385 ms to execute
+        ///     BulkUpdate Merge statement took 3,634 ms to execute
+        ///     BulkUpdate Merge statement took 6,871 ms to execute
+        ///     BulkInsertUsers --- Database.BulkUpdate(userList) executed in 24,577 ms
+        ///     
+        /// Run #1 : EntityReader
+        ///     BulkInsertUsers --- CreateUserList(500000,1,1,1) executed in 1541 ms
+        ///     BulkUpdate bulkCopy.WriteToServer took 2,856 ms to execute
+        ///     BulkUpdate Merge statement took 2,714 ms to execute
+        ///     BulkUpdate Merge statement took 2,780 ms to execute
+        ///     BulkInsertUsers --- Database.BulkUpdate(userList) executed in 17,175 ms
+        ///     
+        /// Run #2 : EntityReader
+        /// 
+        /// 
+        /// 
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public int BulkUpdateUsers( int newUserCount )
+        {
+            Stopwatch sw = new();
+            var bulkMapper = new Models.UsersBulkMapper();
+
+            sw.Restart();
+            var userList = CreateUserList( newUserCount, 1, 1, 1 );
+            sw.Stop();
+            Trace.WriteLine( $"BulkUpdateUsers() --- CreateUserList({userList.Count},1,1,1) executed in {sw.ElapsedMilliseconds} ms" );
 
             sw.Restart();
             Database.BulkUpdate( userList, bulkMapper );
             sw.Stop();
-            Trace.WriteLine( $"BulkInsertUsers --- Database.BulkUpdate(userList) executed in {sw.ElapsedMilliseconds} ms" );
+            Trace.WriteLine( $"BulkUpdateUsers() --- Database.BulkUpdate(userList) executed in {sw.ElapsedMilliseconds} ms" );
 
             //var resultList = Database.ExecuteQuery<Models.Users>( $"select * from #tmp_{bulkMapper.TmpTableName}" );
             //Trace.WriteLine( $"BulkUpdate --- Time to insert: {sw.ElapsedMilliseconds} ms" );
@@ -137,8 +178,9 @@ namespace Dahl.Data.Tests.Common
         /// <returns></returns>
         public int DeleteUsers()
         {
-            const string sqlCmd = "delete DbDemo.Dbo.Users " +
-                                  "delete DbDemo.Dbo.Ssn ";
+            const string sqlCmd = "delete dbo.Users; " +
+                                  "dbcc checkident('[Users]',RESEED,0);" +
+                                  "delete dbo.Ssn; ";
 
             return Database.ExecuteCommand( sqlCmd );
         }
@@ -148,7 +190,7 @@ namespace Dahl.Data.Tests.Common
         /// 
         /// </summary>
         /// <returns></returns>
-        public List<Models.Users> LoadUsers()
+        public List<Models.Users> LoadUsersUsingInnerJoin()
         {
             const string sqlCmd = "select * from Users u " +
                                   "inner join Ssn s on s.SsnId = u.SsnId";
@@ -164,7 +206,7 @@ namespace Dahl.Data.Tests.Common
             return users;
         }
 
-        public List<Models.Users> LoadUsers2()
+        public List<Models.Users> LoadUsersUsingTwoSelects()
         {
             string sqlCmd = "select * from Users " +
                             "select * from Ssn ";
