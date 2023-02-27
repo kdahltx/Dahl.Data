@@ -18,7 +18,7 @@
         <RepositoryType />
         <PackageTags>ado.net</PackageTags>
         <Description>Database facade for ADO.NET for SQL Server</Description>
-        <PackageReleaseNotes>Updated to work with .NET Core 5.0 and 6.0</PackageReleaseNotes>
+        <PackageReleaseNotes>Updated to work with .NET Core 6.0 and 7.0</PackageReleaseNotes>
         <PackageLicenseExpression></PackageLicenseExpression>
         <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     </PropertyGroup>
@@ -29,7 +29,6 @@
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|AnyCPU'">
         <CodeAnalysisRuleSet />
     </PropertyGroup>
-
 	<ItemGroup>
         <PackageReference Include="FastMember" Version="1.5.0" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
